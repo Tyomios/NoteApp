@@ -21,10 +21,10 @@ namespace NoteApp
 		private string _text;
 
 		/// <summary> Время создания </summary>
-		private DateTime _creationTime { get;  }
+		public DateTime СreationTime { get; set; }
 
 		/// <summary> Время последнего изменения </summary>
-		private DateTime _lastEditTime;
+		public DateTime LastEditTime { get; set; }
 
 		public string Name
 		{
@@ -66,20 +66,9 @@ namespace NoteApp
 			this.Name = name;
 			this.Category = category;
 			this.Text = text;
-			this._creationTime = DateTime.Now;
-			this._lastEditTime = DateTime.Now;
+			this.СreationTime = DateTime.Now;
+			this.LastEditTime = DateTime.Now;
 		}
 
-		///// <summary>
-		///// Конструктор без параметров
-		///// </summary>
-		//public Note()
-		//{
-		//	this.Name = "Без названия";
-		//	this.Category = Category.Other;
-		//	this.Text = "";
-		//	this._creationTime = DateTime.Now;
-		//	this._lastEditTime = DateTime.Now;
-		//}
 	}
 }
