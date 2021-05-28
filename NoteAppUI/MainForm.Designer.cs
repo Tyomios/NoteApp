@@ -48,6 +48,8 @@ namespace NoteAppUI
 			this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.AddNoteItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.EditNoteItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.RemoveNoteItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.undoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -58,8 +60,6 @@ namespace NoteAppUI
 			this.pasteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
 			this.selectAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.EditNoteItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.RemoveNoteItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuStrip1.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -68,6 +68,10 @@ namespace NoteAppUI
 			this.addButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.addButton.BackColor = System.Drawing.Color.Transparent;
 			this.addButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+			this.addButton.FlatAppearance.BorderSize = 0;
+			this.addButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+			this.addButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(218)))), ((int)(((byte)(254)))), ((int)(((byte)(214)))));
+			this.addButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
 			this.addButton.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
 			this.addButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
 			this.addButton.Location = new System.Drawing.Point(28, 512);
@@ -82,11 +86,16 @@ namespace NoteAppUI
 			// 
 			this.deleteButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.deleteButton.BackColor = System.Drawing.Color.Transparent;
+			this.deleteButton.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+			this.deleteButton.FlatAppearance.BorderSize = 0;
+			this.deleteButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
+			this.deleteButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(187)))), ((int)(((byte)(189)))));
+			this.deleteButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
 			this.deleteButton.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
 			this.deleteButton.ForeColor = System.Drawing.Color.Red;
-			this.deleteButton.Location = new System.Drawing.Point(153, 513);
+			this.deleteButton.Location = new System.Drawing.Point(135, 513);
 			this.deleteButton.Name = "deleteButton";
-			this.deleteButton.Size = new System.Drawing.Size(37, 34);
+			this.deleteButton.Size = new System.Drawing.Size(34, 34);
 			this.deleteButton.TabIndex = 1;
 			this.deleteButton.Text = "❌";
 			this.deleteButton.UseVisualStyleBackColor = false;
@@ -96,11 +105,16 @@ namespace NoteAppUI
 			// 
 			this.editButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.editButton.BackColor = System.Drawing.Color.Transparent;
+			this.editButton.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+			this.editButton.FlatAppearance.BorderSize = 0;
+			this.editButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+			this.editButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(243)))), ((int)(((byte)(242)))));
+			this.editButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
 			this.editButton.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
 			this.editButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
-			this.editButton.Location = new System.Drawing.Point(94, 513);
+			this.editButton.Location = new System.Drawing.Point(84, 513);
 			this.editButton.Name = "editButton";
-			this.editButton.Size = new System.Drawing.Size(35, 34);
+			this.editButton.Size = new System.Drawing.Size(34, 34);
 			this.editButton.TabIndex = 2;
 			this.editButton.Text = "🖊";
 			this.editButton.UseVisualStyleBackColor = false;
@@ -135,7 +149,7 @@ namespace NoteAppUI
 			this.noteText.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.noteText.BackColor = System.Drawing.Color.Snow;
+			this.noteText.BackColor = System.Drawing.SystemColors.Control;
 			this.noteText.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
 			this.noteText.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
 			this.noteText.Location = new System.Drawing.Point(340, 138);
@@ -222,7 +236,6 @@ namespace NoteAppUI
 			this.menuStrip1.Size = new System.Drawing.Size(884, 24);
 			this.menuStrip1.TabIndex = 14;
 			this.menuStrip1.Text = "menuStrip1";
-			
 			// 
 			// fileToolStripMenuItem
 			// 
@@ -253,6 +266,18 @@ namespace NoteAppUI
 			this.AddNoteItem.Name = "AddNoteItem";
 			this.AddNoteItem.Size = new System.Drawing.Size(144, 22);
 			this.AddNoteItem.Text = "Add Note";
+			// 
+			// EditNoteItem
+			// 
+			this.EditNoteItem.Name = "EditNoteItem";
+			this.EditNoteItem.Size = new System.Drawing.Size(144, 22);
+			this.EditNoteItem.Text = "Edit Item";
+			// 
+			// RemoveNoteItem
+			// 
+			this.RemoveNoteItem.Name = "RemoveNoteItem";
+			this.RemoveNoteItem.Size = new System.Drawing.Size(144, 22);
+			this.RemoveNoteItem.Text = "Remove Item";
 			// 
 			// helpToolStripMenuItem
 			// 
@@ -324,18 +349,6 @@ namespace NoteAppUI
 			this.selectAllToolStripMenuItem.Name = "selectAllToolStripMenuItem";
 			this.selectAllToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
 			this.selectAllToolStripMenuItem.Text = "Select &All";
-			// 
-			// EditNoteItem
-			// 
-			this.EditNoteItem.Name = "EditNoteItem";
-			this.EditNoteItem.Size = new System.Drawing.Size(144, 22);
-			this.EditNoteItem.Text = "Edit Item";
-			// 
-			// RemoveNoteItem
-			// 
-			this.RemoveNoteItem.Name = "RemoveNoteItem";
-			this.RemoveNoteItem.Size = new System.Drawing.Size(144, 22);
-			this.RemoveNoteItem.Text = "Remove Item";
 			// 
 			// MainForm
 			// 

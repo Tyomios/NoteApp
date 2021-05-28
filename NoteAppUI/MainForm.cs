@@ -17,23 +17,37 @@ namespace NoteAppUI
 	public partial class MainForm : Form
 	{
 		public Project project = new Project();
+		List<Note> categoryNotesList = new List<Note>();
 
-		
-		private void SortNotes(Category sortedCategory)
+		private void SortNotes(Category sortedCategory, List<Note> categoryNotesList) // требует внимания
 		{
 			listNoteBox.Items.Clear();
+			categoryNotesList.Clear();
+			int listIndex = 0;
+
 			if (sortedCategory == Category.All)
 			{
-				UpdateListNote();
+				for (int i = 0; i < project.Notes.Count; i++)
+				{
+					categoryNotesList.Add(project.Notes[i]);
+					listNoteBox.Items.Insert(listIndex, categoryNotesList[listIndex].Name);
+					++listIndex;
+				}
+				listNoteBox.SelectedIndex = listNoteBox.Items.Count - 1;
+				nameLabel.Text = listNoteBox.Items[listNoteBox.SelectedIndex].ToString();
+				noteText.Text = categoryNotesList[listNoteBox.SelectedIndex].Text;
+
 				return;
 			}
 
-			int listIndex = 0;
+			
+			
 			for (int i = 0; i < project.Notes.Count; i++)
 			{
 				if (project.Notes[i].Category == sortedCategory)
 				{
-					listNoteBox.Items.Insert(listIndex, project.Notes[i].Name);
+					categoryNotesList.Add(project.Notes[i]);
+					listNoteBox.Items.Insert(listIndex, categoryNotesList[listIndex].Name);
 					++listIndex;
 				}
 			}
@@ -46,15 +60,13 @@ namespace NoteAppUI
 
 			listNoteBox.SelectedIndex = listNoteBox.Items.Count - 1;
 			nameLabel.Text = listNoteBox.Items[listNoteBox.SelectedIndex].ToString();
-			noteText.Text = project.Notes[listNoteBox.SelectedIndex].Text;
-			//listNoteBox.SelectedIndex = project.Notes.Count - 1;
-			//nameLabel.Text = listNoteBox.Items[project.Notes.Count - 1].ToString();
-			//noteText.Text = project.Notes[listNoteBox.SelectedIndex].Text;
+			noteText.Text = categoryNotesList[listNoteBox.SelectedIndex].Text;
 		}
 
 		private void UpdateListNote()
 		{
 			listNoteBox.Items.Clear();
+			categoryBox.SelectedItem = Category.All;
 			for (int i = 0; i < project.Notes.Count; i++)
 			{
 				listNoteBox.Items.Insert(i, project.Notes[i].Name);
@@ -78,20 +90,21 @@ namespace NoteAppUI
 			categoryBox.Items.Add(Category.Documents);
 			categoryBox.Items.Add(Category.All);
 
+			exitToolStripMenuItem.Click += exitItem_Click;
+			aboutToolStripMenuItem.Click += aboutItem_Click;
+			AddNoteItem.Click += addButton_Click;
+			EditNoteItem.Click += editButton_Click;
+			RemoveNoteItem.Click += deleteButton_Click;
+
 			project.Notes = ProjectManager.LoadFromFile("NoteAppDataBase");
 			if (project.Notes == null)
 			{
 				project.Notes = new List<Note>();
 			}
 
-			UpdateListNote();
 			categoryBox.SelectedItem = Category.All;
-
-			exitToolStripMenuItem.Click += exitItem_Click;
-			aboutToolStripMenuItem.Click += aboutItem_Click;
-			AddNoteItem.Click += addButton_Click;
-			EditNoteItem.Click += editButton_Click;
-			RemoveNoteItem.Click += deleteButton_Click;
+			//UpdateListNote();
+			SortNotes((Category)categoryBox.SelectedItem, categoryNotesList);
 		}
 
 		private void addButton_Click(object sender, EventArgs e)
@@ -105,12 +118,14 @@ namespace NoteAppUI
 			project.Notes.Add(addForm.addNote);
 			ProjectManager.SaveToFile(project.Notes, "NoteAppDataBase");
 
-			UpdateListNote();
+			categoryNotesList.Add(addForm.addNote);
+			//UpdateListNote();
+			SortNotes((Category)categoryBox.SelectedItem, categoryNotesList);
 		}
 
 		private void deleteButton_Click(object sender, EventArgs e)
 		{
-			Note deleteNote = project.Notes[listNoteBox.SelectedIndex];
+			Note deleteNote = categoryNotesList[listNoteBox.SelectedIndex];
 			DialogResult result = MessageBox.Show
 									("Вы действительно хотите удалить заметку?"
 			               + deleteNote.Name, "Внимание", MessageBoxButtons.YesNo);
@@ -119,9 +134,11 @@ namespace NoteAppUI
 				return;
 			}
 
-			project.Notes.Remove(deleteNote);
+			project.Notes.Remove(project.Notes[project.Notes.IndexOf(deleteNote)]);
 			ProjectManager.SaveToFile(project.Notes, "NoteAppDataBase");
-			UpdateListNote();
+			categoryNotesList.Remove(deleteNote);
+			//UpdateListNote();
+			SortNotes((Category)categoryBox.SelectedItem, categoryNotesList);
 		}
 
 		private void editButton_Click(object sender, EventArgs e)
@@ -131,21 +148,32 @@ namespace NoteAppUI
 
 			addForm.ShowDialog();
 			ProjectManager.SaveToFile(project.Notes, "NoteAppDataBase");
-			UpdateListNote();
+			//UpdateListNote();
+			SortNotes((Category)categoryBox.SelectedItem, categoryNotesList);
 		}
 
 		private void listNoteBox_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			noteText.Text = project.Notes[listNoteBox.SelectedIndex].Text;
-			nameLabel.Text = project.Notes[listNoteBox.SelectedIndex].Name;
-			noteCategoryLabel.Text ="Category: " + project.Notes[listNoteBox.SelectedIndex].Category.ToString();
-			createTimeBox.Text = project.Notes[listNoteBox.SelectedIndex].СreationTime.ToShortDateString();
-			updateTimeBox.Text = project.Notes[listNoteBox.SelectedIndex].LastEditTime.ToShortDateString();
+			List<Note> dataList = project.Notes;
+			if((Category)categoryBox.SelectedItem != Category.All)
+			{
+				if (categoryBox == null)
+				{
+					return;
+				}
+				//dataList.Clear();
+				dataList = categoryNotesList;
+			}
+			noteText.Text = dataList[listNoteBox.SelectedIndex].Text;
+			nameLabel.Text = dataList[listNoteBox.SelectedIndex].Name;
+			noteCategoryLabel.Text ="Category: " + dataList[listNoteBox.SelectedIndex].Category.ToString();
+			createTimeBox.Text = dataList[listNoteBox.SelectedIndex].СreationTime.ToShortDateString();
+			updateTimeBox.Text = dataList[listNoteBox.SelectedIndex].LastEditTime.ToShortDateString();
 		}
 
 		private void categoryBox_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			SortNotes((Category)categoryBox.SelectedItem);
+			SortNotes((Category)categoryBox.SelectedItem, categoryNotesList);
 		}
 
 		private void exitItem_Click(object sender, EventArgs e)
