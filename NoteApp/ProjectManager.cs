@@ -22,8 +22,10 @@ namespace NoteApp
 		public static void SaveToFile(List<Note> listNote, string filename)
 		{
 			JsonSerializer serializer = new JsonSerializer();
+			serializer.Formatting = Formatting.Indented;
 
-			using (StreamWriter streamWriter = new StreamWriter(@"C:\Users\Artem\source\repos\NoteAppDataBase\" + filename + ".txt"))
+			using (StreamWriter streamWriter = new StreamWriter(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + 
+																						"\\" + filename + ".txt"))
 			using (JsonWriter writer = new JsonTextWriter(streamWriter))
 			{
 				serializer.Serialize(writer, listNote);
@@ -39,7 +41,15 @@ namespace NoteApp
 		{
 			JsonSerializer serializer = new JsonSerializer();
 
-			using (StreamReader streamReader = new StreamReader(@"C:\Users\Artem\source\repos\NoteAppDataBase\" + filename + ".txt"))
+			if (!File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + 
+			                 "\\" + filename + ".txt"))
+			{
+				List<Note> note = new List<Note>();
+				return note;
+			}
+
+			using (StreamReader streamReader = new StreamReader(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + 
+																					 "\\" + filename + ".txt"))
 			using (JsonReader reader = new JsonTextReader(streamReader))
 			{
 				List<Note> note = (List<Note>)serializer.Deserialize<List<Note>>(reader);
