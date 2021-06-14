@@ -20,13 +20,14 @@ namespace NoteAppUI
 		public NoteForm(Note editNote)
 		{
 			InitializeComponent();
-			CategoryComboBox.Items.Add(Category.Work);
-			CategoryComboBox.Items.Add(Category.Other);
-			CategoryComboBox.Items.Add(Category.People);
-			CategoryComboBox.Items.Add(Category.SportAndHealth);
-			CategoryComboBox.Items.Add(Category.Home);
-			CategoryComboBox.Items.Add(Category.Finance);
-			CategoryComboBox.Items.Add(Category.Documents);
+			foreach (var category in Enum.GetValues(typeof(Category)))
+			{
+				if ((Category)category != Category.All)
+				{
+					CategoryComboBox.Items.Add(category);
+				}
+				
+			}
 
 			if (editNote != null)
 			{

@@ -71,14 +71,10 @@ namespace NoteAppUI
 		{
 			InitializeComponent();
 
-			categoryComboBox.Items.Add(Category.Work);
-			categoryComboBox.Items.Add(Category.Other);
-			categoryComboBox.Items.Add(Category.People);
-			categoryComboBox.Items.Add(Category.SportAndHealth);
-			categoryComboBox.Items.Add(Category.Home);
-			categoryComboBox.Items.Add(Category.Finance);
-			categoryComboBox.Items.Add(Category.Documents);
-			categoryComboBox.Items.Add(Category.All);
+			foreach (var category in Enum.GetValues(typeof(Category)))
+			{
+				categoryComboBox.Items.Add(category);
+			}
 
 			project.Notes = ProjectManager.LoadFromFile("NoteAppDataBase");
 			if (project.Notes == null)
