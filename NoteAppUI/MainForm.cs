@@ -19,44 +19,22 @@ namespace NoteAppUI
 		public Project project = new Project();
 		List<Note> categoryNotesList = new List<Note>();
 
-		private void SortNotes(Category sortedCategory, List<Note> categoryNotesList) // требует внимания
+		private void SortNotes(Category sortedCategory, List<Note> categoryNotesList)
 		{
-
 			listNoteListBox.Items.Clear();
 			categoryNotesList.Clear();
 			int listIndex = 0;
 
-			if (sortedCategory == Category.All)
-			{
-				for (int i = 0; i < project.Notes.Count; i++)
-				{
-					categoryNotesList.Add(project.Notes[i]);
-					listNoteListBox.Items.Insert(listIndex, categoryNotesList[listIndex].Name);
-					++listIndex;
-				}
-				if (categoryNotesList.Count == 0)
-				{
-					return;
-				}
-				listNoteListBox.SelectedIndex = listNoteListBox.Items.Count - 1;
-				noteNameLabel.Text = listNoteListBox.Items[listNoteListBox.SelectedIndex].ToString();
-				noteTextRichBox.Text = categoryNotesList[listNoteListBox.SelectedIndex].Text;
-
-				return;
-			}
-
-			
 			for (int i = 0; i < project.Notes.Count; i++)
 			{
-				if (project.Notes[i].Category == sortedCategory)
-				{
-					categoryNotesList.Add(project.Notes[i]);
-					listNoteListBox.Items.Insert(listIndex, categoryNotesList[listIndex].Name);
+				if (project.Notes[i].Category == sortedCategory || sortedCategory == Category.All)
+				{ 
+					categoryNotesList.Add(project.Notes[i]); 
+					listNoteListBox.Items.Insert(listIndex, categoryNotesList[listIndex].Name); 
 					++listIndex;
 				}
 			}
-
-			if (listNoteListBox.Items.Count == 0)
+			if (categoryNotesList.Count == 0) 
 			{
 				listNoteListBox.Items.Clear();
 				return;

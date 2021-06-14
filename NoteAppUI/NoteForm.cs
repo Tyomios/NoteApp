@@ -26,7 +26,6 @@ namespace NoteAppUI
 				{
 					CategoryComboBox.Items.Add(category);
 				}
-				
 			}
 
 			if (editNote != null)
