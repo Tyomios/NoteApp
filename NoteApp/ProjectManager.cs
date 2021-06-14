@@ -9,8 +9,16 @@ using Newtonsoft.Json;
 
 namespace NoteApp
 {
+	/// <summary>
+	/// Класс отвечающий за загрузку\сохранение заметок 
+	/// </summary>
 	public static class ProjectManager
 	{
+		/// <summary>
+		/// Сохранение заметок
+		/// </summary>
+		/// <param name="listNote"> Заметки </param>
+		/// <param name="filename"> Название файла </param>
 		public static void SaveToFile(List<Note> listNote, string filename)
 		{
 			JsonSerializer serializer = new JsonSerializer();
@@ -22,6 +30,11 @@ namespace NoteApp
 			}
 		}
 
+		/// <summary>
+		/// Загрузка заметок
+		/// </summary>
+		/// <param name="filename"> Название файла </param>
+		/// <returns></returns>
 		public static List<Note> LoadFromFile(string filename)
 		{
 			JsonSerializer serializer = new JsonSerializer();

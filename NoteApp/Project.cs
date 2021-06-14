@@ -8,6 +8,9 @@ namespace NoteApp
 {
 	public class Project
 	{
+		/// <summary>
+		/// Список заметок 
+		/// </summary>
 		public List<Note> Notes {get; set;}
 	}
 }

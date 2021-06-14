@@ -9,26 +9,42 @@ namespace NoteApp
 	/// <summary>
 	/// Заметка
 	/// </summary>
-	public class Note
+	public class Note : ICloneable
 	{
-		/// <summary> Название </summary>
+		/// <summary>
+		/// Название
+		/// </summary>
 		private string _name;
 
-		///<summary> Категория </summary>
+		///<summary>
+		/// Категория
+		/// </summary>
 		private Category _category;
 
-		/// <summary> Содержание </summary>
+		/// <summary>
+		/// Содержание
+		/// </summary>
 		private string _text;
 
-		/// <summary> Время создания </summary>
+		/// <summary>
+		/// Время создания
+		/// </summary>
 		public DateTime СreationTime { get; set; }
 
-		/// <summary> Время последнего изменения </summary>
+		/// <summary>
+		/// Время последнего изменения
+		/// </summary>
 		public DateTime LastEditTime { get; set; }
 
+		/// <summary>
+		/// Свойство поля _name
+		/// </summary>
 		public string Name
 		{
-			get { return this._name; }
+			get
+			{
+				return this._name;
+			}
 
 			set
 			{
@@ -36,22 +52,41 @@ namespace NoteApp
 				{
 					throw new Exception("Too long name");
 				}
+
 				this._name = value;
 			}
 		}
 
+		/// <summary>
+		/// Свойство поля _category
+		/// </summary>
 		public Category Category
 		{
-			get { return this._category; }
+			get
+			{
+				return this._category;
+			}
 
-			set { this._category = value; }
+			set
+			{
+				this._category = value;
+			}
 		}
 
+		/// <summary>
+		/// Свойство поля _text
+		/// </summary>
 		public string Text
 		{
-			get { return this._text; }
+			get
+			{
+				return this._text;
+			}
 
-			set { this._text = value; }
+			set
+			{
+				this._text = value;
+			}
 		}
 
 		/// <summary>
@@ -70,5 +105,28 @@ namespace NoteApp
 			this.LastEditTime = DateTime.Now;
 		}
 
+		/// <summary>
+		/// Конструктор без параметров
+		/// </summary>
+		public Note()
+		{
+		}
+
+		/// <summary>
+		/// Метод для клонирования заметки
+		/// </summary>
+		/// <returns>
+		/// Заметку с теми же данными
+		/// </returns>
+		public Object Clone()
+		{
+			var note = new Note();
+			note.Name = this.Name;
+			note.Text = this.Text;
+			note.Category = this.Category;
+			note.СreationTime = this.СreationTime;
+			note.LastEditTime = this.LastEditTime;
+			return note;
+		}
 	}
 }
