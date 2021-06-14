@@ -92,16 +92,16 @@ namespace NoteAppUI
 
 		private void addButton_Click(object sender, EventArgs e)
 		{
-			NoteForm addForm = new NoteForm();
+			NoteForm addForm = new NoteForm(null);
 			addForm.ShowDialog();
-			if (addForm.addNote == null)
+			if (addForm.Note == null)
 			{
 				return;
 			}
-			project.Notes.Add(addForm.addNote);
+			project.Notes.Add(addForm.Note);
 			ProjectManager.SaveToFile(project.Notes, "NoteAppDataBase");
 
-			categoryNotesList.Add(addForm.addNote);
+			categoryNotesList.Add(addForm.Note);
 			SortNotes((Category)categoryComboBox.SelectedItem, categoryNotesList);
 		}
 
@@ -126,8 +126,8 @@ namespace NoteAppUI
 		{
 			NoteForm addForm = new NoteForm(project.Notes[listNoteListBox.SelectedIndex]);
 			addForm.Text = "Edit Note";
-
 			addForm.ShowDialog();
+
 			ProjectManager.SaveToFile(project.Notes, "NoteAppDataBase");
 			SortNotes((Category)categoryComboBox.SelectedItem, categoryNotesList);
 		}
@@ -157,16 +157,16 @@ namespace NoteAppUI
 
 		private void AddNoteItem_Click(object sender, EventArgs e)
 		{
-			NoteForm addForm = new NoteForm();
+			NoteForm addForm = new NoteForm(null);
 			addForm.ShowDialog();
-			if (addForm.addNote == null)
+			if (addForm.Note == null)
 			{
 				return;
 			}
-			project.Notes.Add(addForm.addNote);
+			project.Notes.Add(addForm.Note);
 			ProjectManager.SaveToFile(project.Notes, "NoteAppDataBase");
 
-			categoryNotesList.Add(addForm.addNote);
+			categoryNotesList.Add(addForm.Note);
 			SortNotes((Category)categoryComboBox.SelectedItem, categoryNotesList);
 		}
 

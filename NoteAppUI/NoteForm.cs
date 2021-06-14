@@ -15,19 +15,8 @@ namespace NoteAppUI
 {
 	public partial class NoteForm : Form
 	{
-		public Note addNote { get; set; }
-		public NoteForm()
-		{
-			InitializeComponent();
-			CategoryComboBox.Items.Add(Category.Work);
-			CategoryComboBox.Items.Add(Category.Other);
-			CategoryComboBox.Items.Add(Category.People);
-			CategoryComboBox.Items.Add(Category.SportAndHealth);
-			CategoryComboBox.Items.Add(Category.Home);
-			CategoryComboBox.Items.Add(Category.Finance);
-			CategoryComboBox.Items.Add(Category.Documents);
-			
-		}
+		public Note Note { get; set; }
+		
 		public NoteForm(Note editNote)
 		{
 			InitializeComponent();
@@ -39,10 +28,13 @@ namespace NoteAppUI
 			CategoryComboBox.Items.Add(Category.Finance);
 			CategoryComboBox.Items.Add(Category.Documents);
 
-			NameTextBox.Text = editNote.Name;
-			CategoryComboBox.SelectedItem = editNote.Category;
-			NoteTextRichTextBox.Text = editNote.Text;
-			addNote = editNote;
+			if (editNote != null)
+			{
+				NameTextBox.Text = editNote.Name;
+				CategoryComboBox.SelectedItem = editNote.Category;
+				NoteTextRichTextBox.Text = editNote.Text;
+				Note = editNote;
+			}
 		}
 		private void CancelButton_Click(object sender, EventArgs e)
 		{
@@ -63,16 +55,16 @@ namespace NoteAppUI
 				NameTextBox.Text = "Без названия";
 			}
 
-			if (addNote != null)
+			if (Note != null)
 			{
-				addNote.Name = NameTextBox.Text;
-				addNote.Category = category;
-				addNote.Text = NoteTextRichTextBox.Text;
-				addNote.LastEditTime = DateTime.Now;
-				addNote.СreationTime = addNote.СreationTime;
+				Note.Name = NameTextBox.Text;
+				Note.Category = category;
+				Note.Text = NoteTextRichTextBox.Text;
+				Note.LastEditTime = DateTime.Now;
+				Note.СreationTime = Note.СreationTime;
 				this.Close();
 			}
-			addNote = new Note(NameTextBox.Text, category, NoteTextRichTextBox.Text);
+			Note = new Note(NameTextBox.Text, category, NoteTextRichTextBox.Text);
 			this.Close();
 		}
 	}
