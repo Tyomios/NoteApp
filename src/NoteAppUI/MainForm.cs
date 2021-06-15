@@ -49,6 +49,7 @@ namespace NoteAppUI
 		{
 			InitializeComponent();
 
+			categoryComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
 			foreach (var category in Enum.GetValues(typeof(Category)))
 			{
 				categoryComboBox.Items.Add(category);
@@ -72,6 +73,7 @@ namespace NoteAppUI
 			{
 				return;
 			}
+
 			project.Notes.Add(addForm.Note);
 			ProjectManager.SaveToFile(project.Notes, "NoteAppDataBase");
 

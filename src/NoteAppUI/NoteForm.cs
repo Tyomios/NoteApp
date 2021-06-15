@@ -20,6 +20,8 @@ namespace NoteAppUI
 		public NoteForm(Note editNote)
 		{
 			InitializeComponent();
+
+			CategoryComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
 			foreach (var category in Enum.GetValues(typeof(Category)))
 			{
 				if ((Category)category != Category.All)
