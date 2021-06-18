@@ -29,8 +29,12 @@ namespace NoteAppUI
 		/// <summary>
 		/// Сортировка заметок по категории
 		/// </summary>
-		/// <param name="sortedCategory">Категория для сортировки</param>
-		/// <param name="categoryNotesList">Список заметок, в котором будут храниться заметки нужной категории</param>
+		/// <param name="sortedCategory">
+		/// Категория для сортировки
+		/// </param>
+		/// <param name="categoryNotesList">
+		/// Список заметок, в котором будут храниться заметки нужной категории
+		/// </param>
 		private void SortNotes(Category sortedCategory, List<Note> categoryNotesList)
 		{
 			listNoteListBox.Items.Clear();
@@ -57,7 +61,27 @@ namespace NoteAppUI
 			noteTextRichBox.Text = categoryNotesList[listNoteListBox.SelectedIndex].Text;
 		}
 
-		
+		/// <summary>
+		/// Проверка на невыбранный элемент listBox
+		/// </summary>
+		/// <param name="index">
+		/// Индекс удаляемой заметки
+		/// </param>
+		/// <returns>
+		/// retval true - индекс равен -1
+		/// retval false - индекс не равен -1
+		/// </returns>
+		private bool NonSelectedNoteWarning(int index)
+		{
+			if (index == -1)
+			{
+				MessageBox.Show("Note doesn't select", "Warning", MessageBoxButtons.OK);
+				return true;
+			}
+
+			return false;
+		}
+
 		public MainForm()
 		{
 			InitializeComponent();
@@ -97,9 +121,14 @@ namespace NoteAppUI
 
 		private void deleteButton_Click(object sender, EventArgs e)
 		{
+			if (NonSelectedNoteWarning(listNoteListBox.SelectedIndex))
+			{
+				return;
+			}
+
 			Note deleteNote = categoryNotesList[listNoteListBox.SelectedIndex];
 			DialogResult result = MessageBox.Show
-				("Delete note " + deleteNote.Name + "?", "Внимание", MessageBoxButtons.YesNo);
+				("Delete note " + deleteNote.Name + "?", "Warning", MessageBoxButtons.YesNo);
 			if (result == DialogResult.No)
 			{
 				return;
@@ -113,6 +142,11 @@ namespace NoteAppUI
 
 		private void editButton_Click(object sender, EventArgs e)
 		{
+			if (NonSelectedNoteWarning(listNoteListBox.SelectedIndex))
+			{
+				return;
+			}
+
 			NoteForm addForm = new NoteForm(project.Notes[listNoteListBox.SelectedIndex]);
 			addForm.Text = "Edit Note";
 			addForm.ShowDialog();
@@ -161,6 +195,11 @@ namespace NoteAppUI
 
 		private void EditNoteItem_Click(object sender, EventArgs e)
 		{
+			if (NonSelectedNoteWarning(listNoteListBox.SelectedIndex))
+			{
+				return;
+			}
+
 			NoteForm addForm = new NoteForm(project.Notes[listNoteListBox.SelectedIndex]);
 			addForm.Text = "Edit Note";
 
@@ -177,9 +216,15 @@ namespace NoteAppUI
 
 		private void RemoveNoteItem_Click(object sender, EventArgs e)
 		{
+			if (NonSelectedNoteWarning(listNoteListBox.SelectedIndex))
+			{
+				return;
+			}
+
 			Note deleteNote = categoryNotesList[listNoteListBox.SelectedIndex];
 			DialogResult result = MessageBox.Show
-				("Delete note " + deleteNote.Name + "?", "Внимание", MessageBoxButtons.YesNo);
+				("Delete note " + deleteNote.Name + "?", "Warning", MessageBoxButtons.YesNo);
+
 			if (result == DialogResult.No)
 			{
 				return;

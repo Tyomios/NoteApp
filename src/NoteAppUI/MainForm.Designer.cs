@@ -213,9 +213,9 @@ namespace NoteAppUI
 			this.createdTimeLabel.AutoSize = true;
 			this.createdTimeLabel.Location = new System.Drawing.Point(292, 108);
 			this.createdTimeLabel.Name = "createdTimeLabel";
-			this.createdTimeLabel.Size = new System.Drawing.Size(48, 15);
+			this.createdTimeLabel.Size = new System.Drawing.Size(51, 15);
 			this.createdTimeLabel.TabIndex = 11;
-			this.createdTimeLabel.Text = "Created";
+			this.createdTimeLabel.Text = "Created:";
 			// 
 			// updateTimeTextBox
 			// 
@@ -231,9 +231,9 @@ namespace NoteAppUI
 			this.updatetimeLabel.AutoSize = true;
 			this.updatetimeLabel.Location = new System.Drawing.Point(490, 108);
 			this.updatetimeLabel.Name = "updatetimeLabel";
-			this.updatetimeLabel.Size = new System.Drawing.Size(52, 15);
+			this.updatetimeLabel.Size = new System.Drawing.Size(55, 15);
 			this.updatetimeLabel.TabIndex = 13;
-			this.updatetimeLabel.Text = "Updated";
+			this.updatetimeLabel.Text = "Updated:";
 			// 
 			// menuStrip1
 			// 

@@ -66,14 +66,25 @@ namespace NoteAppUI
 
 			if (Note != null)
 			{
-				Note.Name = NameTextBox.Text;
-				Note.Category = category;
-				Note.Text = NoteTextRichTextBox.Text;
-				Note.LastEditTime = DateTime.Now;
-				Note.СreationTime = Note.СreationTime;
+				try
+				{
+					Note.Name = NameTextBox.Text;
+					Note.Category = category;
+					Note.Text = NoteTextRichTextBox.Text;
+					Note.LastEditTime = DateTime.Now;
+					Note.СreationTime = Note.СreationTime;
+				}
+				catch (Exception exception)
+				{
+					MessageBox.Show("Too long name.", "Error");
+					return;
+				}
+				
 				this.Close();
 			}
+
 			Note = new Note(NameTextBox.Text, category, NoteTextRichTextBox.Text);
+
 			this.Close();
 		}
 	}
