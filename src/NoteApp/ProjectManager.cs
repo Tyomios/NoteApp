@@ -17,9 +17,9 @@ namespace NoteApp
 		/// <summary>
 		/// Сохранение заметок
 		/// </summary>
-		/// <param name="listNote"> Заметки </param>
+		/// <param name="projectNotes"> Заметки </param>
 		/// <param name="filename"> Название файла </param>
-		public static void SaveToFile(List<Note> listNote, string filename)
+		public static void SaveToFile(Project projectNotes, string filename)
 		{
 			JsonSerializer serializer = new JsonSerializer();
 			serializer.Formatting = Formatting.Indented;
@@ -28,7 +28,7 @@ namespace NoteApp
 																						"\\" + filename + ".txt"))
 			using (JsonWriter writer = new JsonTextWriter(streamWriter))
 			{
-				serializer.Serialize(writer, listNote);
+				serializer.Serialize(writer, projectNotes);
 			}
 		}
 
@@ -36,24 +36,24 @@ namespace NoteApp
 		/// Загрузка заметок
 		/// </summary>
 		/// <param name="filename"> Название файла </param>
-		/// <returns></returns>
-		public static List<Note> LoadFromFile(string filename)
+		/// <returns>Проект с сохраненными ранее заметками</returns>
+		public static Project LoadFromFile(string filename)
 		{
 			JsonSerializer serializer = new JsonSerializer();
 
 			if (!File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + 
 			                 "\\" + filename + ".txt"))
 			{
-				List<Note> note = new List<Note>();
-				return note;
+				Project project = new Project();
+				return project;
 			}
 
 			using (StreamReader streamReader = new StreamReader(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + 
 																					 "\\" + filename + ".txt"))
 			using (JsonReader reader = new JsonTextReader(streamReader))
 			{
-				List<Note> note = (List<Note>)serializer.Deserialize<List<Note>>(reader);
-				return note;
+				Project project = (Project) serializer.Deserialize<Project>(reader);
+				return project;
 			}
 		}
 	}

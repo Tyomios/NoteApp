@@ -16,9 +16,21 @@ namespace NoteAppUI
 {
 	public partial class MainForm : Form
 	{
+		/// <summary>
+		/// Обьект, хранящий список заметок
+		/// </summary>
 		public Project project = new Project();
+
+		/// <summary>
+		/// Список заметок для выбранной категории заметок
+		/// </summary>
 		List<Note> categoryNotesList = new List<Note>();
 
+		/// <summary>
+		/// Сортировка заметок по категории
+		/// </summary>
+		/// <param name="sortedCategory">Категория для сортировки</param>
+		/// <param name="categoryNotesList">Список заметок, в котором будут храниться заметки нужной категории</param>
 		private void SortNotes(Category sortedCategory, List<Note> categoryNotesList)
 		{
 			listNoteListBox.Items.Clear();
@@ -45,6 +57,7 @@ namespace NoteAppUI
 			noteTextRichBox.Text = categoryNotesList[listNoteListBox.SelectedIndex].Text;
 		}
 
+		
 		public MainForm()
 		{
 			InitializeComponent();
@@ -55,11 +68,12 @@ namespace NoteAppUI
 				categoryComboBox.Items.Add(category);
 			}
 
-			project.Notes = ProjectManager.LoadFromFile("NoteAppDataBase");
+			project = ProjectManager.LoadFromFile("NoteAppDataBaseP");
 			if (project.Notes == null)
 			{
 				project.Notes = new List<Note>();
 			}
+			
 
 			categoryComboBox.SelectedItem = Category.All;
 			SortNotes((Category)categoryComboBox.SelectedItem, categoryNotesList);
@@ -75,7 +89,7 @@ namespace NoteAppUI
 			}
 
 			project.Notes.Add(addForm.Note);
-			ProjectManager.SaveToFile(project.Notes, "NoteAppDataBase");
+			ProjectManager.SaveToFile(project, "NoteAppDataBaseP");
 
 			categoryNotesList.Add(addForm.Note);
 			SortNotes((Category)categoryComboBox.SelectedItem, categoryNotesList);
@@ -85,15 +99,14 @@ namespace NoteAppUI
 		{
 			Note deleteNote = categoryNotesList[listNoteListBox.SelectedIndex];
 			DialogResult result = MessageBox.Show
-									("Вы действительно хотите удалить заметку?"
-			               + deleteNote.Name, "Внимание", MessageBoxButtons.YesNo);
+				("Delete note " + deleteNote.Name + "?", "Внимание", MessageBoxButtons.YesNo);
 			if (result == DialogResult.No)
 			{
 				return;
 			}
 
 			project.Notes.Remove(project.Notes[project.Notes.IndexOf(deleteNote)]);
-			ProjectManager.SaveToFile(project.Notes, "NoteAppDataBase");
+			ProjectManager.SaveToFile(project, "NoteAppDataBaseP");
 			categoryNotesList.Remove(deleteNote);
 			SortNotes((Category)categoryComboBox.SelectedItem, categoryNotesList);
 		}
@@ -104,7 +117,7 @@ namespace NoteAppUI
 			addForm.Text = "Edit Note";
 			addForm.ShowDialog();
 
-			ProjectManager.SaveToFile(project.Notes, "NoteAppDataBase");
+			ProjectManager.SaveToFile(project, "NoteAppDataBaseP");
 			SortNotes((Category)categoryComboBox.SelectedItem, categoryNotesList);
 		}
 
@@ -140,7 +153,7 @@ namespace NoteAppUI
 				return;
 			}
 			project.Notes.Add(addForm.Note);
-			ProjectManager.SaveToFile(project.Notes, "NoteAppDataBase");
+			ProjectManager.SaveToFile(project, "NoteAppDataBaseP");
 
 			categoryNotesList.Add(addForm.Note);
 			SortNotes((Category)categoryComboBox.SelectedItem, categoryNotesList);
@@ -152,7 +165,7 @@ namespace NoteAppUI
 			addForm.Text = "Edit Note";
 
 			addForm.ShowDialog();
-			ProjectManager.SaveToFile(project.Notes, "NoteAppDataBase");
+			ProjectManager.SaveToFile(project, "NoteAppDataBaseP");
 			SortNotes((Category)categoryComboBox.SelectedItem, categoryNotesList);
 		}
 
@@ -166,15 +179,14 @@ namespace NoteAppUI
 		{
 			Note deleteNote = categoryNotesList[listNoteListBox.SelectedIndex];
 			DialogResult result = MessageBox.Show
-			("Вы действительно хотите удалить заметку?"
-			 + deleteNote.Name, "Внимание", MessageBoxButtons.YesNo);
+				("Delete note " + deleteNote.Name + "?", "Внимание", MessageBoxButtons.YesNo);
 			if (result == DialogResult.No)
 			{
 				return;
 			}
 
 			project.Notes.Remove(project.Notes[project.Notes.IndexOf(deleteNote)]);
-			ProjectManager.SaveToFile(project.Notes, "NoteAppDataBase");
+			ProjectManager.SaveToFile(project, "NoteAppDataBaseP");
 			categoryNotesList.Remove(deleteNote);
 			SortNotes((Category)categoryComboBox.SelectedItem, categoryNotesList);
 		}

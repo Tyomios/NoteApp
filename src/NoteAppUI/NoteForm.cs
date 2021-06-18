@@ -15,8 +15,15 @@ namespace NoteAppUI
 {
 	public partial class NoteForm : Form
 	{
+		/// <summary>
+		/// Новая или редактируемая заметка, в зависимости от действия пользователя
+		/// </summary>
 		public Note Note { get; set; }
 		
+		/// <summary>
+		/// Конструктор формы
+		/// </summary>
+		/// <param name="editNote"> Редактируемая заметка, null в случае создания новой </param>
 		public NoteForm(Note editNote)
 		{
 			InitializeComponent();
