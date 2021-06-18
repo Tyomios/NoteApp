@@ -74,9 +74,10 @@ namespace NoteAppUI
 					Note.LastEditTime = DateTime.Now;
 					Note.СreationTime = Note.СreationTime;
 				}
-				catch (Exception exception)
+				catch
 				{
 					MessageBox.Show("Too long name.", "Error");
+					NameTextBox.Text = Note.Name;
 					return;
 				}
 				
