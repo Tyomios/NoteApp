@@ -82,6 +82,9 @@ namespace NoteAppUI
 			return false;
 		}
 
+		/// <summary>
+		/// Конструктор главного окна
+		/// </summary>
 		public MainForm()
 		{
 			InitializeComponent();
@@ -98,7 +101,6 @@ namespace NoteAppUI
 				project.Notes = new List<Note>();
 			}
 			
-
 			categoryComboBox.SelectedItem = Category.All;
 			SortNotes((Category)categoryComboBox.SelectedItem, categoryNotesList);
 		}
@@ -137,6 +139,7 @@ namespace NoteAppUI
 			project.Notes.Remove(project.Notes[project.Notes.IndexOf(deleteNote)]);
 			ProjectManager.SaveToFile(project, "NoteAppDataBaseP");
 			categoryNotesList.Remove(deleteNote);
+
 			SortNotes((Category)categoryComboBox.SelectedItem, categoryNotesList);
 		}
 

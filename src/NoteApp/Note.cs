@@ -50,7 +50,7 @@ namespace NoteApp
 			{
 				if (value.Length > 50)
 				{
-					throw new Exception("Too long name");
+					throw new ArgumentException("Too long name");
 				}
 
 				this._name = value;
@@ -69,6 +69,10 @@ namespace NoteApp
 
 			set
 			{
+				if (value == Category.All)
+				{
+					throw new ArgumentException("Unavailable category");
+				}
 				this._category = value;
 			}
 		}
