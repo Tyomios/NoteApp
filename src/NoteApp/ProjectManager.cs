@@ -50,11 +50,19 @@ namespace NoteApp
 
 			using (StreamReader streamReader = new StreamReader(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + 
 																					 "\\" + filename + ".txt"))
-			using (JsonReader reader = new JsonTextReader(streamReader))
-			{
-				Project project = (Project) serializer.Deserialize<Project>(reader);
-				return project;
-			}
+				try
+				{
+					using (JsonReader reader = new JsonTextReader(streamReader))
+					{
+						Project project = (Project)serializer.Deserialize<Project>(reader);
+						return project;
+					}
+				}
+				catch (JsonException)
+				{
+					Project project = new Project();
+					return project;
+				}
 		}
 	}
 }
