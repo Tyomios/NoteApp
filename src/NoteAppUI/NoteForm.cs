@@ -36,6 +36,7 @@ namespace NoteAppUI
 					CategoryComboBox.Items.Add(category);
 				}
 			}
+			CategoryComboBox.SelectedItem = Category.Documents;
 
 			if (editNote != null)
 			{
@@ -69,10 +70,6 @@ namespace NoteAppUI
 				try
 				{
 					Note.Name = NameTextBox.Text;
-					Note.Category = category;
-					Note.Text = NoteTextRichTextBox.Text;
-					Note.LastEditTime = DateTime.Now;
-					Note.СreationTime = Note.СreationTime;
 				}
 				catch
 				{
@@ -80,7 +77,11 @@ namespace NoteAppUI
 					NameTextBox.Text = Note.Name;
 					return;
 				}
-				
+
+				Note.Category = category;
+				Note.Text = NoteTextRichTextBox.Text;
+				Note.LastEditTime = DateTime.Now;
+				Note.СreationTime = Note.СreationTime;
 				this.Close();
 			}
 

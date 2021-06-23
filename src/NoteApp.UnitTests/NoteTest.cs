@@ -89,7 +89,5 @@ namespace NoteApp.UnitTests
 			Assert.AreEqual(note.LastEditTime, cloneNote.LastEditTime,
 				"Метод клонирования устанавливает неправильное время последнего редактирования");
 		}
-
-
 	}
 }

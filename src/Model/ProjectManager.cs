@@ -14,18 +14,20 @@ namespace NoteApp
 	/// </summary>
 	public static class ProjectManager
 	{
+		private static string defaultPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) +
+		                             "\\" + "NoteAppData.txt";
+
 		/// <summary>
 		/// Сохранение заметок
 		/// </summary>
 		/// <param name="projectNotes"> Заметки </param>
 		/// <param name="filename"> Название файла </param>
-		public static void SaveToFile(Project projectNotes, string filename)
+		public static void SaveToFile(Project projectNotes)
 		{
 			JsonSerializer serializer = new JsonSerializer();
 			serializer.Formatting = Formatting.Indented;
 
-			using (StreamWriter streamWriter = new StreamWriter(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + 
-																						"\\" + filename + ".txt"))
+			using (StreamWriter streamWriter = new StreamWriter(defaultPath))
 			using (JsonWriter writer = new JsonTextWriter(streamWriter))
 			{
 				serializer.Serialize(writer, projectNotes);
@@ -37,19 +39,17 @@ namespace NoteApp
 		/// </summary>
 		/// <param name="filename"> Название файла </param>
 		/// <returns>Проект с сохраненными ранее заметками</returns>
-		public static Project LoadFromFile(string filename)
+		public static Project LoadFromFile()
 		{
 			JsonSerializer serializer = new JsonSerializer();
 
-			if (!File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + 
-			                 "\\" + filename + ".txt"))
+			if (!File.Exists(defaultPath))
 			{
 				Project project = new Project();
 				return project;
 			}
 
-			using (StreamReader streamReader = new StreamReader(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + 
-																					 "\\" + filename + ".txt"))
+			using (StreamReader streamReader = new StreamReader(defaultPath))
 				try
 				{
 					using (JsonReader reader = new JsonTextReader(streamReader))

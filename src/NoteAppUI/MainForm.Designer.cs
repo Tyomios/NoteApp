@@ -129,19 +129,19 @@ namespace NoteAppUI
 			// 
 			this.categoryComboBox.BackColor = System.Drawing.SystemColors.HighlightText;
 			this.categoryComboBox.Cursor = System.Windows.Forms.Cursors.Hand;
-			this.categoryComboBox.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+			this.categoryComboBox.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
 			this.categoryComboBox.ForeColor = System.Drawing.SystemColors.InfoText;
 			this.categoryComboBox.FormattingEnabled = true;
 			this.categoryComboBox.Location = new System.Drawing.Point(105, 32);
 			this.categoryComboBox.Name = "categoryComboBox";
-			this.categoryComboBox.Size = new System.Drawing.Size(181, 25);
+			this.categoryComboBox.Size = new System.Drawing.Size(181, 23);
 			this.categoryComboBox.TabIndex = 3;
 			this.categoryComboBox.SelectedIndexChanged += new System.EventHandler(this.categoryBox_SelectedIndexChanged);
 			// 
 			// categoryLabel
 			// 
 			this.categoryLabel.AutoSize = true;
-			this.categoryLabel.BackColor = System.Drawing.SystemColors.ControlLight;
+			this.categoryLabel.BackColor = System.Drawing.Color.White;
 			this.categoryLabel.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
 			this.categoryLabel.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.categoryLabel.Location = new System.Drawing.Point(9, 37);
@@ -155,14 +155,14 @@ namespace NoteAppUI
 			this.noteTextRichBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.noteTextRichBox.BackColor = System.Drawing.SystemColors.Control;
+			this.noteTextRichBox.BackColor = System.Drawing.Color.White;
 			this.noteTextRichBox.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
 			this.noteTextRichBox.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
 			this.noteTextRichBox.Location = new System.Drawing.Point(292, 134);
 			this.noteTextRichBox.Margin = new System.Windows.Forms.Padding(3, 3, 2, 3);
 			this.noteTextRichBox.Name = "noteTextRichBox";
 			this.noteTextRichBox.ReadOnly = true;
-			this.noteTextRichBox.Size = new System.Drawing.Size(581, 415);
+			this.noteTextRichBox.Size = new System.Drawing.Size(587, 415);
 			this.noteTextRichBox.TabIndex = 5;
 			this.noteTextRichBox.Text = "";
 			// 
@@ -172,11 +172,12 @@ namespace NoteAppUI
             | System.Windows.Forms.AnchorStyles.Left)));
 			this.listNoteListBox.Cursor = System.Windows.Forms.Cursors.Hand;
 			this.listNoteListBox.FormattingEnabled = true;
+			this.listNoteListBox.IntegralHeight = false;
 			this.listNoteListBox.ItemHeight = 15;
 			this.listNoteListBox.Location = new System.Drawing.Point(9, 63);
 			this.listNoteListBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this.listNoteListBox.Name = "listNoteListBox";
-			this.listNoteListBox.Size = new System.Drawing.Size(277, 439);
+			this.listNoteListBox.Size = new System.Drawing.Size(277, 455);
 			this.listNoteListBox.TabIndex = 7;
 			this.listNoteListBox.SelectedIndexChanged += new System.EventHandler(this.listNoteBox_SelectedIndexChanged);
 			// 
@@ -201,11 +202,12 @@ namespace NoteAppUI
 			// 
 			// createTimeTextBox
 			// 
-			this.createTimeTextBox.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-			this.createTimeTextBox.Location = new System.Drawing.Point(346, 102);
+			this.createTimeTextBox.BackColor = System.Drawing.Color.White;
+			this.createTimeTextBox.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+			this.createTimeTextBox.Location = new System.Drawing.Point(349, 102);
 			this.createTimeTextBox.Name = "createTimeTextBox";
 			this.createTimeTextBox.ReadOnly = true;
-			this.createTimeTextBox.Size = new System.Drawing.Size(70, 25);
+			this.createTimeTextBox.Size = new System.Drawing.Size(60, 23);
 			this.createTimeTextBox.TabIndex = 10;
 			// 
 			// createdTimeLabel
@@ -219,11 +221,12 @@ namespace NoteAppUI
 			// 
 			// updateTimeTextBox
 			// 
-			this.updateTimeTextBox.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-			this.updateTimeTextBox.Location = new System.Drawing.Point(548, 102);
+			this.updateTimeTextBox.BackColor = System.Drawing.Color.White;
+			this.updateTimeTextBox.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+			this.updateTimeTextBox.Location = new System.Drawing.Point(551, 102);
 			this.updateTimeTextBox.Name = "updateTimeTextBox";
 			this.updateTimeTextBox.ReadOnly = true;
-			this.updateTimeTextBox.Size = new System.Drawing.Size(70, 25);
+			this.updateTimeTextBox.Size = new System.Drawing.Size(59, 23);
 			this.updateTimeTextBox.TabIndex = 12;
 			// 
 			// updatetimeLabel
@@ -237,6 +240,7 @@ namespace NoteAppUI
 			// 
 			// menuStrip1
 			// 
+			this.menuStrip1.BackColor = System.Drawing.Color.Transparent;
 			this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
             this.editToolStripMenuItem,
@@ -369,7 +373,7 @@ namespace NoteAppUI
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.BackColor = System.Drawing.SystemColors.ControlLight;
+			this.BackColor = System.Drawing.Color.White;
 			this.ClientSize = new System.Drawing.Size(884, 561);
 			this.Controls.Add(this.updatetimeLabel);
 			this.Controls.Add(this.updateTimeTextBox);

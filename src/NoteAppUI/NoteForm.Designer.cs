@@ -75,12 +75,12 @@ namespace NoteAppUI
 			// NameLabel
 			// 
 			this.NameLabel.AutoSize = true;
-			this.NameLabel.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-			this.NameLabel.Location = new System.Drawing.Point(12, 24);
+			this.NameLabel.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+			this.NameLabel.Location = new System.Drawing.Point(12, 26);
 			this.NameLabel.Name = "NameLabel";
-			this.NameLabel.Size = new System.Drawing.Size(43, 17);
+			this.NameLabel.Size = new System.Drawing.Size(42, 15);
 			this.NameLabel.TabIndex = 5;
-			this.NameLabel.Text = "Name";
+			this.NameLabel.Text = "Name:";
 			// 
 			// NoteTextRichTextBox
 			// 
@@ -100,23 +100,24 @@ namespace NoteAppUI
 			this.CategoryComboBox.FormattingEnabled = true;
 			this.CategoryComboBox.Location = new System.Drawing.Point(75, 62);
 			this.CategoryComboBox.Name = "CategoryComboBox";
-			this.CategoryComboBox.Size = new System.Drawing.Size(486, 23);
+			this.CategoryComboBox.Size = new System.Drawing.Size(96, 23);
 			this.CategoryComboBox.TabIndex = 7;
 			// 
 			// CategoryLabel
 			// 
 			this.CategoryLabel.AutoSize = true;
-			this.CategoryLabel.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-			this.CategoryLabel.Location = new System.Drawing.Point(12, 63);
+			this.CategoryLabel.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+			this.CategoryLabel.Location = new System.Drawing.Point(12, 65);
 			this.CategoryLabel.Name = "CategoryLabel";
-			this.CategoryLabel.Size = new System.Drawing.Size(61, 17);
+			this.CategoryLabel.Size = new System.Drawing.Size(58, 15);
 			this.CategoryLabel.TabIndex = 8;
-			this.CategoryLabel.Text = "Category";
+			this.CategoryLabel.Text = "Category:";
 			// 
 			// NoteForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.BackColor = System.Drawing.Color.White;
 			this.ClientSize = new System.Drawing.Size(573, 536);
 			this.Controls.Add(this.CategoryLabel);
 			this.Controls.Add(this.CategoryComboBox);
