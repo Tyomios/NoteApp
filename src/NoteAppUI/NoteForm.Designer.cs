@@ -39,6 +39,7 @@ namespace NoteAppUI
 			this.NoteTextRichTextBox = new System.Windows.Forms.RichTextBox();
 			this.CategoryComboBox = new System.Windows.Forms.ComboBox();
 			this.CategoryLabel = new System.Windows.Forms.Label();
+			this.longNameWarningLabel = new System.Windows.Forms.Label();
 			this.SuspendLayout();
 			// 
 			// SaveButton
@@ -71,6 +72,7 @@ namespace NoteAppUI
 			this.NameTextBox.Name = "NameTextBox";
 			this.NameTextBox.Size = new System.Drawing.Size(486, 23);
 			this.NameTextBox.TabIndex = 4;
+			this.NameTextBox.TextChanged += new System.EventHandler(this.NameTextBox_TextChanged);
 			// 
 			// NameLabel
 			// 
@@ -95,8 +97,6 @@ namespace NoteAppUI
 			// 
 			// CategoryComboBox
 			// 
-			this.CategoryComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
 			this.CategoryComboBox.FormattingEnabled = true;
 			this.CategoryComboBox.Location = new System.Drawing.Point(75, 62);
 			this.CategoryComboBox.Name = "CategoryComboBox";
@@ -113,12 +113,24 @@ namespace NoteAppUI
 			this.CategoryLabel.TabIndex = 8;
 			this.CategoryLabel.Text = "Category:";
 			// 
+			// longNameWarningLabel
+			// 
+			this.longNameWarningLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.longNameWarningLabel.AutoSize = true;
+			this.longNameWarningLabel.ForeColor = System.Drawing.Color.White;
+			this.longNameWarningLabel.Location = new System.Drawing.Point(420, 49);
+			this.longNameWarningLabel.Name = "longNameWarningLabel";
+			this.longNameWarningLabel.Size = new System.Drawing.Size(141, 15);
+			this.longNameWarningLabel.TabIndex = 9;
+			this.longNameWarningLabel.Text = "write shorter note\'s name";
+			// 
 			// NoteForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.White;
 			this.ClientSize = new System.Drawing.Size(573, 536);
+			this.Controls.Add(this.longNameWarningLabel);
 			this.Controls.Add(this.CategoryLabel);
 			this.Controls.Add(this.CategoryComboBox);
 			this.Controls.Add(this.NoteTextRichTextBox);
@@ -143,5 +155,6 @@ namespace NoteAppUI
 		private System.Windows.Forms.RichTextBox NoteTextRichTextBox;
 		private System.Windows.Forms.ComboBox CategoryComboBox;
 		private System.Windows.Forms.Label CategoryLabel;
+		private System.Windows.Forms.Label longNameWarningLabel;
 	}
 }

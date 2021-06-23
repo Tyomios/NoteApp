@@ -109,7 +109,7 @@ namespace NoteAppUI
 
 		private void addButton_Click(object sender, EventArgs e)
 		{
-			NoteForm addForm = new NoteForm(null);
+			NoteForm addForm = new NoteForm();
 			addForm.ShowDialog();
 			if (addForm.Note == null)
 			{
@@ -152,7 +152,9 @@ namespace NoteAppUI
 				return;
 			}
 
-			NoteForm addForm = new NoteForm(notesByCategory[listNoteListBox.SelectedIndex]);
+			NoteForm addForm = new NoteForm();
+			addForm.Note = notesByCategory[listNoteListBox.SelectedIndex];
+			addForm.SetDataFields();
 			addForm.Text = "Edit Note";
 			addForm.ShowDialog();
 
@@ -187,7 +189,7 @@ namespace NoteAppUI
 
 		private void AddNoteItem_Click(object sender, EventArgs e)
 		{
-			NoteForm addForm = new NoteForm(null);
+			NoteForm addForm = new NoteForm();
 			addForm.ShowDialog();
 			if (addForm.Note == null)
 			{
@@ -207,7 +209,9 @@ namespace NoteAppUI
 				return;
 			}
 
-			NoteForm addForm = new NoteForm(notesByCategory[listNoteListBox.SelectedIndex]);
+			NoteForm addForm = new NoteForm();
+			addForm.Note = notesByCategory[listNoteListBox.SelectedIndex];
+			addForm.SetDataFields();
 			addForm.Text = "Edit Note";
 
 			addForm.ShowDialog();

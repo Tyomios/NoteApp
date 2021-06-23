@@ -19,12 +19,22 @@ namespace NoteAppUI
 		/// Новая или редактируемая заметка, в зависимости от действия пользователя
 		/// </summary>
 		public Note Note { get; set; }
-		
+
+		/// <summary>
+		/// Устанавливает значения полей из данных редактируемой заметки
+		/// </summary>
+		public void SetDataFields()
+		{
+			NameTextBox.Text = Note.Name;
+			CategoryComboBox.SelectedItem = Note.Category;
+			NoteTextRichTextBox.Text = Note.Text;
+		}
+
 		/// <summary>
 		/// Конструктор формы
 		/// </summary>
 		/// <param name="editNote"> Редактируемая заметка, null в случае создания новой </param>
-		public NoteForm(Note editNote)
+		public NoteForm()
 		{
 			InitializeComponent();
 
@@ -37,14 +47,6 @@ namespace NoteAppUI
 				}
 			}
 			CategoryComboBox.SelectedItem = Category.Documents;
-
-			if (editNote != null)
-			{
-				NameTextBox.Text = editNote.Name;
-				CategoryComboBox.SelectedItem = editNote.Category;
-				NoteTextRichTextBox.Text = editNote.Text;
-				Note = editNote;
-			}
 		}
 		private void CancelButton_Click(object sender, EventArgs e)
 		{
@@ -88,6 +90,24 @@ namespace NoteAppUI
 			Note = new Note(NameTextBox.Text, category, NoteTextRichTextBox.Text);
 
 			this.Close();
+		}
+
+		private void NameTextBox_TextChanged(object sender, EventArgs e)
+		{
+			if (NameTextBox.Text.Length > 50)
+			{
+				NameTextBox.ForeColor = Color.Red;
+				SaveButton.Enabled = false;
+				longNameWarningLabel.Text = "Write shorter note's name";
+				longNameWarningLabel.ForeColor = Color.Red;
+			}
+			if (NameTextBox.Text.Length < 50)
+			{
+				NameTextBox.ForeColor = Color.Black;
+				SaveButton.Enabled = true;
+				longNameWarningLabel.Text = "";
+				longNameWarningLabel.ForeColor = Color.White;
+			}
 		}
 	}
 }
