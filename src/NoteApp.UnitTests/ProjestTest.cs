@@ -13,14 +13,17 @@ namespace NoteApp.UnitTests
 		[Test(Description = "Позитивный тест сеттера свойства Notes")]
 		public void TestNoteList_CorrectValue()
 		{
+			//Setup
 			Project project = new Project();
 			project.Notes.Add(new Note("Имя", Category.Home, "Текст"));
 
+			//Testing
 			var expected = new List<Note>();
 			expected.Add(project.Notes[0]);
 
 			var actual = project;
 
+			//Assert
 			Assert.AreEqual(expected, actual.Notes,
 				"Свойство Notes устанавливает или возвращает неправильное название");
 		}
