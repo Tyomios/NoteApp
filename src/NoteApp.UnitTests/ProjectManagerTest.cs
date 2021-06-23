@@ -52,7 +52,17 @@ namespace NoteApp.UnitTests
 			Assert.IsNotNull(project.Notes[0], "Проект не загружен");
 		}
 
-		[Test(Description = "Проверка загрузки проекта из целого файла")]
+		[Test(Description = "Проверка загрузки проекта из несуществующего файла")]
+		public void TestLoadNoneFile()
+		{
+			//Testing
+			var project = ProjectManager.LoadFromFile("TestData");
+
+			//Assert
+			Assert.IsNotNull(project, "Проект не создан");
+		}
+
+		[Test(Description = "Проверка загрузки проекта из поврежденного файла")]
 		public void TestLoadFile_DamagedData()
 		{
 			//Setup

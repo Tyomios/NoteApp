@@ -57,6 +57,10 @@ namespace NoteApp
 			{
 				usedPath = @"..\..\..\TestData\damagedData.txt";
 			}
+			if (mode == "NoneData")
+			{
+				usedPath = @"..\..\..\TestData\noneData.txt";
+			}
 
 			if (!File.Exists(usedPath))
 			{
