@@ -11,11 +11,9 @@ namespace NoteApp.UnitTests
 	[TestFixture]
 	public class ProjectManagerTest
 	{
-		private string currentDataFilePath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) +
-		                              "\\" + "TestData.txt";
+		private string currentDataFilePath = @"..\..\..\TestData\TestData.txt";
 
-		private string damagedDataFilePath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) +
-		                                     "\\" + "DamagedTestData.txt";
+		private string damagedDataFilePath = @"..\..\..\TestData\damagedData.txt";
 		private void DeleteTestDataFile()
 		{
 			if (File.Exists(currentDataFilePath))
@@ -25,8 +23,9 @@ namespace NoteApp.UnitTests
 		}
 
 		[Test(Description = "Проверка сохранения проекта, когда файла не существует")]
-		public void TestSaveNunFile()
+		public void TestSaveNoneFile()
 		{
+			Directory.CreateDirectory(@"..\..\\..\TestData");
 			DeleteTestDataFile();
 
 			var project = new Project();
@@ -52,7 +51,7 @@ namespace NoteApp.UnitTests
 		{
 			File.WriteAllText(damagedDataFilePath, "Wrong data");
 			
-			var project = ProjectManager.LoadFromFile("DamagedTestData");
+			var project = ProjectManager.LoadFromFile("DamagedData");
 			
 			Assert.IsEmpty(project.Notes, "Исключение загрузки из поврежденного файла не обрабатывается");
 		}

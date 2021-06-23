@@ -13,7 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Installer\Installer.csproj" />
-    <ProjectReference Include="..\NoteApp\NoteApp.csproj" />
+    <ProjectReference Include="..\Model\NoteApp.csproj" />
   </ItemGroup>
 
 </Project>

@@ -22,12 +22,18 @@ namespace NoteApp
 		/// </summary>
 		/// <param name="projectNotes"> Заметки </param>
 		/// <param name="filename"> Название файла </param>
-		public static void SaveToFile(Project projectNotes)
+		public static void SaveToFile(Project projectNotes, string mode = "Release")
 		{
 			JsonSerializer serializer = new JsonSerializer();
+			var usedPath = defaultPath;
 			serializer.Formatting = Formatting.Indented;
 
-			using (StreamWriter streamWriter = new StreamWriter(defaultPath))
+			if (mode == "TestData")
+			{
+				usedPath = @"..\..\..\TestData\testData.txt";
+			}
+
+			using (StreamWriter streamWriter = new StreamWriter(usedPath))
 			using (JsonWriter writer = new JsonTextWriter(streamWriter))
 			{
 				serializer.Serialize(writer, projectNotes);
@@ -39,17 +45,26 @@ namespace NoteApp
 		/// </summary>
 		/// <param name="filename"> Название файла </param>
 		/// <returns>Проект с сохраненными ранее заметками</returns>
-		public static Project LoadFromFile()
+		public static Project LoadFromFile(string mode = "Release")
 		{
 			JsonSerializer serializer = new JsonSerializer();
+			var usedPath = defaultPath;
+			if (mode == "TestData")
+			{
+				usedPath = @"..\..\..\TestData\TestData.txt";
+			}
+			if (mode == "DamagedData")
+			{
+				usedPath = @"..\..\..\TestData\damagedData.txt";
+			}
 
-			if (!File.Exists(defaultPath))
+			if (!File.Exists(usedPath))
 			{
 				Project project = new Project();
 				return project;
 			}
 
-			using (StreamReader streamReader = new StreamReader(defaultPath))
+			using (StreamReader streamReader = new StreamReader(usedPath))
 				try
 				{
 					using (JsonReader reader = new JsonTextReader(streamReader))

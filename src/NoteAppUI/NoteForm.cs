@@ -48,6 +48,7 @@ namespace NoteAppUI
 			}
 			CategoryComboBox.SelectedItem = Category.Documents;
 		}
+
 		private void CancelButton_Click(object sender, EventArgs e)
 		{
 			this.Close();
@@ -55,11 +56,6 @@ namespace NoteAppUI
 
 		private void SaveButton_Click(object sender, EventArgs e)
 		{
-			if (CategoryComboBox.SelectedIndex == -1)
-			{
-				MessageBox.Show("Choose note category", "Error");
-				return;
-			}
 			Category category = (Category)CategoryComboBox.SelectedItem;
 
 			if (NameTextBox.Text == "")
@@ -69,17 +65,7 @@ namespace NoteAppUI
 
 			if (Note != null)
 			{
-				try
-				{
-					Note.Name = NameTextBox.Text;
-				}
-				catch
-				{
-					MessageBox.Show("Too long name.", "Error");
-					NameTextBox.Text = Note.Name;
-					return;
-				}
-
+				Note.Name = NameTextBox.Text;
 				Note.Category = category;
 				Note.Text = NoteTextRichTextBox.Text;
 				Note.LastEditTime = DateTime.Now;
