@@ -13,20 +13,20 @@ namespace NoteApp
 		/// </summary>
 		public List<Note> Notes { get; set; } = new List<Note>();
 
-		public List<Note> GetNotesWithChoosenCategory(Category category)
+		/// <summary>
+		/// Метод, для заполнения списка заметками выбранной категории
+		/// </summary>
+		/// <param name="category">Категория</param>
+		/// <param name="categoryNotes">Список, в который заносятся заметки</param>
+		public void GetNotesChoosenCategory(string category, List<Note> categoryNotes)
 		{
-			List<Note> notesWithChoosenCategory = new List<Note>();
-
 			for (int i = 0; i < Notes.Count; i++)
 			{
-				if (Notes[i].Category == category || category == Category.All)
+				if (Notes[i].Category.ToString() == category || category == "All")
 				{
-					notesWithChoosenCategory.Add(Notes[i]);
-					
+					categoryNotes.Add(Notes[i]);
 				}
 			}
-
-			return notesWithChoosenCategory;
 		}
-}
+	}
 }

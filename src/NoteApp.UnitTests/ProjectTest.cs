@@ -8,7 +8,7 @@ using NUnit.Framework;
 namespace NoteApp.UnitTests
 {
 	[TestFixture]
-	public class ProjestTest
+	public class ProjectTest
 	{
 		[Test(Description = "Позитивный тест сеттера свойства Notes")]
 		public void TestNoteList_CorrectValue()

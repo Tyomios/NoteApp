@@ -35,25 +35,23 @@ namespace NoteAppUI
 		/// <param name="categoryNotesList">
 		/// Список заметок, в котором будут храниться заметки нужной категории
 		/// </param>
-		private void NotesCategoryFilter(Category sortedCategory, List<Note> categoryNotesList)
+		private void NotesCategoryFilter(string sortedCategory, List<Note> categoryNotesList)
 		{
 			listNoteListBox.Items.Clear();
 			categoryNotesList.Clear();
-			int listIndex = 0;
-
-			for (int i = 0; i < project.Notes.Count; i++)
-			{
-				if (project.Notes[i].Category == sortedCategory || sortedCategory == Category.All)
-				{ 
-					categoryNotesList.Add(project.Notes[i]); 
-					listNoteListBox.Items.Insert(listIndex, categoryNotesList[listIndex].Name); 
-					++listIndex;
-				}
-			}
-			if (categoryNotesList.Count == 0) 
+			project.GetNotesChoosenCategory(sortedCategory, categoryNotesList);
+			if (categoryNotesList.Count == 0)
 			{
 				listNoteListBox.Items.Clear();
 				return;
+			}
+
+			int listIndex = 0;
+
+			for (int i = 0; i < categoryNotesList.Count; i++)
+			{
+				listNoteListBox.Items.Insert(listIndex, categoryNotesList[listIndex].Name);
+				++listIndex;
 			}
 
 			listNoteListBox.SelectedIndex = listNoteListBox.Items.Count - 1;
@@ -92,6 +90,7 @@ namespace NoteAppUI
 			InitializeComponent();
 
 			categoryComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
+			categoryComboBox.Items.Add("All");
 			foreach (var category in Enum.GetValues(typeof(Category)))
 			{
 				categoryComboBox.Items.Add(category);
@@ -103,8 +102,8 @@ namespace NoteAppUI
 				project.Notes = new List<Note>();
 			}
 			
-			categoryComboBox.SelectedItem = Category.All;
-			NotesCategoryFilter((Category)categoryComboBox.SelectedItem, notesByCategory);
+			categoryComboBox.SelectedItem = "All";
+			NotesCategoryFilter(categoryComboBox.SelectedItem.ToString(), notesByCategory);
 		}
 
 		private void addButton_Click(object sender, EventArgs e)
@@ -120,7 +119,7 @@ namespace NoteAppUI
 			ProjectManager.SaveToFile(project);
 
 			notesByCategory.Add(addForm.Note);
-			NotesCategoryFilter((Category)categoryComboBox.SelectedItem, notesByCategory);
+			NotesCategoryFilter(categoryComboBox.SelectedItem.ToString(), notesByCategory);
 		}
 
 		private void deleteButton_Click(object sender, EventArgs e)
@@ -129,11 +128,11 @@ namespace NoteAppUI
 			{
 				return;
 			}
-
+			
 			Note deleteNote = notesByCategory[listNoteListBox.SelectedIndex];
 			DialogResult result = MessageBox.Show
-				("Delete note " + deleteNote.Name + "?", "Warning", MessageBoxButtons.YesNo);
-			if (result == DialogResult.No)
+				("Delete note " + deleteNote.Name + "?", "Warning", MessageBoxButtons.OKCancel);
+			if (result == DialogResult.Cancel)
 			{
 				return;
 			}
@@ -142,7 +141,7 @@ namespace NoteAppUI
 			ProjectManager.SaveToFile(project);
 			notesByCategory.Remove(deleteNote);
 
-			NotesCategoryFilter((Category)categoryComboBox.SelectedItem, notesByCategory);
+			NotesCategoryFilter(categoryComboBox.SelectedItem.ToString(), notesByCategory);
 		}
 
 		private void editButton_Click(object sender, EventArgs e)
@@ -159,18 +158,20 @@ namespace NoteAppUI
 			addForm.ShowDialog();
 
 			ProjectManager.SaveToFile(project);
-			NotesCategoryFilter((Category)categoryComboBox.SelectedItem, notesByCategory);
+			NotesCategoryFilter(categoryComboBox.SelectedItem.ToString(), notesByCategory);
 		}
 
 		private void listNoteBox_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			List<Note> dataList = project.Notes;
-			if((Category)categoryComboBox.SelectedItem != Category.All)
+			if(categoryComboBox.SelectedItem.ToString() != "All")
 			{
 				if (categoryComboBox == null)
 				{
 					return;
 				}
+
+				project.GetNotesChoosenCategory(categoryComboBox.SelectedItem.ToString(), notesByCategory);
 				dataList = notesByCategory;
 			}
 
@@ -184,7 +185,8 @@ namespace NoteAppUI
 
 		private void categoryBox_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			NotesCategoryFilter((Category)categoryComboBox.SelectedItem, notesByCategory);
+			var selectedCategory = categoryComboBox.SelectedItem.ToString();
+			NotesCategoryFilter(categoryComboBox.SelectedItem.ToString(), notesByCategory);
 		}
 
 		private void AddNoteItem_Click(object sender, EventArgs e)
@@ -199,7 +201,7 @@ namespace NoteAppUI
 			ProjectManager.SaveToFile(project);
 
 			notesByCategory.Add(addForm.Note);
-			NotesCategoryFilter((Category)categoryComboBox.SelectedItem, notesByCategory);
+			NotesCategoryFilter(categoryComboBox.SelectedItem.ToString(), notesByCategory);
 		}
 
 		private void EditNoteItem_Click(object sender, EventArgs e)
@@ -216,7 +218,7 @@ namespace NoteAppUI
 
 			addForm.ShowDialog();
 			ProjectManager.SaveToFile(project);
-			NotesCategoryFilter((Category)categoryComboBox.SelectedItem, notesByCategory);
+			NotesCategoryFilter(categoryComboBox.SelectedItem.ToString(), notesByCategory);
 		}
 
 		private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
@@ -244,7 +246,7 @@ namespace NoteAppUI
 			project.Notes.Remove(project.Notes[project.Notes.IndexOf(deleteNote)]);
 			ProjectManager.SaveToFile(project);
 			notesByCategory.Remove(deleteNote);
-			NotesCategoryFilter((Category)categoryComboBox.SelectedItem, notesByCategory);
+			NotesCategoryFilter(categoryComboBox.SelectedItem.ToString(), notesByCategory);
 		}
 	}
 }

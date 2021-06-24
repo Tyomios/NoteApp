@@ -41,10 +41,7 @@ namespace NoteAppUI
 			CategoryComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
 			foreach (var category in Enum.GetValues(typeof(Category)))
 			{
-				if ((Category)category != Category.All)
-				{
-					CategoryComboBox.Items.Add(category);
-				}
+				CategoryComboBox.Items.Add(category);
 			}
 			CategoryComboBox.SelectedItem = Category.Documents;
 		}

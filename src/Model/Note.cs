@@ -69,10 +69,6 @@ namespace NoteApp
 
 			set
 			{
-				if (value == Category.All)
-				{
-					throw new ArgumentException("Unavailable category");
-				}
 				this._category = value;
 			}
 		}

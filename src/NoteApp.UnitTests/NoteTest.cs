@@ -52,18 +52,6 @@ namespace NoteApp.UnitTests
 			Assert.AreEqual(expected, actual, "Сеттер Category устанавливает неправильную категорию");
 		}
 
-		[Test(Description = "Тест сеттера Category на запрет установки категории All")]
-		public void TestCategorySet_WrongValue()
-		{
-			//Setup
-			var wrongCategory = Category.All;
-			var note = new Note();
-
-			//Assert
-			Assert.Throws<ArgumentException>(
-				() => { note.Category = wrongCategory; }, "Должно сработать исключение на установку категории All");
-		}
-
 		[Test(Description = "Позитивный тест геттера Category")]
 		public void TestCategoryGet_CurrentValue()
 		{
@@ -112,6 +100,44 @@ namespace NoteApp.UnitTests
 				"Метод клонирования устанавливает неправильное время создания");
 			Assert.AreEqual(note.LastEditTime, cloneNote.LastEditTime,
 				"Метод клонирования устанавливает неправильное время последнего редактирования");
+		}
+
+		[Test(Description = "Позитивный тест метода получения заметок по категории All")]
+		public void TestGetNotesChoosenCategory_AllCategory()
+		{
+			//Setup
+			Project project = new Project();
+			var notes = new List<Note>();
+			project.Notes.Add(new Note("Name", Category.Documents, "Text"));
+			project.Notes.Add(new Note("Name", Category.Home, "Text"));
+			project.Notes.Add(new Note("Name", Category.Home, "Text"));
+
+			//Testing
+			var expected = 3;
+			project.GetNotesChoosenCategory("All", notes);
+			var actual = notes.Count;
+
+			//Assert
+			Assert.AreEqual(expected, actual, "Метод возвращает неправильный список");
+		}
+
+		[Test(Description = "Позитивный тест метода получения заметок по категории All")]
+		public void TestGetNotesChoosenCategory()
+		{
+			//Setup
+			Project project = new Project();
+			var notes = new List<Note>();
+			project.Notes.Add(new Note("Name", Category.Documents, "Text"));
+			project.Notes.Add(new Note("Name", Category.Home, "Text"));
+			project.Notes.Add(new Note("Name", Category.Home, "Text"));
+
+			//Testing
+			var expected = 2;
+			project.GetNotesChoosenCategory("Home", notes);
+			var actual = notes.Count;
+
+			//Assert
+			Assert.AreEqual(expected, actual, "Метод возвращает неправильный список");
 		}
 	}
 }

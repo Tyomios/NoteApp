@@ -56,7 +56,7 @@ namespace NoteApp.UnitTests
 		public void TestLoadNoneFile()
 		{
 			//Testing
-			var project = ProjectManager.LoadFromFile("TestData");
+			var project = ProjectManager.LoadFromFile("noneData");
 
 			//Assert
 			Assert.IsNotNull(project, "Проект не создан");
