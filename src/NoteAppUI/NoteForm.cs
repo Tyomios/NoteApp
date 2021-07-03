@@ -21,6 +21,11 @@ namespace NoteAppUI
 		public Note Note { get; set; }
 
 		/// <summary>
+		/// Внутреняя заметка, для проверки поля названия
+		/// </summary>
+		private Note SafetyNote { get; set; }
+
+		/// <summary>
 		/// Устанавливает значения полей из данных редактируемой заметки
 		/// </summary>
 		public void SetDataFields()
@@ -37,7 +42,6 @@ namespace NoteAppUI
 		public NoteForm()
 		{
 			InitializeComponent();
-
 			CategoryComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
 			foreach (var category in Enum.GetValues(typeof(Category)))
 			{
@@ -51,18 +55,13 @@ namespace NoteAppUI
 			this.Close();
 		}
 
-		private void SaveButton_Click(object sender, EventArgs e)
+		private void OKButton_Click(object sender, EventArgs e)
 		{
 			Category category = (Category)CategoryComboBox.SelectedItem;
 
-			if (NameTextBox.Text == "")
-			{
-				NameTextBox.Text = "Без названия";
-			}
-
 			if (Note != null)
 			{
-				Note.Name = NameTextBox.Text;
+				Note.Name = SafetyNote.Name;
 				Note.Category = category;
 				Note.Text = NoteTextRichTextBox.Text;
 				Note.LastEditTime = DateTime.Now;
@@ -77,19 +76,35 @@ namespace NoteAppUI
 
 		private void NameTextBox_TextChanged(object sender, EventArgs e)
 		{
-			if (NameTextBox.Text.Length > 50)
-			{
-				NameTextBox.ForeColor = Color.Red;
-				SaveButton.Enabled = false;
-				longNameWarningLabel.Text = "Write shorter note's name";
-				longNameWarningLabel.ForeColor = Color.Red;
-			}
+			Color blackColor = Color.Black;
+			Color redColor = Color.Red;
+
+			SafetyNote = (Note) Note.Clone();
+
 			if (NameTextBox.Text.Length < 50)
 			{
-				NameTextBox.ForeColor = Color.Black;
-				SaveButton.Enabled = true;
+				NameTextBox.ForeColor = blackColor;
+				OKButton.Enabled = true;
 				longNameWarningLabel.Text = "";
-				longNameWarningLabel.ForeColor = Color.White;
+				longNameWarningLabel.ForeColor = NoteForm.DefaultBackColor;
+
+				if (NameTextBox.Text == "")
+				{
+					NameTextBox.Text = "Без названия";
+				}
+			}
+
+			try
+			{
+				SafetyNote.Name = NameTextBox.Text;
+			}
+			catch (ArgumentException exception)
+			{
+				MessageBox.Show(exception.Message);
+				NameTextBox.ForeColor = redColor;
+				OKButton.Enabled = false;
+				longNameWarningLabel.Text = "Write shorter note's name";
+				longNameWarningLabel.ForeColor = redColor;
 			}
 		}
 	}

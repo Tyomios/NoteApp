@@ -24,7 +24,7 @@ namespace NoteApp.UnitTests
 		}
 
 		[Test(Description = "Проверка сохранения проекта, когда файла не существует")]
-		public void TestSaveNoneFile()
+		public void TestSave_NoneExistFile()
 		{
 			//Setup
 			Directory.CreateDirectory(@"..\..\\..\TestData");
@@ -43,13 +43,28 @@ namespace NoteApp.UnitTests
 		}
 
 		[Test(Description = "Проверка загрузки проекта из целого файла")]
-		public void TestLoadFile_CurrentData()
+		public void TestLoadFile_CorrectData()
 		{
+			//Setup
+			var expectedNoteName = "Name";
+			var expectedNoteText = "Text";
+			var expectedNoteCategory = 4;
+			var expectedNoteCreateTime = "03.07.2021 22:07:43";
+			var expectedNoteLastEditTime = "03.07.2021 22:07:43";
+
 			//Testing
 			var project = ProjectManager.LoadFromFile("TestData");
 
 			//Assert
 			Assert.IsNotNull(project.Notes[0], "Проект не загружен");
+
+			Assert.AreEqual(project.Notes[0].Name, expectedNoteName, "Названия не совпадают");
+			Assert.AreEqual(project.Notes[0].Text, expectedNoteText, "Текста не совпадают");
+			Assert.AreEqual((int)project.Notes[0].Category, expectedNoteCategory	, "Категории не совпадают");
+			Assert.AreEqual(project.Notes[0].СreationTime.ToString(), expectedNoteCreateTime,
+					"Время создания не совпадают");
+			Assert.AreEqual(project.Notes[0].LastEditTime.ToString(), expectedNoteLastEditTime,
+				"Время редактирования не совпадают");
 		}
 
 		[Test(Description = "Проверка загрузки проекта из несуществующего файла")]
@@ -60,6 +75,8 @@ namespace NoteApp.UnitTests
 
 			//Assert
 			Assert.IsNotNull(project, "Проект не создан");
+			Assert.IsNotNull(project.Notes, "Список null");
+			Assert.IsEmpty(project.Notes, "Список не пустой");
 		}
 
 		[Test(Description = "Проверка загрузки проекта из поврежденного файла")]
@@ -73,6 +90,8 @@ namespace NoteApp.UnitTests
 			
 			//Assert
 			Assert.IsEmpty(project.Notes, "Исключение загрузки из поврежденного файла не обрабатывается");
+			Assert.IsNotNull(project.Notes, "Список null");
+			Assert.IsEmpty(project.Notes, "Список не пустой");
 		}
 	}
 }

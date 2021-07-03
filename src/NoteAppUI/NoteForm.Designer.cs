@@ -32,7 +32,7 @@ namespace NoteAppUI
 		private void InitializeComponent()
 		{
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(NoteForm));
-			this.SaveButton = new System.Windows.Forms.Button();
+			this.OKButton = new System.Windows.Forms.Button();
 			this.CancelButton = new System.Windows.Forms.Button();
 			this.NameTextBox = new System.Windows.Forms.TextBox();
 			this.NameLabel = new System.Windows.Forms.Label();
@@ -42,16 +42,16 @@ namespace NoteAppUI
 			this.longNameWarningLabel = new System.Windows.Forms.Label();
 			this.SuspendLayout();
 			// 
-			// SaveButton
+			// OKButton
 			// 
-			this.SaveButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.SaveButton.Location = new System.Drawing.Point(396, 501);
-			this.SaveButton.Name = "SaveButton";
-			this.SaveButton.Size = new System.Drawing.Size(75, 23);
-			this.SaveButton.TabIndex = 1;
-			this.SaveButton.Text = "OK";
-			this.SaveButton.UseVisualStyleBackColor = true;
-			this.SaveButton.Click += new System.EventHandler(this.SaveButton_Click);
+			this.OKButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.OKButton.Location = new System.Drawing.Point(396, 501);
+			this.OKButton.Name = "OKButton";
+			this.OKButton.Size = new System.Drawing.Size(75, 23);
+			this.OKButton.TabIndex = 1;
+			this.OKButton.Text = "OK";
+			this.OKButton.UseVisualStyleBackColor = true;
+			this.OKButton.Click += new System.EventHandler(this.OKButton_Click);
 			// 
 			// CancelButton
 			// 
@@ -137,7 +137,7 @@ namespace NoteAppUI
 			this.Controls.Add(this.NameLabel);
 			this.Controls.Add(this.NameTextBox);
 			this.Controls.Add(this.CancelButton);
-			this.Controls.Add(this.SaveButton);
+			this.Controls.Add(this.OKButton);
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.MinimumSize = new System.Drawing.Size(589, 575);
 			this.Name = "NoteForm";
@@ -148,7 +148,7 @@ namespace NoteAppUI
 		}
 
 		#endregion
-		private System.Windows.Forms.Button SaveButton;
+		private System.Windows.Forms.Button OKButton;
 		private System.Windows.Forms.Button CancelButton;
 		private System.Windows.Forms.TextBox NameTextBox;
 		private System.Windows.Forms.Label NameLabel;
