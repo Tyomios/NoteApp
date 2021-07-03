@@ -279,22 +279,22 @@ namespace NoteAppUI
 			// AddNoteItem
 			// 
 			this.AddNoteItem.Name = "AddNoteItem";
-			this.AddNoteItem.Size = new System.Drawing.Size(144, 22);
+			this.AddNoteItem.Size = new System.Drawing.Size(146, 22);
 			this.AddNoteItem.Text = "Add Note";
 			this.AddNoteItem.Click += new System.EventHandler(this.AddNoteItem_Click);
 			// 
 			// EditNoteItem
 			// 
 			this.EditNoteItem.Name = "EditNoteItem";
-			this.EditNoteItem.Size = new System.Drawing.Size(144, 22);
-			this.EditNoteItem.Text = "Edit Item";
+			this.EditNoteItem.Size = new System.Drawing.Size(146, 22);
+			this.EditNoteItem.Text = "Edit Note";
 			this.EditNoteItem.Click += new System.EventHandler(this.EditNoteItem_Click);
 			// 
 			// RemoveNoteItem
 			// 
 			this.RemoveNoteItem.Name = "RemoveNoteItem";
-			this.RemoveNoteItem.Size = new System.Drawing.Size(144, 22);
-			this.RemoveNoteItem.Text = "Remove Item";
+			this.RemoveNoteItem.Size = new System.Drawing.Size(146, 22);
+			this.RemoveNoteItem.Text = "Remove Note";
 			this.RemoveNoteItem.Click += new System.EventHandler(this.RemoveNoteItem_Click);
 			// 
 			// helpToolStripMenuItem

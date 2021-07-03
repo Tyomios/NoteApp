@@ -30,8 +30,4 @@
     </EmbeddedResource>
   </ItemGroup>
 
-  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="md $(SolutionDir)InstallScripts\Release&#xD;&#xA;md $(SolutionDir)InstallScripts\Installers&#xD;&#xA;xcopy $(SolutionDir)NoteAppUI\$(OutDir)*.dll $(SolutionDir)InstallScripts\Release&#xD;&#xA;xcopy $(SolutionDir)NoteAppUI\$(OutDir)*.exe" />
-  </Target>
-
 </Project>

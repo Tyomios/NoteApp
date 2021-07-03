@@ -9,8 +9,4 @@
     <PackageReference Include="Tools.InnoSetup" Version="6.2.0" />
   </ItemGroup>
 
-  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="$(SolutionDir)InstallScripts\Release&#xD;&#xA;$(SolutionDir)packages\Tools.InnoSetup.6.2.0\tools\ISCC.exe $(SolutionDir)InstallScripts\Installers\Installer.iss&#xD;&#xA;rmdir /s /q $(SolutionDir)InstallScripts\Release" />
-  </Target>
-
 </Project>
