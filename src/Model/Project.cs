@@ -28,5 +28,12 @@ namespace NoteApp
 				}
 			}
 		}
+
+		public void SortNotesByLastEdit(List<Note> notes)
+		{
+
+		}
+
+		public Note CurrentNote { get; set; }
 	}
 }

@@ -45,11 +45,23 @@ namespace NoteAppUI
 		}
 
 		/// <summary>
+		/// служебный метод отчистки данных заметки в лейблах и боксах
+		/// </summary>
+		void ClearNoteInfoPanel()
+		{
+			noteNameLabel.Text = "";
+			noteTextRichBox.Text = "";
+			createTimeTextBox.Text = "";
+			updateTimeTextBox.Text = "";
+			noteCategoryLabel.Text = "Category:";
+		}
+
+		/// <summary>
 		/// Фильтрация заметок по категории
 		/// </summary>
 		/// <param name="sortedCategory"> Категория для сортировки </param>
-		/// <param name="categoryNotesList">
-		/// Список заметок, в котором будут храниться заметки нужной категории
+		/// <param name="categoryNotesList"> Список заметок, 
+		/// В котором будут храниться заметки нужной категории
 		/// </param>
 		private void FilterNotesByCategory(string sortedCategory, List<Note> categoryNotesList)
 		{
@@ -59,6 +71,7 @@ namespace NoteAppUI
 			if (categoryNotesList.Count == 0)
 			{
 				listNoteListBox.Items.Clear();
+				ClearNoteInfoPanel();
 				return;
 			}
 
@@ -70,7 +83,7 @@ namespace NoteAppUI
 				++listIndex;
 			}
 
-			listNoteListBox.SelectedIndex = listNoteListBox.Items.Count - 1;
+			listNoteListBox.SelectedIndex = listNoteListBox.Items.Count - 1; // тут указать последнюю клик заметку
 			var selectedIndex = listNoteListBox.SelectedIndex;
 
 			noteNameLabel.Text = listNoteListBox.Items[selectedIndex].ToString();
@@ -182,7 +195,6 @@ namespace NoteAppUI
 			}
 
 			project = ProjectManager.LoadFromFile();
-
 			categoryComboBox.SelectedItem = all;
 			FilterNotesByCategory(categoryComboBox.SelectedItem.ToString(), showedNotesByCategory);
 		}
@@ -205,13 +217,8 @@ namespace NoteAppUI
 		private void listNoteBox_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			List<Note> dataList = project.Notes;
-			if(categoryComboBox.SelectedItem.ToString() != all)
+			if (categoryComboBox.SelectedItem.ToString() != all)
 			{
-				if (categoryComboBox == null)
-				{
-					return;
-				}
-
 				project.GetNotesChoosenCategory(categoryComboBox.SelectedItem.ToString(), showedNotesByCategory);
 				dataList = showedNotesByCategory;
 			}
@@ -219,7 +226,7 @@ namespace NoteAppUI
 			var currentNote = dataList[listNoteListBox.SelectedIndex];
 			noteTextRichBox.Text = currentNote.Text;
 			noteNameLabel.Text = currentNote.Name;
-			noteCategoryLabel.Text = $"Category: {currentNote.Category.ToString()}";
+			noteCategoryLabel.Text = $"Category: {currentNote.Category}";
 			createTimeTextBox.Text = currentNote.СreationTime.ToShortDateString();
 			updateTimeTextBox.Text = currentNote.LastEditTime.ToShortDateString();
 		}
@@ -227,7 +234,7 @@ namespace NoteAppUI
 		private void categoryBox_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			var selectedCategory = categoryComboBox.SelectedItem.ToString();
-			FilterNotesByCategory(categoryComboBox.SelectedItem.ToString(), showedNotesByCategory);
+			FilterNotesByCategory(selectedCategory, showedNotesByCategory);
 		}
 
 		private void AddNoteItem_Click(object sender, EventArgs e)

@@ -35,18 +35,23 @@ namespace NoteApp.UnitTests
 
 			//Assert
 			Assert.AreEqual(fileStatus, expected, "Файл не создан");
-			Assert.AreEqual
-				(project.Notes.Count, actualLoadProject.Notes.Count);
-			Assert.AreEqual
-				(project.Notes[0].Name, actualLoadProject.Notes[0].Name);
-			Assert.AreEqual
-			(project.Notes[0].Text, actualLoadProject.Notes[0].Text);
-			Assert.AreEqual
-			(project.Notes[0].Category, actualLoadProject.Notes[0].Category);
-			Assert.AreEqual
-			(project.Notes[0].СreationTime, actualLoadProject.Notes[0].СreationTime);
-			Assert.AreEqual
-			(project.Notes[0].LastEditTime, actualLoadProject.Notes[0].LastEditTime);
+
+			Assert.Multiple(() =>
+			{
+				Assert.AreEqual
+					(project.Notes.Count, actualLoadProject.Notes.Count);
+				Assert.AreEqual
+					(project.Notes[0].Name, actualLoadProject.Notes[0].Name);
+				Assert.AreEqual
+					(project.Notes[0].Text, actualLoadProject.Notes[0].Text);
+				Assert.AreEqual
+					(project.Notes[0].Category, actualLoadProject.Notes[0].Category);
+				Assert.AreEqual
+					(project.Notes[0].СreationTime, actualLoadProject.Notes[0].СreationTime);
+				Assert.AreEqual
+					(project.Notes[0].LastEditTime, actualLoadProject.Notes[0].LastEditTime);
+			});
+			
 		}
 
 		[Test(Description = "Проверка загрузки проекта из целого файла")]
@@ -65,11 +70,16 @@ namespace NoteApp.UnitTests
 			//Assert
 			Assert.IsNotNull(project.Notes[0]);
 
-			Assert.AreEqual(project.Notes[0].Name, expectedNoteName);
-			Assert.AreEqual(project.Notes[0].Text, expectedNoteText);
-			Assert.AreEqual((int)project.Notes[0].Category, expectedNoteCategory);
-			Assert.AreEqual(project.Notes[0].СreationTime.Day.ToString(), expectedNoteCreateTime);
-			Assert.AreEqual(project.Notes[0].LastEditTime.Day.ToString(), expectedNoteLastEditTime);
+			Assert.Multiple(() =>
+				{
+					Assert.AreEqual(project.Notes[0].Name, expectedNoteName);
+					Assert.AreEqual(project.Notes[0].Text, expectedNoteText);
+					Assert.AreEqual((int)project.Notes[0].Category, expectedNoteCategory);
+					Assert.AreEqual(project.Notes[0].СreationTime.Day.ToString(), expectedNoteCreateTime);
+					Assert.AreEqual(project.Notes[0].LastEditTime.Day.ToString(), expectedNoteLastEditTime);
+				}
+				);
+			
 		}
 
 		[Test(Description = "Проверка загрузки проекта из несуществующего файла")]
@@ -80,8 +90,14 @@ namespace NoteApp.UnitTests
 
 			//Assert
 			Assert.IsNotNull(project, "Проект не создан");
-			Assert.IsNotNull(project.Notes, "Список null");
-			Assert.IsEmpty(project.Notes, "Список не пустой");
+
+			Assert.Multiple(() =>
+				{
+					Assert.IsNotNull(project.Notes, "Список null");
+					Assert.IsEmpty(project.Notes, "Список не пустой");
+				}
+				);
+			
 		}
 
 		[Test(Description = "Проверка загрузки проекта из поврежденного файла")]
@@ -93,7 +109,6 @@ namespace NoteApp.UnitTests
 			//Assert
 			Assert.IsEmpty(project.Notes, "Исключение загрузки из поврежденного файла не обрабатывается");
 			Assert.IsNotNull(project.Notes, "Список null");
-			Assert.IsEmpty(project.Notes, "Список не пустой");
 		}
 	}
 }

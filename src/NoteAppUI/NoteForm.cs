@@ -109,10 +109,6 @@ namespace NoteAppUI
 				longNameWarningLabel.Text = "";
 				longNameWarningLabel.ForeColor = NoteForm.DefaultBackColor;
 
-				if (NameTextBox.Text == "")
-				{
-					NameTextBox.Text = "Без названия";
-				}
 			}
 
 			try
