@@ -16,4 +16,13 @@
     <ProjectReference Include="..\Model\NoteApp.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="TestData\damagedData.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="TestData\testData.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

@@ -57,7 +57,6 @@ namespace NoteAppUI
 		/// <summary>
 		/// Конструктор формы
 		/// </summary>
-		/// <param name="editNote"> Редактируемая заметка, null в случае создания новой </param>
 		public NoteForm()
 		{
 			InitializeComponent();

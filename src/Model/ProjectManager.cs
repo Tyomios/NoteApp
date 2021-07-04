@@ -51,15 +51,19 @@ namespace NoteApp
 			var usedPath = defaultPath;
 			if (mode == "TestData")
 			{
-				usedPath = @"..\..\..\TestData\TestData.txt";
+				usedPath = @"TestData\TestData.txt";
 			}
 			if (mode == "DamagedData")
 			{
-				usedPath = @"..\..\..\TestData\damagedData.txt";
+				usedPath = @"TestData\damagedData.txt";
 			}
 			if (mode == "NoneData")
 			{
-				usedPath = @"..\..\..\TestData\noneData.txt";
+				usedPath = @"TestData\noneData.txt";
+			}
+			if (mode == "TestLoadData")
+			{
+				usedPath = @"..\..\..\TestData\testData.txt";
 			}
 
 			if (!File.Exists(usedPath))
@@ -68,20 +72,20 @@ namespace NoteApp
 				return project;
 			}
 
-			using (StreamReader streamReader = new StreamReader(usedPath))
-				try
+			using (StreamReader streamReader = new StreamReader(usedPath)) 
+			try
+			{
+				using (JsonReader reader = new JsonTextReader(streamReader))
 				{
-					using (JsonReader reader = new JsonTextReader(streamReader))
-					{
-						Project project = (Project)serializer.Deserialize<Project>(reader);
-						return project;
-					}
-				}
-				catch (JsonException)
-				{
-					Project project = new Project();
+					Project project = (Project)serializer.Deserialize<Project>(reader);
 					return project;
 				}
+			}
+			catch (JsonException)
+			{
+				Project project = new Project();
+				return project;
+			}
 		}
 	}
 }

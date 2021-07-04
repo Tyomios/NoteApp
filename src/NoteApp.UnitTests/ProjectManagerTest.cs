@@ -11,35 +11,42 @@ namespace NoteApp.UnitTests
 	[TestFixture]
 	public class ProjectManagerTest
 	{
-		private string currentDataFilePath = @"..\..\..\TestData\TestData.txt";
+		private static string commonDataFilePath = "..\\..\\..\\";
+		
+		private string currentDataFilname = $"{commonDataFilePath}TestData\\TestData.txt";
 
-		private string damagedDataFilePath = @"..\..\..\TestData\damagedData.txt";
+		private string damagedDataFilename = $"{commonDataFilePath}TestData\\damagedData.txt";
 
-		private void DeleteTestDataFile()
-		{
-			if (File.Exists(currentDataFilePath))
-			{
-				File.Delete(currentDataFilePath);
-			}
-		}
 
 		[Test(Description = "Проверка сохранения проекта, когда файла не существует")]
 		public void TestSave_NoneExistFile()
 		{
 			//Setup
-			Directory.CreateDirectory(@"..\..\\..\TestData");
-			DeleteTestDataFile();
+			Directory.CreateDirectory(@"..\..\..\TestData");
 			var project = new Project();
 			project.Notes.Add(new Note("Name", Category.Documents, "Text"));
 
 			//Testing
 			ProjectManager.SaveToFile(project, "TestData");
 
-			var fileStatus = File.Exists(currentDataFilePath);
+			var fileStatus = File.Exists(currentDataFilname);
 			var expected = true;
+			var actualLoadProject = ProjectManager.LoadFromFile("TestLoadData");
 
 			//Assert
 			Assert.AreEqual(fileStatus, expected, "Файл не создан");
+			Assert.AreEqual
+				(project.Notes.Count, actualLoadProject.Notes.Count);
+			Assert.AreEqual
+				(project.Notes[0].Name, actualLoadProject.Notes[0].Name);
+			Assert.AreEqual
+			(project.Notes[0].Text, actualLoadProject.Notes[0].Text);
+			Assert.AreEqual
+			(project.Notes[0].Category, actualLoadProject.Notes[0].Category);
+			Assert.AreEqual
+			(project.Notes[0].СreationTime, actualLoadProject.Notes[0].СreationTime);
+			Assert.AreEqual
+			(project.Notes[0].LastEditTime, actualLoadProject.Notes[0].LastEditTime);
 		}
 
 		[Test(Description = "Проверка загрузки проекта из целого файла")]
@@ -49,29 +56,27 @@ namespace NoteApp.UnitTests
 			var expectedNoteName = "Name";
 			var expectedNoteText = "Text";
 			var expectedNoteCategory = 4;
-			var expectedNoteCreateTime = "03.07.2021 22:07:43";
-			var expectedNoteLastEditTime = "03.07.2021 22:07:43";
+			var expectedNoteCreateTime = DateTime.Now.Day.ToString();
+			var expectedNoteLastEditTime = DateTime.Now.Day.ToString();
 
 			//Testing
 			var project = ProjectManager.LoadFromFile("TestData");
 
 			//Assert
-			Assert.IsNotNull(project.Notes[0], "Проект не загружен");
+			Assert.IsNotNull(project.Notes[0]);
 
-			Assert.AreEqual(project.Notes[0].Name, expectedNoteName, "Названия не совпадают");
-			Assert.AreEqual(project.Notes[0].Text, expectedNoteText, "Текста не совпадают");
-			Assert.AreEqual((int)project.Notes[0].Category, expectedNoteCategory	, "Категории не совпадают");
-			Assert.AreEqual(project.Notes[0].СreationTime.ToString(), expectedNoteCreateTime,
-					"Время создания не совпадают");
-			Assert.AreEqual(project.Notes[0].LastEditTime.ToString(), expectedNoteLastEditTime,
-				"Время редактирования не совпадают");
+			Assert.AreEqual(project.Notes[0].Name, expectedNoteName);
+			Assert.AreEqual(project.Notes[0].Text, expectedNoteText);
+			Assert.AreEqual((int)project.Notes[0].Category, expectedNoteCategory);
+			Assert.AreEqual(project.Notes[0].СreationTime.Day.ToString(), expectedNoteCreateTime);
+			Assert.AreEqual(project.Notes[0].LastEditTime.Day.ToString(), expectedNoteLastEditTime);
 		}
 
 		[Test(Description = "Проверка загрузки проекта из несуществующего файла")]
 		public void TestLoadNoneFile()
 		{
 			//Testing
-			var project = ProjectManager.LoadFromFile("noneData");
+			var project = ProjectManager.LoadFromFile("NoneData");
 
 			//Assert
 			Assert.IsNotNull(project, "Проект не создан");
@@ -82,9 +87,6 @@ namespace NoteApp.UnitTests
 		[Test(Description = "Проверка загрузки проекта из поврежденного файла")]
 		public void TestLoadFile_DamagedData()
 		{
-			//Setup
-			File.WriteAllText(damagedDataFilePath, "Wrong data");
-			
 			//Testing
 			var project = ProjectManager.LoadFromFile("DamagedData");
 			
