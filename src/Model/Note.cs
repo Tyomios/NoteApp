@@ -110,6 +110,11 @@ namespace NoteApp
 		/// </summary>
 		public Note()
 		{
+			Name = "";
+			Category = Category.Documents;
+			Text = "";
+			this.СreationTime = DateTime.Now;
+			this.LastEditTime = DateTime.Now;
 		}
 
 		/// <summary>

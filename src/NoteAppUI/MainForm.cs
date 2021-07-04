@@ -37,9 +37,10 @@ namespace NoteAppUI
 		/// <param name="notes"> Список заметок </param>
 		void CheckNullNoteInList(List<Note> notes)
 		{
-			if (notes[notes.Count - 1] == null)
+			var lastNote = notes[notes.Count - 1];
+			if (lastNote == null || lastNote.Name == "")
 			{
-				notes.Remove(notes[notes.Count - 1]);
+				notes.Remove(lastNote);
 			}
 		}
 
@@ -101,17 +102,22 @@ namespace NoteAppUI
 		private void ActionAddNote()
 		{
 			NoteForm addForm = new NoteForm();
-			addForm.ShowDialog();
-			if (DialogResult == DialogResult.Cancel)
+			var result = addForm.ShowDialog();
+
+			if (result == DialogResult.Cancel)
 			{
 				return;
 			}
 
-			project.Notes.Add(addForm.Note);
-			CheckNullNoteInList(project.Notes);
-			ProjectManager.SaveToFile(project);
+			if (result == DialogResult.OK)
+			{
+				project.Notes.Add(addForm.Note);
+				CheckNullNoteInList(project.Notes);
+				ProjectManager.SaveToFile(project);
 
-			showedNotesByCategory.Add(addForm.Note);
+				showedNotesByCategory.Add(addForm.Note);
+			}
+			
 			FilterNotesByCategory(categoryComboBox.SelectedItem.ToString(), showedNotesByCategory);
 		}
 
@@ -151,12 +157,14 @@ namespace NoteAppUI
 			}
 
 			var addForm = new NoteForm();
-			addForm.Note = showedNotesByCategory[listNoteListBox.SelectedIndex];
-			addForm.SetDataFields();
-			addForm.Text = "Edit Note";
-			addForm.ShowDialog();
 
-			ProjectManager.SaveToFile(project);
+			addForm.Note = showedNotesByCategory[listNoteListBox.SelectedIndex];
+			addForm.Text = "Edit Note";
+			var result = addForm.ShowDialog();
+			if (result == DialogResult.OK)
+			{
+				ProjectManager.SaveToFile(project);
+			}
 			FilterNotesByCategory(categoryComboBox.SelectedItem.ToString(), showedNotesByCategory);
 		}
 
@@ -167,7 +175,6 @@ namespace NoteAppUI
 		{
 			InitializeComponent();
 
-			categoryComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
 			categoryComboBox.Items.Add(all);
 			foreach (var category in Enum.GetValues(typeof(Category)))
 			{

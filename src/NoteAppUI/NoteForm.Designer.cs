@@ -97,6 +97,7 @@ namespace NoteAppUI
 			// 
 			// CategoryComboBox
 			// 
+			this.CategoryComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.CategoryComboBox.FormattingEnabled = true;
 			this.CategoryComboBox.Location = new System.Drawing.Point(75, 62);
 			this.CategoryComboBox.Name = "CategoryComboBox";

@@ -129,6 +129,7 @@ namespace NoteAppUI
 			// 
 			this.categoryComboBox.BackColor = System.Drawing.SystemColors.HighlightText;
 			this.categoryComboBox.Cursor = System.Windows.Forms.Cursors.Hand;
+			this.categoryComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.categoryComboBox.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
 			this.categoryComboBox.ForeColor = System.Drawing.SystemColors.InfoText;
 			this.categoryComboBox.FormattingEnabled = true;

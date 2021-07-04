@@ -18,7 +18,26 @@ namespace NoteAppUI
 		/// <summary>
 		/// Новая или редактируемая заметка, в зависимости от действия пользователя
 		/// </summary>
-		public Note Note { get; set; }
+		private Note note;
+		
+		/// <summary>
+		/// Свойство note
+		/// </summary>
+		public Note Note
+		{
+			get => note;
+			set
+			{
+				if(note == null)
+				{
+					note = new Note();
+					return;
+				}
+
+				note = value;
+				SetDataFields();
+			}
+		}
 
 		/// <summary>
 		/// Внутреняя заметка, для проверки поля названия
@@ -28,7 +47,7 @@ namespace NoteAppUI
 		/// <summary>
 		/// Устанавливает значения полей из данных редактируемой заметки
 		/// </summary>
-		public void SetDataFields()
+		private void SetDataFields()
 		{
 			NameTextBox.Text = Note.Name;
 			CategoryComboBox.SelectedItem = Note.Category;
@@ -42,7 +61,8 @@ namespace NoteAppUI
 		public NoteForm()
 		{
 			InitializeComponent();
-			CategoryComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
+			Note = new Note();
+			SafetyNote = new Note();
 			foreach (var category in Enum.GetValues(typeof(Category)))
 			{
 				CategoryComboBox.Items.Add(category);
@@ -52,26 +72,28 @@ namespace NoteAppUI
 
 		private void CancelButton_Click(object sender, EventArgs e)
 		{
-			this.Close();
+			DialogResult = DialogResult.Cancel;
+			Close();
 		}
 
 		private void OKButton_Click(object sender, EventArgs e)
 		{
 			Category category = (Category)CategoryComboBox.SelectedItem;
 
-			if (Note != null)
+			if (SafetyNote.Name == "")
 			{
-				Note.Name = SafetyNote.Name;
-				Note.Category = category;
-				Note.Text = NoteTextRichTextBox.Text;
-				Note.LastEditTime = DateTime.Now;
-				Note.СreationTime = Note.СreationTime;
-				this.Close();
+				SafetyNote.Name = "Без названия";
 			}
+			note.Name = SafetyNote.Name;
+			note.Category = category;
+			note.Text = NoteTextRichTextBox.Text;
+			note.LastEditTime = DateTime.Now;
+			note.СreationTime = Note.СreationTime;
 
-			Note = new Note(NameTextBox.Text, category, NoteTextRichTextBox.Text);
+			note = new Note(SafetyNote.Name, category, NoteTextRichTextBox.Text);
 
-			this.Close();
+			DialogResult = DialogResult.OK;
+			Close();
 		}
 
 		private void NameTextBox_TextChanged(object sender, EventArgs e)
@@ -79,7 +101,7 @@ namespace NoteAppUI
 			Color blackColor = Color.Black;
 			Color redColor = Color.Red;
 
-			SafetyNote = (Note) Note.Clone();
+			SafetyNote = (Note)note.Clone();
 
 			if (NameTextBox.Text.Length < 50)
 			{
