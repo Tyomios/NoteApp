@@ -67,6 +67,8 @@ namespace NoteAppUI
 		{
 			listNoteListBox.Items.Clear();
 			categoryNotesList.Clear();
+			
+
 			project.GetNotesChoosenCategory(sortedCategory, categoryNotesList);
 			if (categoryNotesList.Count == 0)
 			{
@@ -80,14 +82,34 @@ namespace NoteAppUI
 			for (int i = 0; i < categoryNotesList.Count; i++)
 			{
 				listNoteListBox.Items.Insert(listIndex, categoryNotesList[listIndex].Name);
+
 				++listIndex;
 			}
 
-			listNoteListBox.SelectedIndex = listNoteListBox.Items.Count - 1; // тут указать последнюю клик заметку
+			listNoteListBox.SelectedIndex = SearchNoteIndex(categoryNotesList);
+
 			var selectedIndex = listNoteListBox.SelectedIndex;
 
+			if (selectedIndex == -1)
+			{
+				selectedIndex = listNoteListBox.Items.Count - 1;
+			}
 			noteNameLabel.Text = listNoteListBox.Items[selectedIndex].ToString();
 			noteTextRichBox.Text = categoryNotesList[selectedIndex].Text;
+		}
+
+		int SearchNoteIndex(List<Note> notes)
+		{
+			foreach (var note in notes)
+			{
+				if (note.Name == project.CurrentNote.Name
+				    && note.СreationTime == project.CurrentNote.СreationTime)
+				{
+					return notes.IndexOf(note);
+				}
+			}
+
+			return -1;
 		}
 
 		/// <summary>
@@ -229,6 +251,8 @@ namespace NoteAppUI
 			noteCategoryLabel.Text = $"Category: {currentNote.Category}";
 			createTimeTextBox.Text = currentNote.СreationTime.ToShortDateString();
 			updateTimeTextBox.Text = currentNote.LastEditTime.ToShortDateString();
+
+			project.CurrentNote = currentNote;
 		}
 
 		private void categoryBox_SelectedIndexChanged(object sender, EventArgs e)

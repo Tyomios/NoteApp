@@ -1,11 +1,12 @@
 {
   "Notes": [
     {
-      "СreationTime": "2021-07-04T16:16:10.6602779+07:00",
-      "LastEditTime": "2021-07-04T16:16:10.6602798+07:00",
+      "СreationTime": "2021-07-23T01:00:37.0782538+07:00",
+      "LastEditTime": "2021-07-23T01:00:37.0782561+07:00",
       "Name": "Name",
       "Category": 4,
       "Text": "Text"
     }
-  ]
+  ],
+  "CurrentNote": null
 }
