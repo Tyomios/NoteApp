@@ -258,13 +258,16 @@ namespace NoteAppUI
 		private void listNoteBox_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			List<Note> dataList = project.Notes;
+			int index = dataList.Count - listNoteListBox.SelectedIndex - 1;
 			if (categoryComboBox.SelectedItem.ToString() != all)
 			{
 				project.GetNotesChoosenCategory(categoryComboBox.SelectedItem.ToString(), showedNotesByCategory);
+				
 				dataList = showedNotesByCategory;
+				index = listNoteListBox.SelectedIndex;
 			}
-
-			var currentNote = dataList[listNoteListBox.SelectedIndex];
+			
+			var currentNote = dataList[index];
 			FillNoteInfoPanel(currentNote);
 			project.CurrentNote = currentNote;
 		}

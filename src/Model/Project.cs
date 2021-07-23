@@ -20,7 +20,8 @@ namespace NoteApp
 		/// <param name="categoryNotes">Список, в который заносятся заметки</param>
 		public void GetNotesChoosenCategory(string category, List<Note> categoryNotes)
 		{
-			for (int i = 0; i < Notes.Count; i++)
+			categoryNotes.Clear();
+			for (int i = Notes.Count - 1; i >= 0; i--)
 			{
 				if (Notes[i].Category.ToString() == category || category == "All")
 				{
