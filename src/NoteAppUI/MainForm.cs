@@ -45,6 +45,19 @@ namespace NoteAppUI
 		}
 
 		/// <summary>
+		/// Заполняет информационное окно данными заметки
+		/// </summary>
+		/// <param name="note"> Заметка </param>
+		private void FillNoteInfoPanel(Note note)
+		{
+			noteNameLabel.Text = note.Name;
+			noteTextRichBox.Text = note.Text;
+			createTimeTextBox.Text = note.СreationTime.ToShortDateString();
+			updateTimeTextBox.Text = note.LastEditTime.ToShortDateString();
+			noteCategoryLabel.Text = $"Category: {note.Category}";
+		}
+
+		/// <summary>
 		/// служебный метод отчистки данных заметки в лейблах и боксах
 		/// </summary>
 		void ClearNoteInfoPanel()
@@ -68,7 +81,6 @@ namespace NoteAppUI
 			listNoteListBox.Items.Clear();
 			categoryNotesList.Clear();
 			
-
 			project.GetNotesChoosenCategory(sortedCategory, categoryNotesList);
 			if (categoryNotesList.Count == 0)
 			{
@@ -78,7 +90,6 @@ namespace NoteAppUI
 			}
 
 			int listIndex = 0;
-
 			for (int i = 0; i < categoryNotesList.Count; i++)
 			{
 				listNoteListBox.Items.Insert(listIndex, categoryNotesList[listIndex].Name);
@@ -94,16 +105,24 @@ namespace NoteAppUI
 			{
 				selectedIndex = listNoteListBox.Items.Count - 1;
 			}
-			noteNameLabel.Text = listNoteListBox.Items[selectedIndex].ToString();
-			noteTextRichBox.Text = categoryNotesList[selectedIndex].Text;
+			FillNoteInfoPanel(categoryNotesList[selectedIndex]);
 		}
 
-		int SearchNoteIndex(List<Note> notes)
+		/// <summary>
+		/// Поиск индекса выбранной заметки в коллекции 
+		/// </summary>
+		/// <param name="notes"> Список заметок </param>
+		/// <returns>
+		/// Индекс заметки
+		/// Возврат значения -1 в случае, если заметка не найдена
+		/// </returns>
+		private int SearchNoteIndex(List<Note> notes)
 		{
 			foreach (var note in notes)
 			{
 				if (note.Name == project.CurrentNote.Name
-				    && note.СreationTime == project.CurrentNote.СreationTime)
+				    && note.СreationTime == project.CurrentNote.СreationTime
+				    && note.Text == project.CurrentNote.Text)
 				{
 					return notes.IndexOf(note);
 				}
@@ -246,12 +265,7 @@ namespace NoteAppUI
 			}
 
 			var currentNote = dataList[listNoteListBox.SelectedIndex];
-			noteTextRichBox.Text = currentNote.Text;
-			noteNameLabel.Text = currentNote.Name;
-			noteCategoryLabel.Text = $"Category: {currentNote.Category}";
-			createTimeTextBox.Text = currentNote.СreationTime.ToShortDateString();
-			updateTimeTextBox.Text = currentNote.LastEditTime.ToShortDateString();
-
+			FillNoteInfoPanel(currentNote);
 			project.CurrentNote = currentNote;
 		}
 
