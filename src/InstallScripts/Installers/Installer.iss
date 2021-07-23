@@ -2,9 +2,9 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "NoteApp"
-#define MyAppVersion "1.0"
-#define MyAppPublisher "My Company, Inc."
-#define MyAppURL "https://www.example.com/"
+#define MyAppVersion "1.0.0"
+#define MyAppPublisher "Tyomios"
+#define MyAppURL "https://github.com/Tyomios"
 #define MyAppExeName "NoteApp.UI.exe"
 #define MyAppAssocName MyAppName + " File"
 #define MyAppAssocExt ".myp"
@@ -13,7 +13,7 @@
 [Setup]
 ; NOTE: The value of AppId uniquely identifies this application. Do not use the same AppId value in installers for other applications.
 ; (To generate a new GUID, click Tools | Generate GUID inside the IDE.)
-AppId={{E9E27A0C-AC13-4916-97ED-A47FBDE62338}
+AppId={{40374645-7986-429B-AD70-E6E1EC0243F0}
 AppName={#MyAppName}
 AppVersion={#MyAppVersion}
 ;AppVerName={#MyAppName} {#MyAppVersion}
@@ -27,18 +27,26 @@ DisableProgramGroupPage=yes
 ; Uncomment the following line to run in non administrative install mode (install for current user only.)
 ;PrivilegesRequired=lowest
 OutputBaseFilename=mysetup
+SetupIconFile=C:\Users\Artem\source\repos\NoteApp\src\NoteAppUI\icons\NoteAppLogo.ico
 Compression=lzma
 SolidCompression=yes
 WizardStyle=modern
 
 [Languages]
 Name: "english"; MessagesFile: "compiler:Default.isl"
+Name: "russian"; MessagesFile: "compiler:Languages\Russian.isl"
 
 [Tasks]
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
-Source: "C:\Users\Artem\source\repos\NoteApp\src\InstallScripts\Release\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\Artem\source\repos\NoteApp\src\NoteAppUI\bin\Debug\net5.0-windows\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\Artem\source\repos\NoteApp\src\NoteAppUI\bin\Debug\net5.0-windows\Newtonsoft.Json.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\Artem\source\repos\NoteApp\src\NoteAppUI\bin\Debug\net5.0-windows\NoteApp.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\Artem\source\repos\NoteApp\src\NoteAppUI\bin\Debug\net5.0-windows\NoteApp.UI.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\Artem\source\repos\NoteApp\src\NoteAppUI\bin\Debug\net5.0-windows\NoteApp.UI.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\Artem\source\repos\NoteApp\src\NoteAppUI\bin\Debug\net5.0-windows\NoteApp.UI.runtimeconfig.dev.json"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\Artem\source\repos\NoteApp\src\NoteAppUI\bin\Debug\net5.0-windows\NoteApp.UI.runtimeconfig.json"; DestDir: "{app}"; Flags: ignoreversion
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Registry]

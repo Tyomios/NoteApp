@@ -32,7 +32,7 @@
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="md &quot;$(SolutionDir)InstallScripts&quot;&#xD;&#xA;md &quot;$(SolutionDir)InstallScripts\Release&quot;&#xD;&#xA;md &quot;$(SolutionDir)InstallScripts\Installers&quot;&#xD;&#xA;xcopy /y &quot;$(SolutionDir)NoteAppUI\$(OutDir)*.dll&quot; &quot;$(SolutionDir)InstallScripts\Release&quot;&#xD;&#xA;xcopy /y  &quot;$(SolutionDir)NoteAppUI\$(OutDir)*.exe&quot; &quot;$(SolutionDir)InstallScripts\Release&quot;" />
+    <Exec Command="md &quot;$(SolutionDir)InstallScripts&quot;&#xD;&#xA;md &quot;$(SolutionDir)InstallScripts\Release&quot;&#xD;&#xA;md &quot;$(SolutionDir)InstallScripts\Installers&quot;&#xD;&#xA;xcopy /y &quot;$(SolutionDir)NoteAppUI\$(OutDir)*.dll&quot; &quot;$(SolutionDir)InstallScripts\Release&quot;&#xD;&#xA;xcopy /y  &quot;$(SolutionDir)NoteAppUI\$(OutDir)*.exe&quot; &quot;$(SolutionDir)InstallScripts\Release&quot;&#xD;&#xA;xcopy /y  &quot;$(SolutionDir)NoteAppUI\$(OutDir)NoteApp.UI.runtimeconfig.dev.json&quot; &quot;$(SolutionDir)InstallScripts\Release&quot;&#xD;&#xA;xcopy /y  &quot;$(SolutionDir)NoteAppUI\$(OutDir)NoteApp.UI.runtimeconfig.json&quot; &quot;$(SolutionDir)InstallScripts\Release&quot;" />
   </Target>
 
 </Project>
