@@ -103,7 +103,7 @@ namespace NoteAppUI
 
 			if (selectedIndex == -1)
 			{
-				selectedIndex = listNoteListBox.Items.Count - 1;
+				selectedIndex = 0; //listNoteListBox.Items.Count - 1 для выбора последней заметки
 			}
 			FillNoteInfoPanel(categoryNotesList[selectedIndex]);
 		}
@@ -173,6 +173,10 @@ namespace NoteAppUI
 			}
 			
 			FilterNotesByCategory(categoryComboBox.SelectedItem.ToString(), showedNotesByCategory);
+			project.CurrentNote = showedNotesByCategory[0];
+			FillNoteInfoPanel(project.CurrentNote);
+			listNoteListBox.SelectedItem = project.CurrentNote;
+			listNoteListBox.SelectedIndex = 0;
 		}
 
 		/// <summary>
@@ -198,6 +202,14 @@ namespace NoteAppUI
 			showedNotesByCategory.Remove(deleteNote);
 
 			FilterNotesByCategory(categoryComboBox.SelectedItem.ToString(), showedNotesByCategory);
+			try
+			{
+				listNoteListBox.SelectedIndex = 0;
+			}
+			catch (ArgumentOutOfRangeException e)
+			{
+				
+			}
 		}
 
 		/// <summary>
@@ -212,14 +224,26 @@ namespace NoteAppUI
 
 			var addForm = new NoteForm();
 
-			addForm.Note = showedNotesByCategory[listNoteListBox.SelectedIndex];
+			Note newEditNote = (Note) showedNotesByCategory[listNoteListBox.SelectedIndex].Clone();
+			addForm.Note = newEditNote;
+
 			addForm.Text = "Edit Note";
 			var result = addForm.ShowDialog();
 			if (result == DialogResult.OK)
 			{
+				int index = project.Notes.IndexOf(showedNotesByCategory[listNoteListBox.SelectedIndex]);
+				project.Notes.Add(addForm.Note);
+				showedNotesByCategory.Remove(showedNotesByCategory[listNoteListBox.SelectedIndex]);
+				showedNotesByCategory.Add(addForm.Note);
+
+				
+				project.Notes.Remove(project.Notes[index]); 
 				ProjectManager.SaveToFile(project);
+
+				FilterNotesByCategory(categoryComboBox.SelectedItem.ToString(), showedNotesByCategory);
+				project.CurrentNote = showedNotesByCategory[0];
+				listNoteListBox.SelectedIndex = 0;
 			}
-			FilterNotesByCategory(categoryComboBox.SelectedItem.ToString(), showedNotesByCategory);
 		}
 
 		/// <summary>
@@ -264,12 +288,30 @@ namespace NoteAppUI
 				project.GetNotesChoosenCategory(categoryComboBox.SelectedItem.ToString(), showedNotesByCategory);
 				
 				dataList = showedNotesByCategory;
-				index = listNoteListBox.SelectedIndex;
+				if (listNoteListBox.SelectedIndex != -1)
+				{
+					index = listNoteListBox.SelectedIndex;
+				}
+				else
+				{
+					index = 0;
+				}	
+				
 			}
-			
-			var currentNote = dataList[index];
-			FillNoteInfoPanel(currentNote);
-			project.CurrentNote = currentNote;
+
+			try
+			{
+				var currentNote = dataList[index]; 
+				FillNoteInfoPanel(currentNote);
+				project.CurrentNote = currentNote;
+			}
+			catch (ArgumentOutOfRangeException exception)
+			{
+				index = 0;
+				var currentNote = dataList[index];
+				FillNoteInfoPanel(currentNote);
+				project.CurrentNote = currentNote;
+			}
 		}
 
 		private void categoryBox_SelectedIndexChanged(object sender, EventArgs e)
