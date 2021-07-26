@@ -14,9 +14,15 @@ namespace NoteApp
 	/// </summary>
 	public static class ProjectManager
 	{
+        // TODO: xml
+		// TODO: должна быть подпапка с названием программы. А лучше - "название компании\название программы\имя файла"
+		// Просто так в AppData ложить файлы неправильно
 		private static string defaultPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) +
 		                             "\\" + "NoteAppData.txt";
 
+		// TODO: xml-комментарий неверный для параметров
+        // TODO: что за mode? Бизнес-логика ничего не должна знать о юнит-тестах!
+        // Пути для тестовых данных должны приходить извне, а не храниться внутри бизнес-логики
 		/// <summary>
 		/// Сохранение заметок
 		/// </summary>
