@@ -10,16 +10,19 @@ using System.Windows.Forms;
 
 using NoteApp;
 
-
+// TODO: именование не соответствует названию проекта
 namespace NoteAppUI
 {
 	public partial class NoteForm : Form
 	{
+        // TODO: именование не по RSDN
+
 		/// <summary>
 		/// Новая или редактируемая заметка, в зависимости от действия пользователя
 		/// </summary>
 		private Note note;
-		
+
+        // TODO: комментарий для свойства начинается с фразы "Возвращает или задает ...". Например, "Возвращает или задает название заметки."
 		/// <summary>
 		/// Свойство note
 		/// </summary>
@@ -39,6 +42,8 @@ namespace NoteAppUI
 			}
 		}
 
+		// TODO: комментарий для свойства начинается с фразы "Возвращает или задает ...". Например, "Возвращает или задает название заметки."
+        // TODO: что за название? "Заметка безопасности"? Название должно отражать назначение
 		/// <summary>
 		/// Внутреняя заметка, для проверки поля названия
 		/// </summary>
@@ -60,6 +65,7 @@ namespace NoteAppUI
 		public NoteForm()
 		{
 			InitializeComponent();
+            // TODO: инициализация в поле/свойстве
 			Note = new Note();
 			SafetyNote = new Note();
 			foreach (var category in Enum.GetValues(typeof(Category)))
@@ -97,11 +103,13 @@ namespace NoteAppUI
 
 		private void NameTextBox_TextChanged(object sender, EventArgs e)
 		{
+            // TODO: var
 			Color blackColor = Color.Black;
 			Color redColor = Color.Red;
 
 			SafetyNote = (Note)note.Clone();
 
+            // TODO: дублируется проверка из свойства бизнес-логики
 			if (NameTextBox.Text.Length < 50)
 			{
 				NameTextBox.ForeColor = blackColor;
@@ -111,6 +119,7 @@ namespace NoteAppUI
 
 			}
 
+            // TODO: зачем дважды делается валидация?
 			try
 			{
 				SafetyNote.Name = NameTextBox.Text;
@@ -120,6 +129,8 @@ namespace NoteAppUI
 				MessageBox.Show(exception.Message);
 				NameTextBox.ForeColor = redColor;
 				OKButton.Enabled = false;
+                // TODO: текст неточен. Что значит "напишите название короче"?
+                // Насколько короче? Должна быть конкретика
 				longNameWarningLabel.Text = "Write shorter note's name";
 				longNameWarningLabel.ForeColor = redColor;
 			}

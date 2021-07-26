@@ -6,13 +6,21 @@ using System.Threading.Tasks;
 
 namespace NoteApp
 {
+	// TODO: xml
+    // TODO: в конце комментариев добавлять точку - это конец предложения.
 	public class Project
 	{
+        // TODO: в конце комментариев добавлять точку - это конец предложения.
 		/// <summary>
 		/// Список заметок 
 		/// </summary>
 		public List<Note> Notes { get; set; } = new List<Note>();
 
+		// TODO: в конце комментариев добавлять точку - это конец предложения.
+		// TODO: метод должен возвращать новый список, а не обновлять входной.
+		// Иначе это процедурное программирование
+		// TODO: название метода FilterByCategory
+        // TODO: метод должен принимать экземпляр перечисления, а не строку
 		/// <summary>
 		/// Метод, для заполнения списка заметками выбранной категории
 		/// </summary>
@@ -30,6 +38,7 @@ namespace NoteApp
 			}
 		}
 
+        // TODO: xml
 		public Note CurrentNote { get; set; }
 	}
 }

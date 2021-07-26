@@ -9,20 +9,23 @@ using Newtonsoft.Json;
 
 namespace NoteApp
 {
+    // TODO: в конце комментариев добавлять точку - это конец предложения.
 	/// <summary>
 	/// Класс отвечающий за загрузку\сохранение заметок 
 	/// </summary>
 	public static class ProjectManager
 	{
-        // TODO: xml
+		// TODO: xml
 		// TODO: должна быть подпапка с названием программы. А лучше - "название компании\название программы\имя файла"
 		// Просто так в AppData ложить файлы неправильно
+        // TODO: именование не соответствует RSDN.
 		private static string defaultPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) +
 		                             "\\" + "NoteAppData.txt";
 
 		// TODO: xml-комментарий неверный для параметров
-        // TODO: что за mode? Бизнес-логика ничего не должна знать о юнит-тестах!
-        // Пути для тестовых данных должны приходить извне, а не храниться внутри бизнес-логики
+		// TODO: что за mode? Бизнес-логика ничего не должна знать о юнит-тестах!
+		// TODO: в конце комментариев добавлять точку - это конец предложения.
+		// Пути для тестовых данных должны приходить извне, а не храниться внутри бизнес-логики
 		/// <summary>
 		/// Сохранение заметок
 		/// </summary>
@@ -46,6 +49,9 @@ namespace NoteApp
 			}
 		}
 
+		// TODO: не должно быть никакого mode
+		// TODO: xml-комментарии к параметрам не соотвествуют
+        // TODO: в конце комментариев добавлять точку - это конец предложения.
 		/// <summary>
 		/// Загрузка заметок
 		/// </summary>
@@ -53,6 +59,7 @@ namespace NoteApp
 		/// <returns>Проект с сохраненными ранее заметками</returns>
 		public static Project LoadFromFile(string mode = "Release")
 		{
+            // TODO: бизнес-логика знает файлы ВСЕХ тестовых случаев. Это НЕПРАВИЛЬНО!
 			JsonSerializer serializer = new JsonSerializer();
 			var usedPath = defaultPath;
 			if (mode == "TestData")
