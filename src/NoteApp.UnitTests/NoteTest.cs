@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using NUnit.Framework;
 
+// TODO: проект с юнит-тестами положить в решении и физически в подпапку Testing
 namespace NoteApp.UnitTests
 {
     // TODO: именование. Класс именуется Tests в множественном числе, так как класс содержит много тестов.
