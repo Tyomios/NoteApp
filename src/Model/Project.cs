@@ -7,12 +7,15 @@ using System.Threading.Tasks;
 namespace NoteApp
 {
 	// TODO: xml
-    // TODO: в конце комментариев добавлять точку - это конец предложения.
+    // TODO: в конце комментариев добавлять точку - это конец предложения.+
+	/// <summary>
+	/// Класс проекта.
+	/// </summary>
 	public class Project
 	{
-        // TODO: в конце комментариев добавлять точку - это конец предложения.
+        // TODO: в конце комментариев добавлять точку - это конец предложения.+
 		/// <summary>
-		/// Список заметок 
+		/// Список заметок.
 		/// </summary>
 		public List<Note> Notes { get; set; } = new List<Note>();
 
@@ -22,7 +25,7 @@ namespace NoteApp
 		// TODO: название метода FilterByCategory
         // TODO: метод должен принимать экземпляр перечисления, а не строку
 		/// <summary>
-		/// Метод, для заполнения списка заметками выбранной категории
+		/// Метод, для заполнения списка заметками выбранной категории.
 		/// </summary>
 		/// <param name="category">Категория</param>
 		/// <param name="categoryNotes">Список, в который заносятся заметки</param>
@@ -38,7 +41,10 @@ namespace NoteApp
 			}
 		}
 
-        // TODO: xml
+        // TODO: xml+
+		/// <summary>
+		/// Текущая выбранная пользователем заметка.
+		/// </summary>
 		public Note CurrentNote { get; set; }
 	}
 }

@@ -15,39 +15,39 @@ namespace NoteAppUI
 {
 	public partial class NoteForm : Form
 	{
-        // TODO: именование не по RSDN
+        // TODO: именование не по RSDN+
 
 		/// <summary>
 		/// Новая или редактируемая заметка, в зависимости от действия пользователя
 		/// </summary>
-		private Note note;
+		private Note newNote;
 
-        // TODO: комментарий для свойства начинается с фразы "Возвращает или задает ...". Например, "Возвращает или задает название заметки."
+        // TODO: комментарий для свойства начинается с фразы "Возвращает или задает ...". Например, "Возвращает или задает название заметки."+
 		/// <summary>
-		/// Свойство note
+		/// Возвращает заметку или задает данные для заметки. В последнем случае полученные данные используются для заполнения формы
 		/// </summary>
 		public Note Note
 		{
-			get => note;
+			get => newNote;
 			set
 			{
-				if(note == null)
+				if(newNote == null)
 				{
-					note = new Note();
+					newNote = new Note();
 					return;
 				}
 
-				note = value;
+				newNote = value;
 				SetDataFields();
 			}
 		}
 
-		// TODO: комментарий для свойства начинается с фразы "Возвращает или задает ...". Например, "Возвращает или задает название заметки."
-        // TODO: что за название? "Заметка безопасности"? Название должно отражать назначение
+		// TODO: комментарий для свойства начинается с фразы "Возвращает или задает ...". Например, "Возвращает или задает название заметки."+
+        // TODO: что за название? "Заметка безопасности"? Название должно отражать назначение+
 		/// <summary>
-		/// Внутреняя заметка, для проверки поля названия
+		/// Возвращает или задает заметку, которая нужна для проверки поля названия
 		/// </summary>
-		private Note SafetyNote { get; set; }
+		private Note AuxiliaryNote { get; set; }
 
 		/// <summary>
 		/// Устанавливает значения полей из данных редактируемой заметки
@@ -67,7 +67,7 @@ namespace NoteAppUI
 			InitializeComponent();
             // TODO: инициализация в поле/свойстве
 			Note = new Note();
-			SafetyNote = new Note();
+			AuxiliaryNote = new Note();
 			foreach (var category in Enum.GetValues(typeof(Category)))
 			{
 				CategoryComboBox.Items.Add(category);
@@ -85,17 +85,17 @@ namespace NoteAppUI
 		{
 			Category category = (Category)CategoryComboBox.SelectedItem;
 
-			if (SafetyNote.Name == "")
+			if (AuxiliaryNote.Name == "")
 			{
-				SafetyNote.Name = "Без названия";
+				AuxiliaryNote.Name = "Без названия";
 			}
-			note.Name = SafetyNote.Name;
-			note.Category = category;
-			note.Text = NoteTextRichTextBox.Text;
-			note.LastEditTime = DateTime.Now;
-			note.СreationTime = Note.СreationTime;
+			newNote.Name = AuxiliaryNote.Name;
+			newNote.Category = category;
+			newNote.Text = NoteTextRichTextBox.Text;
+			newNote.LastEditTime = DateTime.Now;
+			newNote.СreationTime = Note.СreationTime;
 
-			note = new Note(SafetyNote.Name, category, NoteTextRichTextBox.Text);
+			newNote = new Note(AuxiliaryNote.Name, category, NoteTextRichTextBox.Text);
 
 			DialogResult = DialogResult.OK;
 			Close();
@@ -103,11 +103,11 @@ namespace NoteAppUI
 
 		private void NameTextBox_TextChanged(object sender, EventArgs e)
 		{
-            // TODO: var
-			Color blackColor = Color.Black;
-			Color redColor = Color.Red;
+            // TODO: var+
+			var blackColor = Color.Black;
+			var redColor = Color.Red;
 
-			SafetyNote = (Note)note.Clone();
+			AuxiliaryNote = (Note)newNote.Clone();
 
             // TODO: дублируется проверка из свойства бизнес-логики
 			if (NameTextBox.Text.Length < 50)
@@ -122,7 +122,7 @@ namespace NoteAppUI
             // TODO: зачем дважды делается валидация?
 			try
 			{
-				SafetyNote.Name = NameTextBox.Text;
+				AuxiliaryNote.Name = NameTextBox.Text;
 			}
 			catch (ArgumentException exception)
 			{
@@ -131,7 +131,7 @@ namespace NoteAppUI
 				OKButton.Enabled = false;
                 // TODO: текст неточен. Что значит "напишите название короче"?
                 // Насколько короче? Должна быть конкретика
-				longNameWarningLabel.Text = "Write shorter note's name";
+				longNameWarningLabel.Text = "Write note's name less, then 50 symbols";
 				longNameWarningLabel.ForeColor = redColor;
 			}
 		}

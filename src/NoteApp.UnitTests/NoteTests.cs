@@ -8,10 +8,10 @@ using NUnit.Framework;
 // TODO: проект с юнит-тестами положить в решении и физически в подпапку Testing
 namespace NoteApp.UnitTests
 {
-    // TODO: именование. Класс именуется Tests в множественном числе, так как класс содержит много тестов.
+    // TODO: именование. Класс именуется Tests в множественном числе, так как класс содержит много тестов.+
     // А методы именуются в единственном числе
 	[TestFixture]
-	public class NoteTest
+	public class NoteTests
 	{
 		[Test(Description = "Позитивный тест геттера Name")]
 		public void TestNameGet_CurrentValue()

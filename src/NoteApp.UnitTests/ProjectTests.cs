@@ -7,10 +7,10 @@ using NUnit.Framework;
 
 namespace NoteApp.UnitTests
 {
-    // TODO: именование. Класс именуется Tests в множественном числе, так как класс содержит много тестов.
+    // TODO: именование. Класс именуется Tests в множественном числе, так как класс содержит много тестов.+
     // А методы именуются в единственном числе
 	[TestFixture]
-	public class ProjectTest
+	public class ProjectTests
 	{
 		[Test(Description = "Позитивный тест сеттера свойства Notes")]
 		public void TestNoteList_CorrectValue()

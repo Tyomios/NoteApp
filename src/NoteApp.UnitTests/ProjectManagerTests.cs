@@ -11,9 +11,9 @@ namespace NoteApp.UnitTests
     // TODO: именование. Класс именуется Tests в множественном числе, так как класс содержит много тестов.
     // А методы именуются в единственном числе
 	[TestFixture]
-	public class ProjectManagerTest
+	public class ProjectManagerTests
 	{
-        // TODO: почему всё равно поднимаешься на три папки выше?
+        // TODO: почему всё равно поднимаешься на три папки выше? 
         // Нужно работать с файлами в папке компиляции, а не из папки с исходным кодом!
 		// TODO: именование не по RSDN
 		private static string commonDataFilePath = "..\\..\\..\\";
@@ -21,15 +21,15 @@ namespace NoteApp.UnitTests
 		// TODO: именование не по RSDN
 		// TODO: грамошибка в названии - почему не пользуешь Spell Checker?
         // TODO: почему не добавить папку TestData в переменную выше, чтобы не прописывать здесь и ниже?
-		private string currentDataFilname = $"{commonDataFilePath}TestData\\TestData.txt";
+		private string currentDataFilename = $"{commonDataFilePath}TestData\\TestData.txt";
 
         // TODO: именование не по RSDN
 		private string damagedDataFilename = $"{commonDataFilePath}TestData\\damagedData.txt";
 
 
-        // TODO: NonExistedFile - лишняя 'e', не хватает окончания 'ed'
+        // TODO: NonExistedFile - лишняя 'e', не хватает окончания 'ed'+
 		[Test(Description = "Проверка сохранения проекта, когда файла не существует")]
-		public void TestSave_NoneExistFile()
+		public void TestSave_NonExistedFile()
 		{
 			//Setup
             // TODO: почему не используешь готовую статическую переменную с путем?
@@ -40,7 +40,7 @@ namespace NoteApp.UnitTests
 			//Testing
 			ProjectManager.SaveToFile(project, "TestData");
 
-			var fileStatus = File.Exists(currentDataFilname);
+			var fileStatus = File.Exists(currentDataFilename);
 			var expected = true;
 			var actualLoadProject = ProjectManager.LoadFromFile("TestLoadData");
 
@@ -85,12 +85,12 @@ namespace NoteApp.UnitTests
 			//Assert
 			Assert.IsNotNull(project.Notes[0]);
 
-			Assert.Multiple(() =>
+			Assert.Multiple(() => 
 				{
                     // TODO: вместо кучи Assert надо перегрузить Equals у класса Note
 					Assert.AreEqual(project.Notes[0].Name, expectedNoteName);
 					Assert.AreEqual(project.Notes[0].Text, expectedNoteText);
-                    // TODO: зачем преобразование в int? Перечисления сравниваются и без преобразования
+                    // TODO: зачем преобразование в int? Перечисления сравниваются и без преобразования+
 					Assert.AreEqual((int)project.Notes[0].Category, expectedNoteCategory);
 					Assert.AreEqual(project.Notes[0].СreationTime.Day.ToString(), expectedNoteCreateTime);
 					Assert.AreEqual(project.Notes[0].LastEditTime.Day.ToString(), expectedNoteLastEditTime);
@@ -108,12 +108,12 @@ namespace NoteApp.UnitTests
 			//Assert
 			Assert.IsNotNull(project, "Проект не создан");
 
-            // TODO: почему здесь Multiply, а ниже в тесте нет?
+            // TODO: почему здесь Multiply, а ниже в тесте нет?+
 			Assert.Multiple(() =>
 				{
-                    // TODO: AssertMessage писать не нужно. Суть теста должна быть понятна из именования метода или тест-кейса
-					Assert.IsNotNull(project.Notes, "Список null");
-					Assert.IsEmpty(project.Notes, "Список не пустой");
+                    // TODO: AssertMessage писать не нужно. Суть теста должна быть понятна из именования метода или тест-кейса+
+					Assert.IsNotNull(project.Notes);
+					Assert.IsEmpty(project.Notes);
 				}
 				);
 			
@@ -126,10 +126,14 @@ namespace NoteApp.UnitTests
 			var project = ProjectManager.LoadFromFile("DamagedData");
 
 			// TODO: AssertMessage писать не нужно. Суть теста должна быть понятна из именования метода или тест-кейса
-            // TODO: порядок обращения не совпадает с порядком выше - почему?
+			// TODO: порядок обращения не совпадает с порядком выше - почему?+
 			//Assert
-			Assert.IsEmpty(project.Notes, "Исключение загрузки из поврежденного файла не обрабатывается");
-			Assert.IsNotNull(project.Notes, "Список null");
+			Assert.Multiple(() =>
+				{
+					Assert.IsNotNull(project.Notes);
+					Assert.IsEmpty(project.Notes);
+				}
+			);
 		}
 	}
 }
