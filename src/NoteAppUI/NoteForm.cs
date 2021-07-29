@@ -11,7 +11,7 @@ using System.Windows.Forms;
 using NoteApp;
 
 // TODO: именование не соответствует названию проекта
-namespace NoteAppUI
+namespace NoteApp.UI
 {
 	public partial class NoteForm : Form
 	{

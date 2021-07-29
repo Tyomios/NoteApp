@@ -1,5 +1,5 @@
 ﻿
-namespace NoteAppUI
+namespace NoteApp.UI
 {
 	partial class AboutForm
 	{

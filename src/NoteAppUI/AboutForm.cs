@@ -4,7 +4,7 @@ using System.Diagnostics;
 using Microsoft.Win32;
 
 
-namespace NoteAppUI
+namespace NoteApp.UI
 {
 	public partial class AboutForm : Form
 	{

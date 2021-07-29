@@ -1,7 +1,7 @@
 ﻿
 using NoteApp;
 
-namespace NoteAppUI
+namespace NoteApp.UI
 {
 	partial class NoteForm
 	{
