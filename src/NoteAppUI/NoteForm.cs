@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 using NoteApp;
 
-// TODO: именование не соответствует названию проекта
+// TODO: именование не соответствует названию проекта+
 namespace NoteApp.UI
 {
 	public partial class NoteForm : Form
@@ -116,7 +116,6 @@ namespace NoteApp.UI
 				OKButton.Enabled = true;
 				longNameWarningLabel.Text = "";
 				longNameWarningLabel.ForeColor = NoteForm.DefaultBackColor;
-
 			}
 
             // TODO: зачем дважды делается валидация?

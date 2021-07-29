@@ -8,7 +8,7 @@ using NUnit.Framework;
 
 namespace NoteApp.UnitTests
 {
-    // TODO: именование. Класс именуется Tests в множественном числе, так как класс содержит много тестов.
+    // TODO: именование. Класс именуется Tests в множественном числе, так как класс содержит много тестов.+
     // А методы именуются в единственном числе
 	[TestFixture]
 	public class ProjectManagerTests
@@ -75,7 +75,7 @@ namespace NoteApp.UnitTests
 			//Setup
 			var expectedNoteName = "Name";
 			var expectedNoteText = "Text";
-			var expectedNoteCategory = 4;
+			var expectedNoteCategory = Category.Documents;
 			var expectedNoteCreateTime = DateTime.Now.Day.ToString();
 			var expectedNoteLastEditTime = DateTime.Now.Day.ToString();
 
@@ -91,7 +91,7 @@ namespace NoteApp.UnitTests
 					Assert.AreEqual(project.Notes[0].Name, expectedNoteName);
 					Assert.AreEqual(project.Notes[0].Text, expectedNoteText);
                     // TODO: зачем преобразование в int? Перечисления сравниваются и без преобразования+
-					Assert.AreEqual((int)project.Notes[0].Category, expectedNoteCategory);
+					Assert.AreEqual(project.Notes[0].Category, expectedNoteCategory);
 					Assert.AreEqual(project.Notes[0].СreationTime.Day.ToString(), expectedNoteCreateTime);
 					Assert.AreEqual(project.Notes[0].LastEditTime.Day.ToString(), expectedNoteLastEditTime);
 				}
@@ -125,7 +125,7 @@ namespace NoteApp.UnitTests
 			//Testing
 			var project = ProjectManager.LoadFromFile("DamagedData");
 
-			// TODO: AssertMessage писать не нужно. Суть теста должна быть понятна из именования метода или тест-кейса
+			// TODO: AssertMessage писать не нужно. Суть теста должна быть понятна из именования метода или тест-кейса+
 			// TODO: порядок обращения не совпадает с порядком выше - почему?+
 			//Assert
 			Assert.Multiple(() =>
