@@ -43,7 +43,6 @@ namespace NoteApp.UI
 		{
 			try
 			{
-
 				launchBrowser("https://github.com/Tyomios/NoteApp/");
 			}
 			catch (Exception ex)

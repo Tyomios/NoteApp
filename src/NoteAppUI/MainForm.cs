@@ -92,49 +92,7 @@ namespace NoteApp.UI
 			return -1;
 		}
 
-        // TODO: порядок членов класса+
-        // TODO: всё еще строка вместо категории
-        // TODO: слово List в названии параметра - плохо+
         /// <summary>
-        /// Фильтрация заметок по категории
-        /// </summary>
-        /// <param name="sortedCategory"> Категория для сортировки </param>
-        /// <param name="categoryNotes"> Список заметок, 
-        /// В котором будут храниться заметки нужной категории
-        /// </param>
-        private void FilterNotesByCategory(string sortedCategory, List<Note> categoryNotes)
-        {
-	        listNoteListBox.Items.Clear();
-	        categoryNotes.Clear();
-
-	        project.GetNotesChoosenCategory(sortedCategory, categoryNotes);
-	        if (categoryNotes.Count == 0)
-	        {
-		        listNoteListBox.Items.Clear();
-		        ClearNoteInfoPanel();
-		        return;
-	        }
-
-	        int listIndex = 0;
-	        for (int i = 0; i < categoryNotes.Count; i++)
-	        {
-		        listNoteListBox.Items.Insert(listIndex, categoryNotes[listIndex].Name);
-		        ++listIndex;
-	        }
-
-	        listNoteListBox.SelectedIndex = SearchNoteIndex(categoryNotes);
-
-	        var selectedIndex = listNoteListBox.SelectedIndex;
-
-	        if (selectedIndex == -1)
-	        {
-		        selectedIndex = 0; //listNoteListBox.Items.Count - 1 для выбора последней заметки
-	        }
-	        FillNoteInfoPanel(categoryNotes[selectedIndex]);
-        }
-
-
-		/// <summary>
 		/// Фильтрация заметок в списке showedNotesByCategory по категории.
 		/// </summary>
 		/// <param name="category"> Категория </param>
@@ -343,7 +301,7 @@ namespace NoteApp.UI
 		/// </summary>
 		private void FilterNotesUsingFunc()
 		{
-			if(categoryComboBox.SelectedItem == comboBoxCategoryAll)
+			if(categoryComboBox.SelectedItem.ToString() == comboBoxCategoryAll)
 			{
 				ShowAllNotes();
 				return;

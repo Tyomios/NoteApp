@@ -41,6 +41,11 @@ namespace NoteApp
 			}
 		}
 
+		/// <summary>
+		/// Метод, для заполнения списка заметками выбранной категории.
+		/// </summary>
+		/// <param name="category"> Категория </param>
+		/// <returns> Список с заметками, выбранной категории </returns>
 		public List<Note> GetNotesWithCategory(Category category)
 		{
 			List<Note> categoryNotes = new List<Note>();
@@ -55,6 +60,10 @@ namespace NoteApp
 			return categoryNotes;
 		}
 
+		/// <summary>
+		/// Разворачивает список с заметками.
+		/// </summary>
+		/// <returns> Список, в котором заметки имеют обратный индекс </returns>
 		public List<Note> GetReverseNotesList()
 		{
 			List<Note> reverseNotesList = new List<Note>();
