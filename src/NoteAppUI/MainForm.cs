@@ -135,10 +135,10 @@ namespace NoteApp.UI
 
 
 		/// <summary>
-		/// фильтрация заметок в списке showedNotes по категории.
+		/// Фильтрация заметок в списке showedNotesByCategory по категории.
 		/// </summary>
 		/// <param name="category"> Категория </param>
-        private void FilterNotesV2(Category category)
+		private void FilterNotesV2(Category category)
         {
 	        listNoteListBox.Items.Clear();
 			showedNotesByCategory.Clear();
@@ -183,10 +183,8 @@ namespace NoteApp.UI
 			}
 
 			project = ProjectManager.LoadFromFile();
-			//categoryComboBox.SelectedItem = comboBoxCategoryAll;
-			categoryComboBox.SelectedItem = Category.Documents;
-			//FilterNotesByCategory(categoryComboBox.SelectedItem.ToString(), showedNotesByCategory);
-			FilterNotesV2((Category)categoryComboBox.SelectedItem);
+			categoryComboBox.SelectedItem = comboBoxCategoryAll;
+			FilterNotesUsingFunc();
 		}
 
 		// TODO: модификаторы доступа надо прописывать явно+
@@ -229,7 +227,7 @@ namespace NoteApp.UI
 				showedNotesByCategory.Add(addForm.Note);
 			}
 
-			FilterNotesByCategory(categoryComboBox.SelectedItem.ToString(), showedNotesByCategory);
+			FilterNotesUsingFunc();
 			project.CurrentNote = showedNotesByCategory[0];
 			FillNoteInfoPanel(project.CurrentNote);
 			listNoteListBox.SelectedItem = project.CurrentNote;
@@ -286,8 +284,7 @@ namespace NoteApp.UI
 			ProjectManager.SaveToFile(project);
 			showedNotesByCategory.Remove(deleteNote);
 
-			FilterNotesByCategory(categoryComboBox.SelectedItem.ToString(), showedNotesByCategory);
-
+			FilterNotesUsingFunc();
 			// TODO: что за костыль? Не должно быть пустых обработчиков!+
 			try
 			{
@@ -334,11 +331,24 @@ namespace NoteApp.UI
 				project.Notes.Remove(project.Notes[index]);
 				ProjectManager.SaveToFile(project);
 
-				//FilterNotesByCategory(categoryComboBox.SelectedItem.ToString(), showedNotesByCategory);
-				FilterNotesV2((Category)categoryComboBox.SelectedItem);
+				FilterNotesUsingFunc();
 				project.CurrentNote = showedNotesByCategory[0];
 				listNoteListBox.SelectedIndex = 0;
 			}
+		}
+
+
+		/// <summary>
+		/// Выбирает какой функцией фильтровать заметки, в зависимости от categoryComboBox.SelectedItem.
+		/// </summary>
+		private void FilterNotesUsingFunc()
+		{
+			if(categoryComboBox.SelectedItem == comboBoxCategoryAll)
+			{
+				ShowAllNotes();
+				return;
+			}
+			FilterNotesV2((Category)categoryComboBox.SelectedItem);
 		}
 
 		private void editButton_Click(object sender, EventArgs e)
@@ -400,6 +410,10 @@ namespace NoteApp.UI
 			FilterNotesV2((Category)testCategory);
 		}
 
+
+		/// <summary>
+		/// Отображение заметок для categoryComboBox.SelectedItem = All.
+		/// </summary>
 		private void ShowAllNotes()
 		{
 			listNoteListBox.Items.Clear();
