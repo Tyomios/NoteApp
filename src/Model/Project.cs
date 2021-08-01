@@ -41,6 +41,31 @@ namespace NoteApp
 			}
 		}
 
+		public List<Note> GetNotesWithCategory(Category category)
+		{
+			List<Note> categoryNotes = new List<Note>();
+			for (int i = Notes.Count - 1; i >= 0; i--)
+			{
+				if (Notes[i].Category == category)
+				{
+					categoryNotes.Add(Notes[i]);
+				}
+			}
+
+			return categoryNotes;
+		}
+
+		public List<Note> GetReverseNotesList()
+		{
+			List<Note> reverseNotesList = new List<Note>();
+			for (int i = Notes.Count - 1; i >= 0; i--)
+			{
+				reverseNotesList.Add(Notes[i]);
+			}
+
+			return reverseNotesList;
+		}
+
         // TODO: xml+
 		/// <summary>
 		/// Текущая выбранная пользователем заметка.

@@ -133,6 +133,42 @@ namespace NoteApp.UI
 	        FillNoteInfoPanel(categoryNotes[selectedIndex]);
         }
 
+
+		/// <summary>
+		/// фильтрация заметок в списке showedNotes по категории.
+		/// </summary>
+		/// <param name="category"> Категория </param>
+        private void FilterNotesV2(Category category)
+        {
+	        listNoteListBox.Items.Clear();
+			showedNotesByCategory.Clear();
+			showedNotesByCategory = project.GetNotesWithCategory(category);
+
+			if (showedNotesByCategory.Count == 0)
+			{
+				listNoteListBox.Items.Clear();
+				ClearNoteInfoPanel();
+				return;
+			}
+
+			int listIndex = 0;
+			for (int i = 0; i < showedNotesByCategory.Count; i++)
+			{
+				listNoteListBox.Items.Insert(listIndex, showedNotesByCategory[listIndex].Name);
+				++listIndex;
+			}
+
+			listNoteListBox.SelectedIndex = SearchNoteIndex(showedNotesByCategory);
+
+			var selectedIndex = listNoteListBox.SelectedIndex;
+
+			if (selectedIndex == -1)
+			{
+				selectedIndex = 0; //listNoteListBox.Items.Count - 1 для выбора последней заметки
+			}
+			FillNoteInfoPanel(showedNotesByCategory[selectedIndex]);
+		}
+
 		/// <summary>
 		/// Конструктор главного окна
 		/// </summary>
@@ -147,8 +183,10 @@ namespace NoteApp.UI
 			}
 
 			project = ProjectManager.LoadFromFile();
-			categoryComboBox.SelectedItem = comboBoxCategoryAll;
-			FilterNotesByCategory(categoryComboBox.SelectedItem.ToString(), showedNotesByCategory);
+			//categoryComboBox.SelectedItem = comboBoxCategoryAll;
+			categoryComboBox.SelectedItem = Category.Documents;
+			//FilterNotesByCategory(categoryComboBox.SelectedItem.ToString(), showedNotesByCategory);
+			FilterNotesV2((Category)categoryComboBox.SelectedItem);
 		}
 
 		// TODO: модификаторы доступа надо прописывать явно+
@@ -296,7 +334,8 @@ namespace NoteApp.UI
 				project.Notes.Remove(project.Notes[index]);
 				ProjectManager.SaveToFile(project);
 
-				FilterNotesByCategory(categoryComboBox.SelectedItem.ToString(), showedNotesByCategory);
+				//FilterNotesByCategory(categoryComboBox.SelectedItem.ToString(), showedNotesByCategory);
+				FilterNotesV2((Category)categoryComboBox.SelectedItem);
 				project.CurrentNote = showedNotesByCategory[0];
 				listNoteListBox.SelectedIndex = 0;
 			}
@@ -316,7 +355,7 @@ namespace NoteApp.UI
             // На старте программа работает непосредственно с заметками project.Notes, после изменения категории
             // используется второй список, индексы одной и той же заметки в 2х коллекциях разный
             // чтобы selectedIndex не выдавал -1 при смене категории я устанавливаю 2 индекса на 2 сценария использования 
-            // по 1 на каждый списокы
+            // по 1 на каждый список
             int index = dataList.Count - listNoteListBox.SelectedIndex - 1;
 			if (categoryComboBox.SelectedItem.ToString() != comboBoxCategoryAll)
 			{
@@ -352,8 +391,44 @@ namespace NoteApp.UI
 
 		private void categoryBox_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			var selectedCategory = categoryComboBox.SelectedItem.ToString();
-			FilterNotesByCategory(selectedCategory, showedNotesByCategory);
+			var testCategory = categoryComboBox.SelectedItem;
+			if(testCategory == comboBoxCategoryAll)
+			{
+				ShowAllNotes();
+				return;
+			}
+			FilterNotesV2((Category)testCategory);
+		}
+
+		private void ShowAllNotes()
+		{
+			listNoteListBox.Items.Clear();
+			showedNotesByCategory.Clear();
+			showedNotesByCategory = project.GetReverseNotesList();
+
+			if (showedNotesByCategory.Count == 0)
+			{
+				listNoteListBox.Items.Clear();
+				ClearNoteInfoPanel();
+				return;
+			}
+
+			int listIndex = 0;
+			for (int i = 0; i < showedNotesByCategory.Count; i++)
+			{
+				listNoteListBox.Items.Insert(listIndex, showedNotesByCategory[listIndex].Name);
+				++listIndex;
+			}
+
+			listNoteListBox.SelectedIndex = SearchNoteIndex(showedNotesByCategory);
+
+			var selectedIndex = listNoteListBox.SelectedIndex;
+
+			if (selectedIndex == -1)
+			{
+				selectedIndex = 0; //listNoteListBox.Items.Count - 1 для выбора последней заметки
+			}
+			FillNoteInfoPanel(showedNotesByCategory[selectedIndex]);
 		}
 
 		private void AddNoteItem_Click(object sender, EventArgs e)
