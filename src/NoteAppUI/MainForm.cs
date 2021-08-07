@@ -16,7 +16,13 @@ namespace NoteApp.UI
 {
 	public partial class MainForm : Form
 	{
-        // TODO: именование не по RSDN
+		// TODO: именование не по RSDN+
+		/// <summary>
+		/// Название элемента categoryComboBox
+		/// </summary>
+		private const string comboBoxCategoryAll = "All";
+
+		// TODO: именование не по RSDN
 		/// <summary>
 		/// Обьект, хранящий список заметок
 		/// </summary>
@@ -29,11 +35,23 @@ namespace NoteApp.UI
 		/// </summary>
 		private List<Note> showedNotesByCategory = new List<Note>();
 
-        // TODO: именование не по RSDN+
 		/// <summary>
-		/// Название элемента categoryComboBox
+		/// Конструктор главного окна
 		/// </summary>
-		private const string comboBoxCategoryAll = "All";
+		public MainForm()
+		{
+			InitializeComponent();
+
+			categoryComboBox.Items.Add(comboBoxCategoryAll);
+			foreach (var category in Enum.GetValues(typeof(Category)))
+			{
+				categoryComboBox.Items.Add(category);
+			}
+
+			project = ProjectManager.LoadFromFile();
+			categoryComboBox.SelectedItem = comboBoxCategoryAll;
+			FilterNotesUsingFunc();
+		}
 
 		// TODO: порядок членов класса
 		/// <summary>
@@ -127,25 +145,7 @@ namespace NoteApp.UI
 			FillNoteInfoPanel(showedNotesByCategory[selectedIndex]);
 		}
 
-		/// <summary>
-		/// Конструктор главного окна
-		/// </summary>
-		public MainForm()
-		{
-			InitializeComponent();
-
-			categoryComboBox.Items.Add(comboBoxCategoryAll);
-			foreach (var category in Enum.GetValues(typeof(Category)))
-			{
-				categoryComboBox.Items.Add(category);
-			}
-
-			project = ProjectManager.LoadFromFile();
-			categoryComboBox.SelectedItem = comboBoxCategoryAll;
-			FilterNotesUsingFunc();
-		}
-
-		// TODO: модификаторы доступа надо прописывать явно+
+        // TODO: модификаторы доступа надо прописывать явно+
 		// TODO: порядок членов класса
 		/// <summary>
 		/// Проверка заметки на null, в случае если заметка null - удаляет ее
@@ -281,6 +281,9 @@ namespace NoteApp.UI
 			if (result == DialogResult.OK)
 			{
 				int index = project.Notes.IndexOf(showedNotesByCategory[listNoteListBox.SelectedIndex]);
+				var oldCreationTime = showedNotesByCategory[listNoteListBox.SelectedIndex].СreationTime;
+				addForm.Note.СreationTime = oldCreationTime;
+
 				project.Notes.Add(addForm.Note);
 				showedNotesByCategory.Remove(showedNotesByCategory[listNoteListBox.SelectedIndex]);
 				showedNotesByCategory.Add(addForm.Note);
@@ -315,45 +318,56 @@ namespace NoteApp.UI
 		}
 
 		private void listNoteBox_SelectedIndexChanged(object sender, EventArgs e)
-		{
+			{
 			// TODO: именование
             // TODO: var+
-			var dataList = project.Notes;
-            // TODO: Что это и нафига? Для отображения используются 2 списка с заметками, в разных случаях
-            // На старте программа работает непосредственно с заметками project.Notes, после изменения категории
-            // используется второй список, индексы одной и той же заметки в 2х коллекциях разный
-            // чтобы selectedIndex не выдавал -1 при смене категории я устанавливаю 2 индекса на 2 сценария использования 
-            // по 1 на каждый список
-            int index = dataList.Count - listNoteListBox.SelectedIndex - 1;
-			if (categoryComboBox.SelectedItem.ToString() != comboBoxCategoryAll)
-			{
-				project.GetNotesChoosenCategory(categoryComboBox.SelectedItem.ToString(), showedNotesByCategory);
-				
-				dataList = showedNotesByCategory;
-				if (listNoteListBox.SelectedIndex != -1)
-				{
-					index = listNoteListBox.SelectedIndex;
-				}
-				else
-				{
-					index = 0;
-				}	
-				
-			}
+            //var dataList = project.Notes;
+			// TODO: Что это и нафига? Для отображения используются 2 списка с заметками, в разных случаях
+			// На старте программа работает непосредственно с заметками project.Notes, после изменения категории
+			// используется второй список, индексы одной и той же заметки в 2х коллекциях разный
+			// чтобы selectedIndex не выдавал -1 при смене категории я устанавливаю 2 индекса на 2 сценария использования 
+			// по 1 на каждый список
+			//         int index = dataList.Count - listNoteListBox.SelectedIndex - 1;
+			//if (categoryComboBox.SelectedItem.ToString() != comboBoxCategoryAll)
+			//{
+			//	project.GetNotesChoosenCategory(categoryComboBox.SelectedItem.ToString(), showedNotesByCategory);
 
-            // TODO: вместо громоздкого и долгого try-catch нельзя проверить индекс на существование и поменять на 0?
-			try
+			//	dataList = showedNotesByCategory;
+			//	if (listNoteListBox.SelectedIndex != -1)
+			//	{
+			//		index = listNoteListBox.SelectedIndex;
+			//	}
+			//	else
+			//	{
+			//		index = 0;
+			//	}
+
+			//}
+
+			//// TODO: вместо громоздкого и долгого try-catch нельзя проверить индекс на существование и поменять на 0?
+			//try
+			//{
+			//	var currentNote = dataList[index]; 
+			//	FillNoteInfoPanel(currentNote);
+			//	project.CurrentNote = currentNote;
+			//}
+			//catch (ArgumentOutOfRangeException exception)
+			//{
+			//	index = 0;
+			//	var currentNote = dataList[index];
+			//	FillNoteInfoPanel(currentNote);
+			//	project.CurrentNote = currentNote;
+			//}
+			if (listNoteListBox.SelectedIndex > -1)
 			{
-				var currentNote = dataList[index]; 
+				var currentNote = showedNotesByCategory[listNoteListBox.SelectedIndex];
 				FillNoteInfoPanel(currentNote);
 				project.CurrentNote = currentNote;
 			}
-			catch (ArgumentOutOfRangeException exception)
+			else
 			{
-				index = 0;
-				var currentNote = dataList[index];
-				FillNoteInfoPanel(currentNote);
-				project.CurrentNote = currentNote;
+				//ClearRightPanel();
+				ClearNoteInfoPanel();
 			}
 		}
 
