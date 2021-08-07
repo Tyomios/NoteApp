@@ -20,7 +20,7 @@ namespace NoteApp.UI
 		/// <summary>
 		/// Название элемента categoryComboBox
 		/// </summary>
-		private const string comboBoxCategoryAll = "All";
+		private const string _comboBoxCategoryAll = "All";
 
 		// TODO: именование не по RSDN
 		/// <summary>
@@ -33,7 +33,7 @@ namespace NoteApp.UI
 		/// <summary>
 		/// Список заметок для выбранной категории заметок
 		/// </summary>
-		private List<Note> showedNotesByCategory = new List<Note>();
+		private List<Note> _showedNotesByCategory = new List<Note>();
 
 		/// <summary>
 		/// Конструктор главного окна
@@ -42,14 +42,14 @@ namespace NoteApp.UI
 		{
 			InitializeComponent();
 
-			categoryComboBox.Items.Add(comboBoxCategoryAll);
+			categoryComboBox.Items.Add(_comboBoxCategoryAll);
 			foreach (var category in Enum.GetValues(typeof(Category)))
 			{
 				categoryComboBox.Items.Add(category);
 			}
 
 			project = ProjectManager.LoadFromFile();
-			categoryComboBox.SelectedItem = comboBoxCategoryAll;
+			categoryComboBox.SelectedItem = _comboBoxCategoryAll;
 			FilterNotesUsingFunc();
 		}
 
@@ -83,6 +83,33 @@ namespace NoteApp.UI
 			noteCategoryLabel.Text = "Category:";
 		}
 
+		private void FillMainFormPanels()
+		{
+			if (_showedNotesByCategory.Count == 0)
+			{
+				listNoteListBox.Items.Clear();
+				ClearNoteInfoPanel();
+				return;
+			}
+
+			int listIndex = 0;
+			for (int i = 0; i < _showedNotesByCategory.Count; i++)
+			{
+				listNoteListBox.Items.Insert(listIndex, _showedNotesByCategory[listIndex].Name);
+				++listIndex;
+			}
+
+			listNoteListBox.SelectedIndex = SearchNoteIndex(_showedNotesByCategory);
+
+			var selectedIndex = listNoteListBox.SelectedIndex;
+
+			if (selectedIndex == -1)
+			{
+				selectedIndex = 0; //listNoteListBox.Items.Count - 1 для выбора последней заметки
+			}
+			FillNoteInfoPanel(_showedNotesByCategory[selectedIndex]);
+		}
+
 		// TODO: порядок членов класса
         /// <summary>
 		/// Поиск индекса выбранной заметки в коллекции 
@@ -111,38 +138,16 @@ namespace NoteApp.UI
 		}
 
         /// <summary>
-		/// Фильтрация заметок в списке showedNotesByCategory по категории.
+		/// Фильтрация заметок в списке _showedNotesByCategory по категории.
 		/// </summary>
 		/// <param name="category"> Категория </param>
 		private void FilterNotesV2(Category category)
         {
 	        listNoteListBox.Items.Clear();
-			showedNotesByCategory.Clear();
-			showedNotesByCategory = project.GetNotesWithCategory(category);
-
-			if (showedNotesByCategory.Count == 0)
-			{
-				listNoteListBox.Items.Clear();
-				ClearNoteInfoPanel();
-				return;
-			}
-
-			int listIndex = 0;
-			for (int i = 0; i < showedNotesByCategory.Count; i++)
-			{
-				listNoteListBox.Items.Insert(listIndex, showedNotesByCategory[listIndex].Name);
-				++listIndex;
-			}
-
-			listNoteListBox.SelectedIndex = SearchNoteIndex(showedNotesByCategory);
-
-			var selectedIndex = listNoteListBox.SelectedIndex;
-
-			if (selectedIndex == -1)
-			{
-				selectedIndex = 0; //listNoteListBox.Items.Count - 1 для выбора последней заметки
-			}
-			FillNoteInfoPanel(showedNotesByCategory[selectedIndex]);
+			_showedNotesByCategory.Clear();
+			_showedNotesByCategory = project.GetNotesWithCategory(category);
+			
+			FillMainFormPanels();
 		}
 
         // TODO: модификаторы доступа надо прописывать явно+
@@ -182,11 +187,11 @@ namespace NoteApp.UI
 				RemoveLastNullNoteInList(project.Notes);
 				ProjectManager.SaveToFile(project);
 
-				showedNotesByCategory.Add(addForm.Note);
+				_showedNotesByCategory.Add(addForm.Note);
 			}
 
 			FilterNotesUsingFunc();
-			project.CurrentNote = showedNotesByCategory[0];
+			project.CurrentNote = _showedNotesByCategory[0];
 			FillNoteInfoPanel(project.CurrentNote);
 			listNoteListBox.SelectedItem = project.CurrentNote;
 			listNoteListBox.SelectedIndex = 0;
@@ -230,7 +235,7 @@ namespace NoteApp.UI
 				return;
 			}
 
-			var deleteNote = showedNotesByCategory[listNoteListBox.SelectedIndex];
+			var deleteNote = _showedNotesByCategory[listNoteListBox.SelectedIndex];
 			DialogResult result = MessageBox.Show
 				($"Delete note {deleteNote.Name} ?", "Warning", MessageBoxButtons.OKCancel);
 			if (result == DialogResult.Cancel)
@@ -240,7 +245,7 @@ namespace NoteApp.UI
 
 			project.Notes.Remove(project.Notes[project.Notes.IndexOf(deleteNote)]);
 			ProjectManager.SaveToFile(project);
-			showedNotesByCategory.Remove(deleteNote);
+			_showedNotesByCategory.Remove(deleteNote);
 
 			FilterNotesUsingFunc();
 			// TODO: что за костыль? Не должно быть пустых обработчиков!+
@@ -273,27 +278,27 @@ namespace NoteApp.UI
 
 			var addForm = new NoteForm();
 
-			Note newEditNote = (Note)showedNotesByCategory[listNoteListBox.SelectedIndex].Clone();
+			Note newEditNote = (Note)_showedNotesByCategory[listNoteListBox.SelectedIndex].Clone();
 			addForm.Note = newEditNote;
 
 			addForm.Text = "Edit Note";
 			var result = addForm.ShowDialog();
 			if (result == DialogResult.OK)
 			{
-				int index = project.Notes.IndexOf(showedNotesByCategory[listNoteListBox.SelectedIndex]);
-				var oldCreationTime = showedNotesByCategory[listNoteListBox.SelectedIndex].СreationTime;
+				int index = project.Notes.IndexOf(_showedNotesByCategory[listNoteListBox.SelectedIndex]);
+				var oldCreationTime = _showedNotesByCategory[listNoteListBox.SelectedIndex].СreationTime;
 				addForm.Note.СreationTime = oldCreationTime;
 
 				project.Notes.Add(addForm.Note);
-				showedNotesByCategory.Remove(showedNotesByCategory[listNoteListBox.SelectedIndex]);
-				showedNotesByCategory.Add(addForm.Note);
+				_showedNotesByCategory.Remove(_showedNotesByCategory[listNoteListBox.SelectedIndex]);
+				_showedNotesByCategory.Add(addForm.Note);
 
 
 				project.Notes.Remove(project.Notes[index]);
 				ProjectManager.SaveToFile(project);
 
 				FilterNotesUsingFunc();
-				project.CurrentNote = showedNotesByCategory[0];
+				project.CurrentNote = _showedNotesByCategory[0];
 				listNoteListBox.SelectedIndex = 0;
 			}
 		}
@@ -304,7 +309,7 @@ namespace NoteApp.UI
 		/// </summary>
 		private void FilterNotesUsingFunc()
 		{
-			if(categoryComboBox.SelectedItem.ToString() == comboBoxCategoryAll)
+			if(categoryComboBox.SelectedItem.ToString() == _comboBoxCategoryAll)
 			{
 				ShowAllNotes();
 				return;
@@ -318,55 +323,15 @@ namespace NoteApp.UI
 		}
 
 		private void listNoteBox_SelectedIndexChanged(object sender, EventArgs e)
-			{
-			// TODO: именование
-            // TODO: var+
-            //var dataList = project.Notes;
-			// TODO: Что это и нафига? Для отображения используются 2 списка с заметками, в разных случаях
-			// На старте программа работает непосредственно с заметками project.Notes, после изменения категории
-			// используется второй список, индексы одной и той же заметки в 2х коллекциях разный
-			// чтобы selectedIndex не выдавал -1 при смене категории я устанавливаю 2 индекса на 2 сценария использования 
-			// по 1 на каждый список
-			//         int index = dataList.Count - listNoteListBox.SelectedIndex - 1;
-			//if (categoryComboBox.SelectedItem.ToString() != comboBoxCategoryAll)
-			//{
-			//	project.GetNotesChoosenCategory(categoryComboBox.SelectedItem.ToString(), showedNotesByCategory);
-
-			//	dataList = showedNotesByCategory;
-			//	if (listNoteListBox.SelectedIndex != -1)
-			//	{
-			//		index = listNoteListBox.SelectedIndex;
-			//	}
-			//	else
-			//	{
-			//		index = 0;
-			//	}
-
-			//}
-
-			//// TODO: вместо громоздкого и долгого try-catch нельзя проверить индекс на существование и поменять на 0?
-			//try
-			//{
-			//	var currentNote = dataList[index]; 
-			//	FillNoteInfoPanel(currentNote);
-			//	project.CurrentNote = currentNote;
-			//}
-			//catch (ArgumentOutOfRangeException exception)
-			//{
-			//	index = 0;
-			//	var currentNote = dataList[index];
-			//	FillNoteInfoPanel(currentNote);
-			//	project.CurrentNote = currentNote;
-			//}
+		{
 			if (listNoteListBox.SelectedIndex > -1)
 			{
-				var currentNote = showedNotesByCategory[listNoteListBox.SelectedIndex];
+				var currentNote = _showedNotesByCategory[listNoteListBox.SelectedIndex];
 				FillNoteInfoPanel(currentNote);
 				project.CurrentNote = currentNote;
 			}
 			else
 			{
-				//ClearRightPanel();
 				ClearNoteInfoPanel();
 			}
 		}
@@ -374,7 +339,7 @@ namespace NoteApp.UI
 		private void categoryBox_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			var testCategory = categoryComboBox.SelectedItem;
-			if(testCategory == comboBoxCategoryAll)
+			if(testCategory == _comboBoxCategoryAll)
 			{
 				ShowAllNotes();
 				return;
@@ -389,32 +354,10 @@ namespace NoteApp.UI
 		private void ShowAllNotes()
 		{
 			listNoteListBox.Items.Clear();
-			showedNotesByCategory.Clear();
-			showedNotesByCategory = project.GetReverseNotesList();
-
-			if (showedNotesByCategory.Count == 0)
-			{
-				listNoteListBox.Items.Clear();
-				ClearNoteInfoPanel();
-				return;
-			}
-
-			int listIndex = 0;
-			for (int i = 0; i < showedNotesByCategory.Count; i++)
-			{
-				listNoteListBox.Items.Insert(listIndex, showedNotesByCategory[listIndex].Name);
-				++listIndex;
-			}
-
-			listNoteListBox.SelectedIndex = SearchNoteIndex(showedNotesByCategory);
-
-			var selectedIndex = listNoteListBox.SelectedIndex;
-
-			if (selectedIndex == -1)
-			{
-				selectedIndex = 0; //listNoteListBox.Items.Count - 1 для выбора последней заметки
-			}
-			FillNoteInfoPanel(showedNotesByCategory[selectedIndex]);
+			_showedNotesByCategory.Clear();
+			_showedNotesByCategory = project.GetReverseNotesList();
+			
+			FillMainFormPanels();
 		}
 
 		private void AddNoteItem_Click(object sender, EventArgs e)
