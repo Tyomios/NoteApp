@@ -16,15 +16,15 @@ namespace NoteApp.UnitTests
         // TODO: почему всё равно поднимаешься на три папки выше? 
         // Нужно работать с файлами в папке компиляции, а не из папки с исходным кодом!
 		// TODO: именование не по RSDN
-		private static string commonDataFilePath = "..\\..\\..\\";
+		private static string _commonDataFilePath = "..\\..\\..\\";
 
 		// TODO: именование не по RSDN
 		// TODO: грамошибка в названии - почему не пользуешь Spell Checker?
         // TODO: почему не добавить папку TestData в переменную выше, чтобы не прописывать здесь и ниже?
-		private string currentDataFilename = $"{commonDataFilePath}TestData\\TestData.txt";
+		private string _currentDataFilename = $"{_commonDataFilePath}TestData\\TestData.txt";
 
         // TODO: именование не по RSDN
-		private string damagedDataFilename = $"{commonDataFilePath}TestData\\damagedData.txt";
+		private string _damagedDataFilename = $"{_commonDataFilePath}TestData\\damagedData.txt";
 
 
         // TODO: NonExistedFile - лишняя 'e', не хватает окончания 'ed'+
@@ -36,37 +36,27 @@ namespace NoteApp.UnitTests
 			Directory.CreateDirectory(@"..\..\..\TestData");
 			var project = new Project();
 			project.Notes.Add(new Note("Name", Category.Documents, "Text"));
+			var usedPath = @"..\..\..\TestData\testData.txt";
 
 			//Testing
-			ProjectManager.SaveToFile(project, "TestData");
+			ProjectManager.SaveToFile(project, usedPath);
 
-			var fileStatus = File.Exists(currentDataFilename);
+			var fileStatus = File.Exists(_currentDataFilename);
 			var expected = true;
-			var actualLoadProject = ProjectManager.LoadFromFile("TestLoadData");
+			var actualLoadProject = ProjectManager.LoadFromFile(usedPath);
 
 			//Assert
-			Assert.AreEqual(fileStatus, expected, "Файл не создан");
-
 			Assert.Multiple(() =>
 			{
-				// TODO: вместо кучи Assert надо перегрузить Equals у класса Note
-                // TODO: вынести обе заметки в переменные,
-                // чтобы каждый раз не надо было обращаться к проектам/спискам и индексам.
-				// Учись писать код лаконичнее
+				Assert.AreEqual(fileStatus, expected, "Файл не создан");
 				Assert.AreEqual
 					(project.Notes.Count, actualLoadProject.Notes.Count);
-				Assert.AreEqual
-					(project.Notes[0].Name, actualLoadProject.Notes[0].Name);
-				Assert.AreEqual
-					(project.Notes[0].Text, actualLoadProject.Notes[0].Text);
-				Assert.AreEqual
-					(project.Notes[0].Category, actualLoadProject.Notes[0].Category);
-				Assert.AreEqual
-					(project.Notes[0].СreationTime, actualLoadProject.Notes[0].СreationTime);
-				Assert.AreEqual
-					(project.Notes[0].LastEditTime, actualLoadProject.Notes[0].LastEditTime);
 			});
-			
+
+			var expectedNote = project.Notes[0];
+			var actualNote = actualLoadProject.Notes[0];
+
+			Assert.AreEqual(expectedNote.Equals(actualNote), true);
 		}
 
 		[Test(Description = "Проверка загрузки проекта из целого файла")]
@@ -76,34 +66,26 @@ namespace NoteApp.UnitTests
 			var expectedNoteName = "Name";
 			var expectedNoteText = "Text";
 			var expectedNoteCategory = Category.Documents;
-			var expectedNoteCreateTime = DateTime.Now.Day.ToString();
-			var expectedNoteLastEditTime = DateTime.Now.Day.ToString();
+			var expectedNote = new Note(expectedNoteName, expectedNoteCategory, expectedNoteText);
+			var usedPath = @"TestData\TestData.txt";
 
 			//Testing
-			var project = ProjectManager.LoadFromFile("TestData");
+			var project = ProjectManager.LoadFromFile(usedPath);
+			var actualNote = project.Notes[0];
 
 			//Assert
 			Assert.IsNotNull(project.Notes[0]);
-
-			Assert.Multiple(() => 
-				{
-                    // TODO: вместо кучи Assert надо перегрузить Equals у класса Note
-					Assert.AreEqual(project.Notes[0].Name, expectedNoteName);
-					Assert.AreEqual(project.Notes[0].Text, expectedNoteText);
-                    // TODO: зачем преобразование в int? Перечисления сравниваются и без преобразования+
-					Assert.AreEqual(project.Notes[0].Category, expectedNoteCategory);
-					Assert.AreEqual(project.Notes[0].СreationTime.Day.ToString(), expectedNoteCreateTime);
-					Assert.AreEqual(project.Notes[0].LastEditTime.Day.ToString(), expectedNoteLastEditTime);
-				}
-				);
-			
+			Assert.AreEqual(actualNote.Equals(expectedNote), true);
 		}
 
 		[Test(Description = "Проверка загрузки проекта из несуществующего файла")]
 		public void TestLoadNoneFile()
 		{
+			//Setup
+			var usedPath = @"TestData\noneData.txt";
+
 			//Testing
-			var project = ProjectManager.LoadFromFile("NoneData");
+			var project = ProjectManager.LoadFromFile(usedPath);
 
 			//Assert
 			Assert.IsNotNull(project, "Проект не создан");
@@ -122,8 +104,11 @@ namespace NoteApp.UnitTests
 		[Test(Description = "Проверка загрузки проекта из поврежденного файла")]
 		public void TestLoadFile_DamagedData()
 		{
+			//Setup
+			var usedPath = @"TestData\damagedData.txt";
+
 			//Testing
-			var project = ProjectManager.LoadFromFile("DamagedData");
+			var project = ProjectManager.LoadFromFile(usedPath);
 
 			// TODO: AssertMessage писать не нужно. Суть теста должна быть понятна из именования метода или тест-кейса+
 			// TODO: порядок обращения не совпадает с порядком выше - почему?+

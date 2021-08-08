@@ -36,7 +36,7 @@ namespace NoteApp.UI
 		private List<Note> _showedNotesByCategory = new List<Note>();
 
 		/// <summary>
-		/// Конструктор главного окна
+		/// Создает экземпляр <see cref="Form">.
 		/// </summary>
 		public MainForm()
 		{
@@ -48,9 +48,9 @@ namespace NoteApp.UI
 				categoryComboBox.Items.Add(category);
 			}
 
-			project = ProjectManager.LoadFromFile();
+			project = ProjectManager.LoadFromFile(ProjectManager.defaultPath);
 			categoryComboBox.SelectedItem = _comboBoxCategoryAll;
-			FilterNotesUsingFunc();
+			FilterNotesSelector();
 		}
 
 		// TODO: порядок членов класса
@@ -62,7 +62,7 @@ namespace NoteApp.UI
 		{
 			noteNameLabel.Text = note.Name;
 			noteTextRichBox.Text = note.Text;
-			createTimeTextBox.Text = note.СreationTime.ToShortDateString();
+			createTimeTextBox.Text = note.CreationTime.ToShortDateString();
 			updateTimeTextBox.Text = note.LastEditTime.ToShortDateString();
             // TODO: чтобы каждый раз не добавлять этот текст перед категорией,
             // его можно вынести в отдельный лейбл
@@ -83,6 +83,9 @@ namespace NoteApp.UI
 			noteCategoryLabel.Text = "Category:";
 		}
 
+		/// <summary>
+		/// Заполняет список заметок и информацию заметки на главной форме.
+		/// </summary>
 		private void FillMainFormPanels()
 		{
 			if (_showedNotesByCategory.Count == 0)
@@ -121,13 +124,17 @@ namespace NoteApp.UI
 		/// </returns>
 		private int SearchNoteIndex(List<Note> notes)
 		{
+			if (project.CurrentNote == null)
+			{
+				return 0;
+			}
             // TODO: у тебя и в проекте, и в showedNotes лежат одни и те же экземпляры заметок -
 			// Зачем ты делаешь поиск по полям, когда можно сделать простой поиск/сравнение по ссылке
 			// или даже сделать поиск linq-запросом?
 			foreach (var note in notes)
 			{
 				if (note.Name == project.CurrentNote.Name
-				    && note.СreationTime == project.CurrentNote.СreationTime
+				    && note.CreationTime == project.CurrentNote.CreationTime
 				    && note.Text == project.CurrentNote.Text)
 				{
 					return notes.IndexOf(note);
@@ -141,11 +148,11 @@ namespace NoteApp.UI
 		/// Фильтрация заметок в списке _showedNotesByCategory по категории.
 		/// </summary>
 		/// <param name="category"> Категория </param>
-		private void FilterNotesV2(Category category)
+		private void FilterNotesByCategory(Category category)
         {
 	        listNoteListBox.Items.Clear();
 			_showedNotesByCategory.Clear();
-			_showedNotesByCategory = project.GetNotesWithCategory(category);
+			_showedNotesByCategory = project.FilterByCategory(category);
 			
 			FillMainFormPanels();
 		}
@@ -185,16 +192,19 @@ namespace NoteApp.UI
 			{
 				project.Notes.Add(addForm.Note);
 				RemoveLastNullNoteInList(project.Notes);
-				ProjectManager.SaveToFile(project);
+				ProjectManager.SaveToFile(project, ProjectManager.defaultPath);
 
 				_showedNotesByCategory.Add(addForm.Note);
 			}
 
-			FilterNotesUsingFunc();
-			project.CurrentNote = _showedNotesByCategory[0];
-			FillNoteInfoPanel(project.CurrentNote);
-			listNoteListBox.SelectedItem = project.CurrentNote;
-			listNoteListBox.SelectedIndex = 0;
+			FilterNotesSelector();
+			if (_showedNotesByCategory.Count != 0)
+			{
+				project.CurrentNote = _showedNotesByCategory[0];
+				FillNoteInfoPanel(project.CurrentNote);
+				listNoteListBox.SelectedItem = project.CurrentNote;
+				listNoteListBox.SelectedIndex = 0;
+			}
 		}
 
 		private void addButton_Click(object sender, EventArgs e)
@@ -244,11 +254,10 @@ namespace NoteApp.UI
 			}
 
 			project.Notes.Remove(project.Notes[project.Notes.IndexOf(deleteNote)]);
-			ProjectManager.SaveToFile(project);
+			ProjectManager.SaveToFile(project, ProjectManager.defaultPath);
 			_showedNotesByCategory.Remove(deleteNote);
 
-			FilterNotesUsingFunc();
-			// TODO: что за костыль? Не должно быть пустых обработчиков!+
+			FilterNotesSelector();
 			try
 			{
 				listNoteListBox.SelectedIndex = 0;
@@ -286,8 +295,8 @@ namespace NoteApp.UI
 			if (result == DialogResult.OK)
 			{
 				int index = project.Notes.IndexOf(_showedNotesByCategory[listNoteListBox.SelectedIndex]);
-				var oldCreationTime = _showedNotesByCategory[listNoteListBox.SelectedIndex].СreationTime;
-				addForm.Note.СreationTime = oldCreationTime;
+				var oldCreationTime = _showedNotesByCategory[listNoteListBox.SelectedIndex].CreationTime;
+				addForm.Note.CreationTime = oldCreationTime;
 
 				project.Notes.Add(addForm.Note);
 				_showedNotesByCategory.Remove(_showedNotesByCategory[listNoteListBox.SelectedIndex]);
@@ -295,26 +304,25 @@ namespace NoteApp.UI
 
 
 				project.Notes.Remove(project.Notes[index]);
-				ProjectManager.SaveToFile(project);
+				ProjectManager.SaveToFile(project, ProjectManager.defaultPath);
 
-				FilterNotesUsingFunc();
+				FilterNotesSelector();
 				project.CurrentNote = _showedNotesByCategory[0];
 				listNoteListBox.SelectedIndex = 0;
 			}
 		}
 
-
 		/// <summary>
 		/// Выбирает какой функцией фильтровать заметки, в зависимости от categoryComboBox.SelectedItem.
 		/// </summary>
-		private void FilterNotesUsingFunc()
+		private void FilterNotesSelector()
 		{
 			if(categoryComboBox.SelectedItem.ToString() == _comboBoxCategoryAll)
 			{
 				ShowAllNotes();
 				return;
 			}
-			FilterNotesV2((Category)categoryComboBox.SelectedItem);
+			FilterNotesByCategory((Category)categoryComboBox.SelectedItem);
 		}
 
 		private void editButton_Click(object sender, EventArgs e)
@@ -344,9 +352,8 @@ namespace NoteApp.UI
 				ShowAllNotes();
 				return;
 			}
-			FilterNotesV2((Category)testCategory);
+			FilterNotesByCategory((Category)testCategory);
 		}
-
 
 		/// <summary>
 		/// Отображение заметок для categoryComboBox.SelectedItem = All.

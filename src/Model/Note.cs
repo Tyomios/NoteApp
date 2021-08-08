@@ -34,7 +34,7 @@ namespace NoteApp
 		/// <summary>
 		/// Время создания.
 		/// </summary>
-		public DateTime СreationTime { get; set; }
+		public DateTime CreationTime { get; set; }
 
         // TODO: в конце комментариев добавлять точку - это конец предложения. +
 		/// <summary>
@@ -104,7 +104,7 @@ namespace NoteApp
 			}
 		}
 
-		// TODO: в конце комментариев добавлять точку - это конец предложения.
+		// TODO: в конце комментариев добавлять точку - это конец предложения.+
 		// TODO: в комментарии синтаксическая ошибка, поэтому он не работает. Поправить+
 		// TODO: комментарий для конструктора формируется из фразы "Создает экземпляр <see cref="название класса">".+
 		/// <summary>
@@ -118,7 +118,7 @@ namespace NoteApp
 			this.Name = name;
 			this.Category = category;
 			this.Text = text;
-			this.СreationTime = DateTime.Now;
+			this.CreationTime = DateTime.Now;
 			this.LastEditTime = DateTime.Now;
 		}
 
@@ -132,11 +132,10 @@ namespace NoteApp
 			Name = "";
 			Category = Category.Documents;
 			Text = "";
-			this.СreationTime = DateTime.Now;
+			this.CreationTime = DateTime.Now;
 			this.LastEditTime = DateTime.Now;
 		}
 
-		
 		/// <inheritdoc cref="ICloneable"/>
 		public object Clone()
 		{
@@ -144,9 +143,31 @@ namespace NoteApp
 			note.Name = this.Name;
 			note.Text = this.Text;
 			note.Category = this.Category;
-			note.СreationTime = this.СreationTime;
+			note.CreationTime = this.CreationTime;
 			note.LastEditTime = this.LastEditTime;
 			return note;
+		}
+
+		/// <summary>
+		/// Сравнение двух заметок на индентичность.
+		/// </summary>
+		/// <param name="otherNote"> Сравниваемая заметка </param>
+		/// <returns>
+		/// retval true - заметки содержат одинаковые данные
+		/// retval false - заметки имеют различные данные
+		/// </returns>
+		public bool Equals(Note otherNote)
+		{
+			if (Name == otherNote.Name
+			    && Text == otherNote.Text
+			    && Category == otherNote.Category
+			    && CreationTime.Day == otherNote.CreationTime.Day
+			   )
+			{
+				return true;
+			}
+
+			return false;
 		}
 	}
 }

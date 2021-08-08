@@ -12,6 +12,22 @@ namespace NoteApp.UnitTests
 	[TestFixture]
 	public class ProjectTests
 	{
+		public bool EqualToReversed(List<Note> reversedList, List<Note> Notes)
+		{
+			var index = 0;
+			for (int i = Notes.Count - 1; i >= 0; i--)
+			{
+				if (!Notes[i].Equals(reversedList[index]))
+				{
+					return false;
+				}
+
+				++index;
+			}
+
+			return true;
+		}
+
 		[Test(Description = "Позитивный тест сеттера свойства Notes")]
 		public void TestNoteList_CorrectValue()
 		{
@@ -42,26 +58,36 @@ namespace NoteApp.UnitTests
 			Assert.IsEmpty(actual.Notes, "Список не пуст");
 		}
 
-		[Test(Description = "Позитивный тест фильтра заметок по выбранной категории")]
-		public void Test_GetNotesWithChoosenCategory()
+		[Test(Description = "Позитивный тест метода получения заметок по категории")]
+		public void TestFilterByCategory()
 		{
 			//Setup
-			var project = new Project();
-			project.Notes.Add(new Note("s", Category.Documents, "22"));
-			project.Notes.Add(new Note("s3", Category.Home, "42"));
-			project.Notes.Add(new Note("s34", Category.Documents, "0022"));
-
-			var expected = new List<Note>();
-			expected.Add(project.Notes[0]);
-			expected.Add(project.Notes[2]);
+			Project project = new Project();
+			project.Notes.Add(new Note("Name", Category.Documents, "Text"));
+			project.Notes.Add(new Note("Name", Category.Home, "Text"));
+			project.Notes.Add(new Note("Name", Category.Home, "Text"));
 
 			//Testing
-			var actual = new List<Note>();
-			project.GetNotesChoosenCategory(Category.Documents.ToString(), actual);
+			var expected = 2;
+			var notes = project.FilterByCategory(Category.Home);
+			var actual = notes.Count;
 
 			//Assert
-			Assert.AreEqual(expected[0], actual[0], "Списки не равны"); // проходит только с одной заметкой
-			//Assert.AreEqual(expected[1], actual[1], "Списки не равны");
+			Assert.AreEqual(expected, actual, "Метод возвращает неправильный список");
+		}
+
+		[Test(Description = "Позитивный тест метода получения списка заметок с обратным порядком")]
+		public void TestGetReverseNotesList()
+		{
+			//Setup
+			Project project = new Project();
+			project.Notes.Add(new Note("Name", Category.Documents, "Text"));
+			project.Notes.Add(new Note("Name", Category.Home, "Text"));
+			project.Notes.Add(new Note("Name", Category.Home, "Text"));
+			var reversedList = project.GetReverseNotesList();
+
+			//Assert
+			Assert.AreEqual(EqualToReversed(reversedList, project.Notes), true);
 		}
 	}
 }

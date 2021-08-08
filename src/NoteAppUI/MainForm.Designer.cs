@@ -78,9 +78,10 @@ namespace NoteApp.UI
 			this.addButton.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
 			this.addButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
 			this.addButton.Image = ((System.Drawing.Image)(resources.GetObject("addButton.Image")));
-			this.addButton.Location = new System.Drawing.Point(9, 523);
+			this.addButton.Location = new System.Drawing.Point(10, 697);
+			this.addButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.addButton.Name = "addButton";
-			this.addButton.Size = new System.Drawing.Size(26, 26);
+			this.addButton.Size = new System.Drawing.Size(30, 35);
 			this.addButton.TabIndex = 0;
 			this.addButton.UseVisualStyleBackColor = false;
 			this.addButton.Click += new System.EventHandler(this.addButton_Click);
@@ -98,9 +99,10 @@ namespace NoteApp.UI
 			this.deleteButton.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
 			this.deleteButton.ForeColor = System.Drawing.Color.Red;
 			this.deleteButton.Image = ((System.Drawing.Image)(resources.GetObject("deleteButton.Image")));
-			this.deleteButton.Location = new System.Drawing.Point(73, 523);
+			this.deleteButton.Location = new System.Drawing.Point(83, 697);
+			this.deleteButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.deleteButton.Name = "deleteButton";
-			this.deleteButton.Size = new System.Drawing.Size(26, 26);
+			this.deleteButton.Size = new System.Drawing.Size(30, 35);
 			this.deleteButton.TabIndex = 1;
 			this.deleteButton.UseVisualStyleBackColor = false;
 			this.deleteButton.Click += new System.EventHandler(this.deleteButton_Click);
@@ -118,9 +120,10 @@ namespace NoteApp.UI
 			this.editButton.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
 			this.editButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
 			this.editButton.Image = ((System.Drawing.Image)(resources.GetObject("editButton.Image")));
-			this.editButton.Location = new System.Drawing.Point(41, 523);
+			this.editButton.Location = new System.Drawing.Point(47, 697);
+			this.editButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.editButton.Name = "editButton";
-			this.editButton.Size = new System.Drawing.Size(26, 26);
+			this.editButton.Size = new System.Drawing.Size(30, 35);
 			this.editButton.TabIndex = 2;
 			this.editButton.UseVisualStyleBackColor = false;
 			this.editButton.Click += new System.EventHandler(this.editButton_Click);
@@ -133,9 +136,10 @@ namespace NoteApp.UI
 			this.categoryComboBox.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
 			this.categoryComboBox.ForeColor = System.Drawing.SystemColors.InfoText;
 			this.categoryComboBox.FormattingEnabled = true;
-			this.categoryComboBox.Location = new System.Drawing.Point(105, 32);
+			this.categoryComboBox.Location = new System.Drawing.Point(122, 43);
+			this.categoryComboBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.categoryComboBox.Name = "categoryComboBox";
-			this.categoryComboBox.Size = new System.Drawing.Size(181, 23);
+			this.categoryComboBox.Size = new System.Drawing.Size(204, 28);
 			this.categoryComboBox.TabIndex = 3;
 			this.categoryComboBox.SelectedIndexChanged += new System.EventHandler(this.categoryBox_SelectedIndexChanged);
 			// 
@@ -145,9 +149,9 @@ namespace NoteApp.UI
 			this.categoryLabel.BackColor = System.Drawing.Color.White;
 			this.categoryLabel.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
 			this.categoryLabel.ForeColor = System.Drawing.SystemColors.ControlText;
-			this.categoryLabel.Location = new System.Drawing.Point(9, 37);
+			this.categoryLabel.Location = new System.Drawing.Point(10, 49);
 			this.categoryLabel.Name = "categoryLabel";
-			this.categoryLabel.Size = new System.Drawing.Size(90, 15);
+			this.categoryLabel.Size = new System.Drawing.Size(112, 20);
 			this.categoryLabel.TabIndex = 4;
 			this.categoryLabel.Text = "Show Category:";
 			// 
@@ -159,11 +163,11 @@ namespace NoteApp.UI
 			this.noteTextRichBox.BackColor = System.Drawing.Color.White;
 			this.noteTextRichBox.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
 			this.noteTextRichBox.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-			this.noteTextRichBox.Location = new System.Drawing.Point(292, 134);
-			this.noteTextRichBox.Margin = new System.Windows.Forms.Padding(3, 3, 2, 3);
+			this.noteTextRichBox.Location = new System.Drawing.Point(334, 179);
+			this.noteTextRichBox.Margin = new System.Windows.Forms.Padding(3, 4, 2, 4);
 			this.noteTextRichBox.Name = "noteTextRichBox";
 			this.noteTextRichBox.ReadOnly = true;
-			this.noteTextRichBox.Size = new System.Drawing.Size(587, 415);
+			this.noteTextRichBox.Size = new System.Drawing.Size(670, 552);
 			this.noteTextRichBox.TabIndex = 5;
 			this.noteTextRichBox.Text = "";
 			// 
@@ -174,11 +178,10 @@ namespace NoteApp.UI
 			this.listNoteListBox.Cursor = System.Windows.Forms.Cursors.Hand;
 			this.listNoteListBox.FormattingEnabled = true;
 			this.listNoteListBox.IntegralHeight = false;
-			this.listNoteListBox.ItemHeight = 15;
-			this.listNoteListBox.Location = new System.Drawing.Point(9, 63);
-			this.listNoteListBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+			this.listNoteListBox.ItemHeight = 20;
+			this.listNoteListBox.Location = new System.Drawing.Point(10, 84);
 			this.listNoteListBox.Name = "listNoteListBox";
-			this.listNoteListBox.Size = new System.Drawing.Size(277, 455);
+			this.listNoteListBox.Size = new System.Drawing.Size(316, 605);
 			this.listNoteListBox.TabIndex = 7;
 			this.listNoteListBox.SelectedIndexChanged += new System.EventHandler(this.listNoteBox_SelectedIndexChanged);
 			// 
@@ -186,18 +189,18 @@ namespace NoteApp.UI
 			// 
 			this.noteNameLabel.AutoSize = true;
 			this.noteNameLabel.Font = new System.Drawing.Font("Segoe UI", 22.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-			this.noteNameLabel.Location = new System.Drawing.Point(292, 24);
+			this.noteNameLabel.Location = new System.Drawing.Point(334, 32);
 			this.noteNameLabel.Name = "noteNameLabel";
-			this.noteNameLabel.Size = new System.Drawing.Size(210, 41);
+			this.noteNameLabel.Size = new System.Drawing.Size(263, 50);
 			this.noteNameLabel.TabIndex = 8;
 			this.noteNameLabel.Text = "Без названия";
 			// 
 			// noteCategoryLabel
 			// 
 			this.noteCategoryLabel.AutoSize = true;
-			this.noteCategoryLabel.Location = new System.Drawing.Point(292, 75);
+			this.noteCategoryLabel.Location = new System.Drawing.Point(334, 100);
 			this.noteCategoryLabel.Name = "noteCategoryLabel";
-			this.noteCategoryLabel.Size = new System.Drawing.Size(55, 15);
+			this.noteCategoryLabel.Size = new System.Drawing.Size(69, 20);
 			this.noteCategoryLabel.TabIndex = 9;
 			this.noteCategoryLabel.Text = "Category";
 			// 
@@ -205,18 +208,19 @@ namespace NoteApp.UI
 			// 
 			this.createTimeTextBox.BackColor = System.Drawing.Color.White;
 			this.createTimeTextBox.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-			this.createTimeTextBox.Location = new System.Drawing.Point(349, 102);
+			this.createTimeTextBox.Location = new System.Drawing.Point(399, 136);
+			this.createTimeTextBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.createTimeTextBox.Name = "createTimeTextBox";
 			this.createTimeTextBox.ReadOnly = true;
-			this.createTimeTextBox.Size = new System.Drawing.Size(60, 23);
+			this.createTimeTextBox.Size = new System.Drawing.Size(80, 27);
 			this.createTimeTextBox.TabIndex = 10;
 			// 
 			// createdTimeLabel
 			// 
 			this.createdTimeLabel.AutoSize = true;
-			this.createdTimeLabel.Location = new System.Drawing.Point(292, 108);
+			this.createdTimeLabel.Location = new System.Drawing.Point(334, 144);
 			this.createdTimeLabel.Name = "createdTimeLabel";
-			this.createdTimeLabel.Size = new System.Drawing.Size(51, 15);
+			this.createdTimeLabel.Size = new System.Drawing.Size(64, 20);
 			this.createdTimeLabel.TabIndex = 11;
 			this.createdTimeLabel.Text = "Created:";
 			// 
@@ -224,31 +228,34 @@ namespace NoteApp.UI
 			// 
 			this.updateTimeTextBox.BackColor = System.Drawing.Color.White;
 			this.updateTimeTextBox.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-			this.updateTimeTextBox.Location = new System.Drawing.Point(551, 102);
+			this.updateTimeTextBox.Location = new System.Drawing.Point(630, 136);
+			this.updateTimeTextBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.updateTimeTextBox.Name = "updateTimeTextBox";
 			this.updateTimeTextBox.ReadOnly = true;
-			this.updateTimeTextBox.Size = new System.Drawing.Size(59, 23);
+			this.updateTimeTextBox.Size = new System.Drawing.Size(80, 27);
 			this.updateTimeTextBox.TabIndex = 12;
 			// 
 			// updatetimeLabel
 			// 
 			this.updatetimeLabel.AutoSize = true;
-			this.updatetimeLabel.Location = new System.Drawing.Point(490, 108);
+			this.updatetimeLabel.Location = new System.Drawing.Point(560, 144);
 			this.updatetimeLabel.Name = "updatetimeLabel";
-			this.updatetimeLabel.Size = new System.Drawing.Size(55, 15);
+			this.updatetimeLabel.Size = new System.Drawing.Size(70, 20);
 			this.updatetimeLabel.TabIndex = 13;
 			this.updatetimeLabel.Text = "Updated:";
 			// 
 			// menuStrip1
 			// 
 			this.menuStrip1.BackColor = System.Drawing.Color.Transparent;
+			this.menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
 			this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
             this.editToolStripMenuItem,
             this.helpToolStripMenuItem});
 			this.menuStrip1.Location = new System.Drawing.Point(0, 0);
 			this.menuStrip1.Name = "menuStrip1";
-			this.menuStrip1.Size = new System.Drawing.Size(884, 24);
+			this.menuStrip1.Padding = new System.Windows.Forms.Padding(7, 3, 0, 3);
+			this.menuStrip1.Size = new System.Drawing.Size(1010, 30);
 			this.menuStrip1.TabIndex = 14;
 			this.menuStrip1.Text = "menuStrip1";
 			// 
@@ -257,13 +264,13 @@ namespace NoteApp.UI
 			this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.exitToolStripMenuItem});
 			this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-			this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
+			this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 24);
 			this.fileToolStripMenuItem.Text = "&File";
 			// 
 			// exitToolStripMenuItem
 			// 
 			this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-			this.exitToolStripMenuItem.Size = new System.Drawing.Size(93, 22);
+			this.exitToolStripMenuItem.Size = new System.Drawing.Size(116, 26);
 			this.exitToolStripMenuItem.Text = "E&xit";
 			this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
 			// 
@@ -274,27 +281,27 @@ namespace NoteApp.UI
             this.EditNoteItem,
             this.RemoveNoteItem});
 			this.editToolStripMenuItem.Name = "editToolStripMenuItem";
-			this.editToolStripMenuItem.Size = new System.Drawing.Size(39, 20);
+			this.editToolStripMenuItem.Size = new System.Drawing.Size(49, 24);
 			this.editToolStripMenuItem.Text = "&Edit";
 			// 
 			// AddNoteItem
 			// 
 			this.AddNoteItem.Name = "AddNoteItem";
-			this.AddNoteItem.Size = new System.Drawing.Size(146, 22);
+			this.AddNoteItem.Size = new System.Drawing.Size(183, 26);
 			this.AddNoteItem.Text = "Add Note";
 			this.AddNoteItem.Click += new System.EventHandler(this.AddNoteItem_Click);
 			// 
 			// EditNoteItem
 			// 
 			this.EditNoteItem.Name = "EditNoteItem";
-			this.EditNoteItem.Size = new System.Drawing.Size(146, 22);
+			this.EditNoteItem.Size = new System.Drawing.Size(183, 26);
 			this.EditNoteItem.Text = "Edit Note";
 			this.EditNoteItem.Click += new System.EventHandler(this.EditNoteItem_Click);
 			// 
 			// RemoveNoteItem
 			// 
 			this.RemoveNoteItem.Name = "RemoveNoteItem";
-			this.RemoveNoteItem.Size = new System.Drawing.Size(146, 22);
+			this.RemoveNoteItem.Size = new System.Drawing.Size(183, 26);
 			this.RemoveNoteItem.Text = "Remove Note";
 			this.RemoveNoteItem.Click += new System.EventHandler(this.RemoveNoteItem_Click);
 			// 
@@ -303,13 +310,13 @@ namespace NoteApp.UI
 			this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.aboutToolStripMenuItem});
 			this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-			this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
+			this.helpToolStripMenuItem.Size = new System.Drawing.Size(55, 24);
 			this.helpToolStripMenuItem.Text = "&Help";
 			// 
 			// aboutToolStripMenuItem
 			// 
 			this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-			this.aboutToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
+			this.aboutToolStripMenuItem.Size = new System.Drawing.Size(142, 26);
 			this.aboutToolStripMenuItem.Text = "&About...";
 			this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
 			// 
@@ -372,10 +379,10 @@ namespace NoteApp.UI
 			// 
 			// MainForm
 			// 
-			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.White;
-			this.ClientSize = new System.Drawing.Size(884, 561);
+			this.ClientSize = new System.Drawing.Size(1010, 748);
 			this.Controls.Add(this.updatetimeLabel);
 			this.Controls.Add(this.updateTimeTextBox);
 			this.Controls.Add(this.createdTimeLabel);
@@ -392,7 +399,8 @@ namespace NoteApp.UI
 			this.Controls.Add(this.menuStrip1);
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.MainMenuStrip = this.menuStrip1;
-			this.MinimumSize = new System.Drawing.Size(900, 600);
+			this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+			this.MinimumSize = new System.Drawing.Size(1026, 784);
 			this.Name = "MainForm";
 			this.Text = "NoteApp";
 			this.menuStrip1.ResumeLayout(false);

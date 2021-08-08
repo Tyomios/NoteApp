@@ -99,48 +99,10 @@ namespace NoteApp.UnitTests
 			Assert.AreEqual(note.Text, cloneNote.Text, "Метод клонирования устанавливает неправильный текст");
 			Assert.AreEqual(note.Category, cloneNote.Category, 
 				"Метод клонирования устанавливает неправильную категорию");
-			Assert.AreEqual(note.СreationTime, cloneNote.СreationTime, 
+			Assert.AreEqual(note.CreationTime, cloneNote.CreationTime, 
 				"Метод клонирования устанавливает неправильное время создания");
 			Assert.AreEqual(note.LastEditTime, cloneNote.LastEditTime,
 				"Метод клонирования устанавливает неправильное время последнего редактирования");
-		}
-
-		[Test(Description = "Позитивный тест метода получения заметок по категории All")]
-		public void TestGetNotesChoosenCategory_AllCategory()
-		{
-			//Setup
-			Project project = new Project();
-			var notes = new List<Note>();
-			project.Notes.Add(new Note("Name", Category.Documents, "Text"));
-			project.Notes.Add(new Note("Name", Category.Home, "Text"));
-			project.Notes.Add(new Note("Name", Category.Home, "Text"));
-
-			//Testing
-			var expected = 3;
-			project.GetNotesChoosenCategory("All", notes);
-			var actual = notes.Count;
-
-			//Assert
-			Assert.AreEqual(expected, actual, "Метод возвращает неправильный список");
-		}
-
-		[Test(Description = "Позитивный тест метода получения заметок по категории All")]
-		public void TestGetNotesChoosenCategory()
-		{
-			//Setup
-			Project project = new Project();
-			var notes = new List<Note>();
-			project.Notes.Add(new Note("Name", Category.Documents, "Text"));
-			project.Notes.Add(new Note("Name", Category.Home, "Text"));
-			project.Notes.Add(new Note("Name", Category.Home, "Text"));
-
-			//Testing
-			var expected = 2;
-			project.GetNotesChoosenCategory("Home", notes);
-			var actual = notes.Count;
-
-			//Assert
-			Assert.AreEqual(expected, actual, "Метод возвращает неправильный список");
 		}
 	}
 }

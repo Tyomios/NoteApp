@@ -19,7 +19,7 @@ namespace NoteApp.UI
         /// <summary>
 		/// Новая или редактируемая заметка, в зависимости от действия пользователя.
 		/// </summary>
-		private Note newNote;
+		private Note _newNote;
 
         // TODO: комментарий для свойства начинается с фразы "Возвращает или задает ...". Например, "Возвращает или задает название заметки."+
 		/// <summary>
@@ -27,16 +27,16 @@ namespace NoteApp.UI
 		/// </summary>
 		public Note Note
 		{
-			get => newNote;
+			get => _newNote;
 			set
 			{
-				if(newNote == null)
+				if(_newNote == null)
 				{
-					newNote = new Note();
+					_newNote = new Note();
 					return;
 				}
 
-				newNote = value;
+				_newNote = value;
 				SetDataFields();
 			}
 		}
@@ -59,7 +59,7 @@ namespace NoteApp.UI
 		}
 
 		/// <summary>
-		/// Конструктор формы
+		/// Создает экземпляр <see cref="Form">.
 		/// </summary>
 		public NoteForm()
 		{
@@ -88,13 +88,13 @@ namespace NoteApp.UI
 			{
 				AuxiliaryNote.Name = "Без названия";
 			}
-			newNote.Name = AuxiliaryNote.Name;
-			newNote.Category = category;
-			newNote.Text = NoteTextRichTextBox.Text;
-			newNote.LastEditTime = DateTime.Now;
-			newNote.СreationTime = Note.СreationTime;
+			_newNote.Name = AuxiliaryNote.Name;
+			_newNote.Category = category;
+			_newNote.Text = NoteTextRichTextBox.Text;
+			_newNote.LastEditTime = DateTime.Now;
+			_newNote.CreationTime = Note.CreationTime;
 
-			newNote = new Note(AuxiliaryNote.Name, category, NoteTextRichTextBox.Text);
+			_newNote = new Note(AuxiliaryNote.Name, category, NoteTextRichTextBox.Text);
 
 			DialogResult = DialogResult.OK;
 			Close();
@@ -106,9 +106,8 @@ namespace NoteApp.UI
 			var blackColor = Color.Black;
 			var redColor = Color.Red;
 
-			AuxiliaryNote = (Note)newNote.Clone();
+			AuxiliaryNote = (Note)_newNote.Clone();
 
-            // TODO: дублируется проверка из свойства бизнес-логики
 			if (NameTextBox.Text.Length < 50)
 			{
 				NameTextBox.ForeColor = blackColor;
@@ -117,7 +116,6 @@ namespace NoteApp.UI
 				longNameWarningLabel.ForeColor = NoteForm.DefaultBackColor;
 			}
 
-            // TODO: зачем дважды делается валидация?
 			try
 			{
 				AuxiliaryNote.Name = NameTextBox.Text;
