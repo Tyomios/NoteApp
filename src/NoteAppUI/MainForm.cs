@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -131,16 +132,30 @@ namespace NoteApp.UI
             // TODO: у тебя и в проекте, и в showedNotes лежат одни и те же экземпляры заметок -
 			// Зачем ты делаешь поиск по полям, когда можно сделать простой поиск/сравнение по ссылке
 			// или даже сделать поиск linq-запросом?
-			foreach (var note in notes)
+			if(project.CurrentNote != null)
 			{
-				if (note.Name == project.CurrentNote.Name
-				    && note.CreationTime == project.CurrentNote.CreationTime
-				    && note.Text == project.CurrentNote.Text)
-				{
-					return notes.IndexOf(note);
-				}
-			}
+				//foreach (var note in notes)
+				//{
+				//	if (note.Name == project.CurrentNote.Name
+				//	    && note.CreationTime == project.CurrentNote.CreationTime
+				//	    && note.Text == project.CurrentNote.Text)
+				//	{
+				//		return notes.IndexOf(note);
+				//	}
+				//}
 
+
+				var equalNotes = (from note in notes
+					where note.Equals(project.CurrentNote)
+					select note).ToList();
+
+				return notes.IndexOf(equalNotes[0]);
+				//foreach (var note in noteIndex)
+				//{
+				//	return notes.IndexOf(note);
+				//}
+			}
+			
 			return -1;
 		}
 
