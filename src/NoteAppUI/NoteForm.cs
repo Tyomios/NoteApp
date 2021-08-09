@@ -64,7 +64,6 @@ namespace NoteApp.UI
 		public NoteForm()
 		{
 			InitializeComponent();
-            // TODO: инициализация в поле/свойстве
 			Note = new Note();
 			AuxiliaryNote = new Note();
 			foreach (var category in Enum.GetValues(typeof(Category)))

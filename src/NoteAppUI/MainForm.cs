@@ -19,20 +19,20 @@ namespace NoteApp.UI
 	{
 		// TODO: именование не по RSDN+
 		/// <summary>
-		/// Название элемента categoryComboBox
+		/// Название элемента categoryComboBox.
 		/// </summary>
 		private const string _comboBoxCategoryAll = "All";
 
-		// TODO: именование не по RSDN
+		// TODO: именование не по RSDN+
 		/// <summary>
-		/// Обьект, хранящий список заметок
+		/// Обьект, хранящий список заметок.
 		/// </summary>
-		public Project project = new Project();
+		public Project _project = new Project();
 
         // TODO: модификаторы доступа надо прописывать явно+
-		// TODO: именование не по RSDN
+		// TODO: именование не по RSDN+
 		/// <summary>
-		/// Список заметок для выбранной категории заметок
+		/// Список заметок для выбранной категории заметок.
 		/// </summary>
 		private List<Note> _showedNotesByCategory = new List<Note>();
 
@@ -49,14 +49,14 @@ namespace NoteApp.UI
 				categoryComboBox.Items.Add(category);
 			}
 
-			project = ProjectManager.LoadFromFile(ProjectManager.defaultPath);
+			_project = ProjectManager.LoadFromFile(ProjectManager.defaultPath);
 			categoryComboBox.SelectedItem = _comboBoxCategoryAll;
 			FilterNotesSelector();
 		}
 
 		// TODO: порядок членов класса
 		/// <summary>
-		/// Заполняет информационное окно данными заметки
+		/// Заполняет информационное окно данными заметки.
 		/// </summary>
 		/// <param name="note"> Заметка </param>
 		private void FillNoteInfoPanel(Note note)
@@ -73,7 +73,7 @@ namespace NoteApp.UI
 		// TODO: модификаторы доступа надо прописывать явно+
         // TODO: порядок членов класса
 		/// <summary>
-		/// служебный метод отчистки данных заметки в лейблах и боксах
+		/// Cлужебный метод отчистки данных заметки в лейблах и боксах.
 		/// </summary>
 		private void ClearNoteInfoPanel()
 		{
@@ -116,7 +116,7 @@ namespace NoteApp.UI
 
 		// TODO: порядок членов класса
         /// <summary>
-		/// Поиск индекса выбранной заметки в коллекции 
+		/// Поиск индекса выбранной заметки в коллекции.
 		/// </summary>
 		/// <param name="notes"> Список заметок </param>
 		/// <returns>
@@ -125,35 +125,20 @@ namespace NoteApp.UI
 		/// </returns>
 		private int SearchNoteIndex(List<Note> notes)
 		{
-			if (project.CurrentNote == null)
+			if (_project.CurrentNote == null)
 			{
 				return 0;
 			}
             // TODO: у тебя и в проекте, и в showedNotes лежат одни и те же экземпляры заметок -
 			// Зачем ты делаешь поиск по полям, когда можно сделать простой поиск/сравнение по ссылке
-			// или даже сделать поиск linq-запросом?
-			if(project.CurrentNote != null)
+			// или даже сделать поиск linq-запросом? +
+			if(_project.CurrentNote != null)
 			{
-				//foreach (var note in notes)
-				//{
-				//	if (note.Name == project.CurrentNote.Name
-				//	    && note.CreationTime == project.CurrentNote.CreationTime
-				//	    && note.Text == project.CurrentNote.Text)
-				//	{
-				//		return notes.IndexOf(note);
-				//	}
-				//}
-
-
 				var equalNotes = (from note in notes
-					where note.Equals(project.CurrentNote)
+					where note.Equals(_project.CurrentNote)
 					select note).ToList();
 
 				return notes.IndexOf(equalNotes[0]);
-				//foreach (var note in noteIndex)
-				//{
-				//	return notes.IndexOf(note);
-				//}
 			}
 			
 			return -1;
@@ -167,7 +152,7 @@ namespace NoteApp.UI
         {
 	        listNoteListBox.Items.Clear();
 			_showedNotesByCategory.Clear();
-			_showedNotesByCategory = project.FilterByCategory(category);
+			_showedNotesByCategory = _project.FilterByCategory(category);
 			
 			FillMainFormPanels();
 		}
@@ -175,7 +160,7 @@ namespace NoteApp.UI
         // TODO: модификаторы доступа надо прописывать явно+
 		// TODO: порядок членов класса
 		/// <summary>
-		/// Проверка заметки на null, в случае если заметка null - удаляет ее
+		/// Проверка заметки на null, в случае если заметка null - удаляет ее.
 		/// </summary>
 		/// <param name="notes"> Список заметок </param>
 		private void RemoveLastNullNoteInList(List<Note> notes)
@@ -191,7 +176,7 @@ namespace NoteApp.UI
 		// TODO: порядок членов класса+
 		// TODO: именование. Что за Action?+
 		/// <summary>
-		/// Создание заметки
+		/// Создание заметки.
 		/// </summary>
 		private void StartOperationAddNote()
 		{
@@ -205,9 +190,9 @@ namespace NoteApp.UI
 
 			if (result == DialogResult.OK)
 			{
-				project.Notes.Add(addForm.Note);
-				RemoveLastNullNoteInList(project.Notes);
-				ProjectManager.SaveToFile(project, ProjectManager.defaultPath);
+				_project.Notes.Add(addForm.Note);
+				RemoveLastNullNoteInList(_project.Notes);
+				ProjectManager.SaveToFile(_project, ProjectManager.defaultPath);
 
 				_showedNotesByCategory.Add(addForm.Note);
 			}
@@ -215,9 +200,9 @@ namespace NoteApp.UI
 			FilterNotesSelector();
 			if (_showedNotesByCategory.Count != 0)
 			{
-				project.CurrentNote = _showedNotesByCategory[0];
-				FillNoteInfoPanel(project.CurrentNote);
-				listNoteListBox.SelectedItem = project.CurrentNote;
+				_project.CurrentNote = _showedNotesByCategory[0];
+				FillNoteInfoPanel(_project.CurrentNote);
+				listNoteListBox.SelectedItem = _project.CurrentNote;
 				listNoteListBox.SelectedIndex = 0;
 			}
 		}
@@ -229,17 +214,17 @@ namespace NoteApp.UI
 
 		// TODO: порядок членов класса+
 		/// <summary>
-		/// Проверка на невыбранный элемент listBox
+		/// Проверка на невыбранный элемент listBox.
 		/// </summary>
 		/// <param name="index"> Индекс удаляемой заметки </param>
 		/// <returns>
 		/// retval true - индекс равен -1
 		/// retval false - индекс не равен -1
 		/// </returns>
-		private bool IsNoteSelected(int index)
+		private bool IsNoteSelected()
 		{
-			// TODO: метод вызывается всегда для листбокса. Может тогда определять индекс внутри метода и упростить вызов?
-			if (index == -1)
+			// TODO: метод вызывается всегда для листбокса. Может тогда определять индекс внутри метода и упростить вызов?+
+			if (listNoteListBox.SelectedIndex == -1)
 			{
 				MessageBox.Show("Select note", "Warning", MessageBoxButtons.OK);
 				return true;
@@ -251,11 +236,11 @@ namespace NoteApp.UI
 		// TODO: порядок членов класса
 		// TODO: именование. Что за Action?+
 		/// <summary>
-		/// Удаление заметки
+		/// Удаление заметки.
 		/// </summary>
 		private void StartOperationDeleteNote()
 		{
-			if (IsNoteSelected(listNoteListBox.SelectedIndex))
+			if (IsNoteSelected())
 			{
 				return;
 			}
@@ -268,8 +253,8 @@ namespace NoteApp.UI
 				return;
 			}
 
-			project.Notes.Remove(project.Notes[project.Notes.IndexOf(deleteNote)]);
-			ProjectManager.SaveToFile(project, ProjectManager.defaultPath);
+			_project.Notes.Remove(_project.Notes[_project.Notes.IndexOf(deleteNote)]);
+			ProjectManager.SaveToFile(_project, ProjectManager.defaultPath);
 			_showedNotesByCategory.Remove(deleteNote);
 
 			FilterNotesSelector();
@@ -291,11 +276,11 @@ namespace NoteApp.UI
 		// TODO: порядок членов класса+
 		// TODO: именование. Что за Action?+
 		/// <summary>
-		/// Редактирование заметки
+		/// Редактирование заметки.
 		/// </summary>
 		private void StartOperationEditNote()
 		{
-			if (IsNoteSelected(listNoteListBox.SelectedIndex))
+			if (IsNoteSelected())
 			{
 				return;
 			}
@@ -309,20 +294,20 @@ namespace NoteApp.UI
 			var result = addForm.ShowDialog();
 			if (result == DialogResult.OK)
 			{
-				int index = project.Notes.IndexOf(_showedNotesByCategory[listNoteListBox.SelectedIndex]);
+				int index = _project.Notes.IndexOf(_showedNotesByCategory[listNoteListBox.SelectedIndex]);
 				var oldCreationTime = _showedNotesByCategory[listNoteListBox.SelectedIndex].CreationTime;
 				addForm.Note.CreationTime = oldCreationTime;
 
-				project.Notes.Add(addForm.Note);
+				_project.Notes.Add(addForm.Note);
 				_showedNotesByCategory.Remove(_showedNotesByCategory[listNoteListBox.SelectedIndex]);
 				_showedNotesByCategory.Add(addForm.Note);
 
 
-				project.Notes.Remove(project.Notes[index]);
-				ProjectManager.SaveToFile(project, ProjectManager.defaultPath);
+				_project.Notes.Remove(_project.Notes[index]);
+				ProjectManager.SaveToFile(_project, ProjectManager.defaultPath);
 
 				FilterNotesSelector();
-				project.CurrentNote = _showedNotesByCategory[0];
+				_project.CurrentNote = _showedNotesByCategory[0];
 				listNoteListBox.SelectedIndex = 0;
 			}
 		}
@@ -351,7 +336,7 @@ namespace NoteApp.UI
 			{
 				var currentNote = _showedNotesByCategory[listNoteListBox.SelectedIndex];
 				FillNoteInfoPanel(currentNote);
-				project.CurrentNote = currentNote;
+				_project.CurrentNote = currentNote;
 			}
 			else
 			{
@@ -377,7 +362,7 @@ namespace NoteApp.UI
 		{
 			listNoteListBox.Items.Clear();
 			_showedNotesByCategory.Clear();
-			_showedNotesByCategory = project.GetReverseNotesList();
+			_showedNotesByCategory = _project.GetReverseNotesList();
 			
 			FillMainFormPanels();
 		}
