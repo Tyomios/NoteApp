@@ -10,18 +10,17 @@ using System.Windows.Forms;
 
 using NoteApp;
 
-// TODO: именование не соответствует названию проекта+
 namespace NoteApp.UI
 {
 	public partial class NoteForm : Form
 	{
-        // TODO: именование не по RSDN+
+		//TODO: название поля не совпадает с именем свойства.
+		//TODO: по комментарию это новая ИЛИ редактируемая заметка, а по названию поля - это ТОЛЬКО новая заметка. То есть именование не отражает полного назначения поля.
         /// <summary>
 		/// Новая или редактируемая заметка, в зависимости от действия пользователя.
 		/// </summary>
 		private Note _newNote;
 
-        // TODO: комментарий для свойства начинается с фразы "Возвращает или задает ...". Например, "Возвращает или задает название заметки."+
 		/// <summary>
 		/// Возвращает заметку или задает данные для заметки. В последнем случае полученные данные используются для заполнения формы.
 		/// </summary>
@@ -41,8 +40,8 @@ namespace NoteApp.UI
 			}
 		}
 
-		// TODO: комментарий для свойства начинается с фразы "Возвращает или задает ...". Например, "Возвращает или задает название заметки."+
         // TODO: что за название? "Заметка безопасности"? Название должно отражать назначение+
+		// UPD: NoteForValidation?
 		/// <summary>
 		/// Возвращает или задает заметку, которая нужна для проверки поля названия.
 		/// </summary>
@@ -101,12 +100,13 @@ namespace NoteApp.UI
 
 		private void NameTextBox_TextChanged(object sender, EventArgs e)
 		{
-            // TODO: var+
 			var blackColor = Color.Black;
 			var redColor = Color.Red;
 
 			AuxiliaryNote = (Note)_newNote.Clone();
 
+			// TODO: и всё равно двойная проверка... НЕПРАВИЛЬНО в интерфейсе дублировать проверки из бизнес-логики,
+			// если можно использовать проверку из бизнес-логики!
 			if (NameTextBox.Text.Length < 50)
 			{
 				NameTextBox.ForeColor = blackColor;
@@ -124,8 +124,7 @@ namespace NoteApp.UI
 				MessageBox.Show(exception.Message);
 				NameTextBox.ForeColor = redColor;
 				OKButton.Enabled = false;
-                // TODO: текст неточен. Что значит "напишите название короче"?+
-                // Насколько короче? Должна быть конкретика
+				//TODO: надо брать текст из сообщения исключения. Исключение же может вылететь не только на длину строки
 				longNameWarningLabel.Text = "Write note's name less, then 50 symbols";
 				longNameWarningLabel.ForeColor = redColor;
 			}

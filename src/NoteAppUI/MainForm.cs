@@ -11,26 +11,20 @@ using System.Windows.Forms;
 
 using NoteApp;
 
-
-// TODO: именование не соответствует названию проекта+
 namespace NoteApp.UI
 {
 	public partial class MainForm : Form
 	{
-		// TODO: именование не по RSDN+
 		/// <summary>
 		/// Название элемента categoryComboBox.
 		/// </summary>
 		private const string _comboBoxCategoryAll = "All";
-
-		// TODO: именование не по RSDN+
+        //TODO: SpellChecker показывает грамматическую ошибку в комментарии
 		/// <summary>
 		/// Обьект, хранящий список заметок.
 		/// </summary>
 		public Project _project = new Project();
 
-        // TODO: модификаторы доступа надо прописывать явно+
-		// TODO: именование не по RSDN+
 		/// <summary>
 		/// Список заметок для выбранной категории заметок.
 		/// </summary>
@@ -54,7 +48,6 @@ namespace NoteApp.UI
 			FilterNotesSelector();
 		}
 
-		// TODO: порядок членов класса
 		/// <summary>
 		/// Заполняет информационное окно данными заметки.
 		/// </summary>
@@ -70,8 +63,6 @@ namespace NoteApp.UI
 			noteCategoryLabel.Text = $"Category: {note.Category}";
 		}
 
-		// TODO: модификаторы доступа надо прописывать явно+
-        // TODO: порядок членов класса
 		/// <summary>
 		/// Cлужебный метод отчистки данных заметки в лейблах и боксах.
 		/// </summary>
@@ -114,7 +105,6 @@ namespace NoteApp.UI
 			FillNoteInfoPanel(_showedNotesByCategory[selectedIndex]);
 		}
 
-		// TODO: порядок членов класса
         /// <summary>
 		/// Поиск индекса выбранной заметки в коллекции.
 		/// </summary>
@@ -129,20 +119,9 @@ namespace NoteApp.UI
 			{
 				return 0;
 			}
-            // TODO: у тебя и в проекте, и в showedNotes лежат одни и те же экземпляры заметок -
-			// Зачем ты делаешь поиск по полям, когда можно сделать простой поиск/сравнение по ссылке
-			// или даже сделать поиск linq-запросом? +
-			if(_project.CurrentNote != null)
-			{
-				var equalNotes = (from note in notes
-					where note.Equals(_project.CurrentNote)
-					select note).ToList();
 
-				return notes.IndexOf(equalNotes[0]);
-			}
-			
-			return -1;
-		}
+            return notes.IndexOf(_project.CurrentNote);
+        }
 
         /// <summary>
 		/// Фильтрация заметок в списке _showedNotesByCategory по категории.
@@ -157,24 +136,21 @@ namespace NoteApp.UI
 			FillMainFormPanels();
 		}
 
-        // TODO: модификаторы доступа надо прописывать явно+
-		// TODO: порядок членов класса
 		/// <summary>
 		/// Проверка заметки на null, в случае если заметка null - удаляет ее.
 		/// </summary>
 		/// <param name="notes"> Список заметок </param>
 		private void RemoveLastNullNoteInList(List<Note> notes)
 		{
-			// TODO: именование метода. Почему метод проверки удаляет что-то из списка?+
 			var lastNote = notes[notes.Count - 1];
+			//TODO: Что это за случай, когда имя в заметки пустое, и нужно её удалить?
 			if (lastNote == null || lastNote.Name == "")
 			{
 				notes.Remove(lastNote);
 			}
 		}
 
-		// TODO: порядок членов класса+
-		// TODO: именование. Что за Action?+
+		// TODO: именование. Что за Action?+ UPD: просто AddNote(). Зачем сложности?
 		/// <summary>
 		/// Создание заметки.
 		/// </summary>
@@ -183,6 +159,8 @@ namespace NoteApp.UI
 			NoteForm addForm = new NoteForm();
 			var result = addForm.ShowDialog();
 
+			//TODO: if (result != DialogResult.OK) {return }
+			// и тогда второе условие ниже уже не надо
 			if (result == DialogResult.Cancel)
 			{
 				return;
@@ -191,9 +169,11 @@ namespace NoteApp.UI
 			if (result == DialogResult.OK)
 			{
 				_project.Notes.Add(addForm.Note);
+                //TODO: Откуда вообще берется null или пустая заметка в списке? Это какой-то косяк
 				RemoveLastNullNoteInList(_project.Notes);
 				ProjectManager.SaveToFile(_project, ProjectManager.defaultPath);
 
+				//TODO: почему ты уверен, что новая заметка относится к текущей категории?
 				_showedNotesByCategory.Add(addForm.Note);
 			}
 
@@ -212,7 +192,6 @@ namespace NoteApp.UI
 			StartOperationAddNote();
 		}
 
-		// TODO: порядок членов класса+
 		/// <summary>
 		/// Проверка на невыбранный элемент listBox.
 		/// </summary>
@@ -223,7 +202,6 @@ namespace NoteApp.UI
 		/// </returns>
 		private bool IsNoteSelected()
 		{
-			// TODO: метод вызывается всегда для листбокса. Может тогда определять индекс внутри метода и упростить вызов?+
 			if (listNoteListBox.SelectedIndex == -1)
 			{
 				MessageBox.Show("Select note", "Warning", MessageBoxButtons.OK);
@@ -233,8 +211,7 @@ namespace NoteApp.UI
 			return false;
 		}
 
-		// TODO: порядок членов класса
-		// TODO: именование. Что за Action?+
+		// TODO: именование. Что за Action?+ UPD: именование DeleteNote()
 		/// <summary>
 		/// Удаление заметки.
 		/// </summary>
@@ -246,6 +223,7 @@ namespace NoteApp.UI
 			}
 
 			var deleteNote = _showedNotesByCategory[listNoteListBox.SelectedIndex];
+            //TODO: используй var вместо указания конкретного типа
 			DialogResult result = MessageBox.Show
 				($"Delete note {deleteNote.Name} ?", "Warning", MessageBoxButtons.OKCancel);
 			if (result == DialogResult.Cancel)
@@ -273,8 +251,7 @@ namespace NoteApp.UI
 			StartOperationDeleteNote();
 		}
 
-		// TODO: порядок членов класса+
-		// TODO: именование. Что за Action?+
+		// TODO: именование. Что за Action?+ UPD: именование EditNote()
 		/// <summary>
 		/// Редактирование заметки.
 		/// </summary>
@@ -285,8 +262,11 @@ namespace NoteApp.UI
 				return;
 			}
 
+            //TODO: почему addForm?
 			var addForm = new NoteForm();
 
+			//TODO: далее по коду у тебя часто используется конструкция _showedNotesByCategory[listNoteListBox.SelectedIndex]..
+			// .. вынеси и selectedIndex и заметку в локальные переменные, и используй их, так код будет лаконичнее.
 			Note newEditNote = (Note)_showedNotesByCategory[listNoteListBox.SelectedIndex].Clone();
 			addForm.Note = newEditNote;
 
@@ -294,13 +274,14 @@ namespace NoteApp.UI
 			var result = addForm.ShowDialog();
 			if (result == DialogResult.OK)
 			{
+                //TODO: почему CreationTime не копируется сам при методе Clone()? Почему приходится копировать время вручную? Исправить
 				int index = _project.Notes.IndexOf(_showedNotesByCategory[listNoteListBox.SelectedIndex]);
 				var oldCreationTime = _showedNotesByCategory[listNoteListBox.SelectedIndex].CreationTime;
 				addForm.Note.CreationTime = oldCreationTime;
 
 				_project.Notes.Add(addForm.Note);
 				_showedNotesByCategory.Remove(_showedNotesByCategory[listNoteListBox.SelectedIndex]);
-				_showedNotesByCategory.Add(addForm.Note);
+				_showedNotesByCategory.Add(addForm.Note); //TODO: две пустых строки делать не надо, может быть только одна
 
 
 				_project.Notes.Remove(_project.Notes[index]);
@@ -312,6 +293,7 @@ namespace NoteApp.UI
 			}
 		}
 
+		//TODO: что за слово Selector в именовании? Зачем оно?
 		/// <summary>
 		/// Выбирает какой функцией фильтровать заметки, в зависимости от categoryComboBox.SelectedItem.
 		/// </summary>
@@ -332,6 +314,7 @@ namespace NoteApp.UI
 
 		private void listNoteBox_SelectedIndexChanged(object sender, EventArgs e)
 		{
+            //TODO: != 1
 			if (listNoteListBox.SelectedIndex > -1)
 			{
 				var currentNote = _showedNotesByCategory[listNoteListBox.SelectedIndex];

@@ -8,26 +8,18 @@ using NUnit.Framework;
 
 namespace NoteApp.UnitTests
 {
-    // TODO: именование. Класс именуется Tests в множественном числе, так как класс содержит много тестов.+
-    // А методы именуются в единственном числе
 	[TestFixture]
 	public class ProjectManagerTests
 	{
         // TODO: почему всё равно поднимаешься на три папки выше? 
         // Нужно работать с файлами в папке компиляции, а не из папки с исходным кодом!
-		// TODO: именование не по RSDN
-		private static string _commonDataFilePath = "..\\..\\..\\";
+        private static string _commonDataFilePath = "..\\..\\..\\";
 
-		// TODO: именование не по RSDN
-		// TODO: грамошибка в названии - почему не пользуешь Spell Checker?
         // TODO: почему не добавить папку TestData в переменную выше, чтобы не прописывать здесь и ниже?
 		private string _currentDataFilename = $"{_commonDataFilePath}TestData\\TestData.txt";
 
-        // TODO: именование не по RSDN
 		private string _damagedDataFilename = $"{_commonDataFilePath}TestData\\damagedData.txt";
 
-
-        // TODO: NonExistedFile - лишняя 'e', не хватает окончания 'ed'+
 		[Test(Description = "Проверка сохранения проекта, когда файла не существует")]
 		public void TestSave_NonExistedFile()
 		{
@@ -90,10 +82,8 @@ namespace NoteApp.UnitTests
 			//Assert
 			Assert.IsNotNull(project, "Проект не создан");
 
-            // TODO: почему здесь Multiply, а ниже в тесте нет?+
 			Assert.Multiple(() =>
 				{
-                    // TODO: AssertMessage писать не нужно. Суть теста должна быть понятна из именования метода или тест-кейса+
 					Assert.IsNotNull(project.Notes);
 					Assert.IsEmpty(project.Notes);
 				}
@@ -110,8 +100,6 @@ namespace NoteApp.UnitTests
 			//Testing
 			var project = ProjectManager.LoadFromFile(usedPath);
 
-			// TODO: AssertMessage писать не нужно. Суть теста должна быть понятна из именования метода или тест-кейса+
-			// TODO: порядок обращения не совпадает с порядком выше - почему?+
 			//Assert
 			Assert.Multiple(() =>
 				{

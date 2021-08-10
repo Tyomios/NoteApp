@@ -7,8 +7,6 @@ using NUnit.Framework;
 
 namespace NoteApp.UnitTests
 {
-    // TODO: именование. Класс именуется Tests в множественном числе, так как класс содержит много тестов.+
-    // А методы именуются в единственном числе
 	[TestFixture]
 	public class ProjectTests
 	{

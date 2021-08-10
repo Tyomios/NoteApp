@@ -6,14 +6,11 @@ using System.Threading.Tasks;
 
 namespace NoteApp
 {
-	// TODO: xml
-    // TODO: в конце комментариев добавлять точку - это конец предложения.+
 	/// <summary>
 	/// Класс проекта.
 	/// </summary>
 	public class Project
 	{
-        // TODO: в конце комментариев добавлять точку - это конец предложения.+
 		/// <summary>
 		/// Список заметок.
 		/// </summary>
@@ -53,7 +50,6 @@ namespace NoteApp
 			return reverseNotesList;
 		}
 
-        // TODO: xml+
 		/// <summary>
 		/// Текущая выбранная пользователем заметка.
 		/// </summary>
