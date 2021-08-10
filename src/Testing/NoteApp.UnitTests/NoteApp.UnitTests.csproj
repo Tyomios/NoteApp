@@ -12,8 +12,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Installer\Installer.csproj" />
-    <ProjectReference Include="..\Model\NoteApp.csproj" />
+    <ProjectReference Include="..\..\Installer\Installer.csproj" />
+    <ProjectReference Include="..\..\Model\NoteApp.csproj" />
   </ItemGroup>
 
   <ItemGroup>
