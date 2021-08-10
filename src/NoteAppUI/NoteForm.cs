@@ -63,7 +63,6 @@ namespace NoteApp.UI
 		public NoteForm()
 		{
 			InitializeComponent();
-			NameTextBox.MaxLength = 49;
 			Note = new Note();
 			NoteForValidation = new Note();
 			foreach (var category in Enum.GetValues(typeof(Category)))
@@ -99,19 +98,13 @@ namespace NoteApp.UI
 
 		private void NameTextBox_TextChanged(object sender, EventArgs e)
 		{
-			var blackColor = Color.Black;
-			var redColor = Color.Red;
-
 			NoteForValidation = (Note)_newOrEditNote.Clone();
 
-			// TODO: и всё равно двойная проверка... НЕПРАВИЛЬНО в интерфейсе дублировать проверки из бизнес-логики,
+			// TODO: и всё равно двойная проверка... НЕПРАВИЛЬНО в интерфейсе дублировать проверки из бизнес-логики,+
 			// если можно использовать проверку из бизнес-логики!
 			if (NameTextBox.Text.Length < 50)
 			{
-				NameTextBox.ForeColor = blackColor;
 				OKButton.Enabled = true;
-				longNameWarningLabel.Text = "";
-				longNameWarningLabel.ForeColor = NoteForm.DefaultBackColor;
 			}
 
 			try
@@ -120,12 +113,9 @@ namespace NoteApp.UI
 			}
 			catch (ArgumentException exception)
 			{
-				//MessageBox.Show(exception.Message);
-				NameTextBox.ForeColor = redColor;
+				MessageBox.Show(exception.Message, "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				NameTextBox.MaxLength = 51;
 				OKButton.Enabled = false;
-				//TODO: надо брать текст из сообщения исключения. Исключение же может вылететь не только на длину строки+
-				longNameWarningLabel.Text = exception.Message;
-				longNameWarningLabel.ForeColor = redColor;
 			}
 		}
 	}
