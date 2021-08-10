@@ -135,21 +135,7 @@ namespace NoteApp.UI
 			FillMainFormPanels();
 		}
 
-		/// <summary>
-		/// Проверка заметки на null, в случае если заметка null - удаляет ее.
-		/// </summary>
-		/// <param name="notes"> Список заметок </param>
-		private void RemoveLastNullNoteInList(List<Note> notes)
-		{
-			var lastNote = notes[notes.Count - 1];
-			//TODO: Что это за случай, когда имя в заметки пустое, и нужно её удалить?
-			if (lastNote == null || lastNote.Name == "")
-			{
-				notes.Remove(lastNote);
-			}
-		}
-
-		// TODO: именование. Что за Action?+ UPD: просто AddNote(). Зачем сложности?+
+        // TODO: именование. Что за Action?+ UPD: просто AddNote(). Зачем сложности?+
 		/// <summary>
 		/// Создание заметки.
 		/// </summary>
@@ -163,8 +149,6 @@ namespace NoteApp.UI
 			if (result != DialogResult.OK) { return; }
 
 			_project.Notes.Add(addForm.Note);
-             //TODO: Откуда вообще берется null или пустая заметка в списке? Это какой-то косяк
-			RemoveLastNullNoteInList(_project.Notes);
 			ProjectManager.SaveToFile(_project, ProjectManager.defaultPath);
 
 			FilterNotes();
@@ -266,10 +250,8 @@ namespace NoteApp.UI
 			var result = editForm.ShowDialog();
 			if (result == DialogResult.OK)
 			{
-                //TODO: почему CreationTime не копируется сам при методе Clone()? Почему приходится копировать время вручную? Исправить
+                //TODO: почему CreationTime не копируется сам при методе Clone()? Почему приходится копировать время вручную? Исправить+
 				int index = _project.Notes.IndexOf(oldEditNote);
-				var oldCreationTime = oldEditNote.CreationTime;
-				editForm.Note.CreationTime = oldCreationTime;
 
 				_project.Notes.Add(editForm.Note);
 				_showedNotesByCategory.Remove(oldEditNote);
@@ -305,7 +287,7 @@ namespace NoteApp.UI
 
 		private void listNoteBox_SelectedIndexChanged(object sender, EventArgs e)
 		{
-            //TODO: != 1
+            //TODO: != -1+
 			if (listNoteListBox.SelectedIndex != -1)
 			{
 				var currentNote = _showedNotesByCategory[listNoteListBox.SelectedIndex];

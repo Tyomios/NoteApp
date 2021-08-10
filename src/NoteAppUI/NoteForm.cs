@@ -93,8 +93,6 @@ namespace NoteApp.UI
 			_newOrEditNote.LastEditTime = DateTime.Now;
 			_newOrEditNote.CreationTime = Note.CreationTime;
 
-			_newOrEditNote = new Note(NoteForValidation.Name, category, NoteTextRichTextBox.Text);
-
 			DialogResult = DialogResult.OK;
 			Close();
 		}
