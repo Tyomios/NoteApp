@@ -11,29 +11,23 @@ namespace NoteApp.UnitTests
 	[TestFixture]
 	public class ProjectManagerTests
 	{
-        // TODO: почему всё равно поднимаешься на три папки выше? 
-        // Нужно работать с файлами в папке компиляции, а не из папки с исходным кодом!
-        private static string _commonDataFilePath = "..\\..\\..\\";
-
-        // TODO: почему не добавить папку TestData в переменную выше, чтобы не прописывать здесь и ниже?
-		private string _currentDataFilename = $"{_commonDataFilePath}TestData\\TestData.txt";
-
-		private string _damagedDataFilename = $"{_commonDataFilePath}TestData\\damagedData.txt";
+		private static string _commonDataFolder = "TestData";
 
 		[Test(Description = "Проверка сохранения проекта, когда файла не существует")]
 		public void TestSave_NonExistedFile()
 		{
 			//Setup
-            // TODO: почему не используешь готовую статическую переменную с путем?
-			Directory.CreateDirectory(@"..\..\..\TestData");
+			var nonExistedDataFilePath = "..\\..\\..\\TestData";
+			var newSavedDataPath = $"{nonExistedDataFilePath}\\testData.txt";
+			Directory.CreateDirectory(nonExistedDataFilePath);
 			var project = new Project();
 			project.Notes.Add(new Note("Name", Category.Documents, "Text"));
-			var usedPath = @"..\..\..\TestData\testData.txt";
+			var usedPath = $"{nonExistedDataFilePath}\\testData.txt";
 
 			//Testing
 			ProjectManager.SaveToFile(project, usedPath);
 
-			var fileStatus = File.Exists(_currentDataFilename);
+			var fileStatus = File.Exists(newSavedDataPath);
 			var expected = true;
 			var actualLoadProject = ProjectManager.LoadFromFile(usedPath);
 
@@ -59,7 +53,7 @@ namespace NoteApp.UnitTests
 			var expectedNoteText = "Text";
 			var expectedNoteCategory = Category.Documents;
 			var expectedNote = new Note(expectedNoteName, expectedNoteCategory, expectedNoteText);
-			var usedPath = @"TestData\TestData.txt";
+			var usedPath = $"{_commonDataFolder}\\testData.txt";
 
 			//Testing
 			var project = ProjectManager.LoadFromFile(usedPath);
@@ -74,7 +68,7 @@ namespace NoteApp.UnitTests
 		public void TestLoadNoneFile()
 		{
 			//Setup
-			var usedPath = @"TestData\noneData.txt";
+			var usedPath = $"{_commonDataFolder}\\noneData.txt";
 
 			//Testing
 			var project = ProjectManager.LoadFromFile(usedPath);
@@ -95,7 +89,7 @@ namespace NoteApp.UnitTests
 		public void TestLoadFile_DamagedData()
 		{
 			//Setup
-			var usedPath = @"TestData\damagedData.txt";
+			var usedPath = $"{_commonDataFolder}\\damagedData.txt";
 
 			//Testing
 			var project = ProjectManager.LoadFromFile(usedPath);
