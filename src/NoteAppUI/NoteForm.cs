@@ -14,28 +14,28 @@ namespace NoteApp.UI
 {
 	public partial class NoteForm : Form
 	{
-		//TODO: название поля не совпадает с именем свойства.
+		//TODO: название поля не совпадает с именем свойства. +
 		//TODO: по комментарию это новая ИЛИ редактируемая заметка, а по названию поля - это ТОЛЬКО новая заметка. То есть именование не отражает полного назначения поля.
         /// <summary>
 		/// Новая или редактируемая заметка, в зависимости от действия пользователя.
 		/// </summary>
-		private Note _newNote;
+		private Note _newOrEditNote;
 
 		/// <summary>
 		/// Возвращает заметку или задает данные для заметки. В последнем случае полученные данные используются для заполнения формы.
 		/// </summary>
 		public Note Note
 		{
-			get => _newNote;
+			get => _newOrEditNote;
 			set
 			{
-				if(_newNote == null)
+				if(_newOrEditNote == null)
 				{
-					_newNote = new Note();
+					_newOrEditNote = new Note();
 					return;
 				}
 
-				_newNote = value;
+				_newOrEditNote = value;
 				SetDataFields();
 			}
 		}
@@ -45,7 +45,7 @@ namespace NoteApp.UI
 		/// <summary>
 		/// Возвращает или задает заметку, которая нужна для проверки поля названия.
 		/// </summary>
-		private Note AuxiliaryNote { get; set; }
+		private Note NoteForValidation { get; set; }
 
 		/// <summary>
 		/// Устанавливает значения полей из данных редактируемой заметки.
@@ -63,8 +63,9 @@ namespace NoteApp.UI
 		public NoteForm()
 		{
 			InitializeComponent();
+			NameTextBox.MaxLength = 49;
 			Note = new Note();
-			AuxiliaryNote = new Note();
+			NoteForValidation = new Note();
 			foreach (var category in Enum.GetValues(typeof(Category)))
 			{
 				CategoryComboBox.Items.Add(category);
@@ -82,17 +83,17 @@ namespace NoteApp.UI
 		{
 			Category category = (Category)CategoryComboBox.SelectedItem;
 
-			if (AuxiliaryNote.Name == "")
+			if (NoteForValidation.Name == "")
 			{
-				AuxiliaryNote.Name = "Без названия";
+				NoteForValidation.Name = "Без названия";
 			}
-			_newNote.Name = AuxiliaryNote.Name;
-			_newNote.Category = category;
-			_newNote.Text = NoteTextRichTextBox.Text;
-			_newNote.LastEditTime = DateTime.Now;
-			_newNote.CreationTime = Note.CreationTime;
+			_newOrEditNote.Name = NoteForValidation.Name;
+			_newOrEditNote.Category = category;
+			_newOrEditNote.Text = NoteTextRichTextBox.Text;
+			_newOrEditNote.LastEditTime = DateTime.Now;
+			_newOrEditNote.CreationTime = Note.CreationTime;
 
-			_newNote = new Note(AuxiliaryNote.Name, category, NoteTextRichTextBox.Text);
+			_newOrEditNote = new Note(NoteForValidation.Name, category, NoteTextRichTextBox.Text);
 
 			DialogResult = DialogResult.OK;
 			Close();
@@ -103,7 +104,7 @@ namespace NoteApp.UI
 			var blackColor = Color.Black;
 			var redColor = Color.Red;
 
-			AuxiliaryNote = (Note)_newNote.Clone();
+			NoteForValidation = (Note)_newOrEditNote.Clone();
 
 			// TODO: и всё равно двойная проверка... НЕПРАВИЛЬНО в интерфейсе дублировать проверки из бизнес-логики,
 			// если можно использовать проверку из бизнес-логики!
@@ -117,15 +118,15 @@ namespace NoteApp.UI
 
 			try
 			{
-				AuxiliaryNote.Name = NameTextBox.Text;
+				NoteForValidation.Name = NameTextBox.Text;
 			}
 			catch (ArgumentException exception)
 			{
-				MessageBox.Show(exception.Message);
+				//MessageBox.Show(exception.Message);
 				NameTextBox.ForeColor = redColor;
 				OKButton.Enabled = false;
-				//TODO: надо брать текст из сообщения исключения. Исключение же может вылететь не только на длину строки
-				longNameWarningLabel.Text = "Write note's name less, then 50 symbols";
+				//TODO: надо брать текст из сообщения исключения. Исключение же может вылететь не только на длину строки+
+				longNameWarningLabel.Text = exception.Message;
 				longNameWarningLabel.ForeColor = redColor;
 			}
 		}

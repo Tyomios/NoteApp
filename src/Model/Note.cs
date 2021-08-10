@@ -50,7 +50,7 @@ namespace NoteApp
 			{
 				if (value.Length > 50)
 				{
-					throw new ArgumentException("Too long name");
+					throw new ArgumentException("Write note's name less, then 50 symbols");
 				}
 
 				this._name = value;

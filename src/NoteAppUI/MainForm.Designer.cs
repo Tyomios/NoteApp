@@ -40,7 +40,7 @@ namespace NoteApp.UI
 			this.noteTextRichBox = new System.Windows.Forms.RichTextBox();
 			this.listNoteListBox = new System.Windows.Forms.ListBox();
 			this.noteNameLabel = new System.Windows.Forms.Label();
-			this.noteCategoryLabel = new System.Windows.Forms.Label();
+			this.preCategoryLabel = new System.Windows.Forms.Label();
 			this.createTimeTextBox = new System.Windows.Forms.TextBox();
 			this.createdTimeLabel = new System.Windows.Forms.Label();
 			this.updateTimeTextBox = new System.Windows.Forms.TextBox();
@@ -62,6 +62,7 @@ namespace NoteApp.UI
 			this.pasteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
 			this.selectAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.noteCategoryLabel = new System.Windows.Forms.Label();
 			this.menuStrip1.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -195,14 +196,15 @@ namespace NoteApp.UI
 			this.noteNameLabel.TabIndex = 8;
 			this.noteNameLabel.Text = "Без названия";
 			// 
-			// noteCategoryLabel
+			// preCategoryLabel
 			// 
-			this.noteCategoryLabel.AutoSize = true;
-			this.noteCategoryLabel.Location = new System.Drawing.Point(334, 100);
-			this.noteCategoryLabel.Name = "noteCategoryLabel";
-			this.noteCategoryLabel.Size = new System.Drawing.Size(69, 20);
-			this.noteCategoryLabel.TabIndex = 9;
-			this.noteCategoryLabel.Text = "Category";
+			this.preCategoryLabel.AutoSize = true;
+			this.preCategoryLabel.Location = new System.Drawing.Point(334, 100);
+			this.preCategoryLabel.Margin = new System.Windows.Forms.Padding(3, 0, 1, 0);
+			this.preCategoryLabel.Name = "preCategoryLabel";
+			this.preCategoryLabel.Size = new System.Drawing.Size(72, 20);
+			this.preCategoryLabel.TabIndex = 9;
+			this.preCategoryLabel.Text = "Category:";
 			// 
 			// createTimeTextBox
 			// 
@@ -377,17 +379,28 @@ namespace NoteApp.UI
 			this.selectAllToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
 			this.selectAllToolStripMenuItem.Text = "Select &All";
 			// 
+			// noteCategoryLabel
+			// 
+			this.noteCategoryLabel.AutoSize = true;
+			this.noteCategoryLabel.Location = new System.Drawing.Point(400, 100);
+			this.noteCategoryLabel.Margin = new System.Windows.Forms.Padding(0, 0, 3, 0);
+			this.noteCategoryLabel.Name = "noteCategoryLabel";
+			this.noteCategoryLabel.Size = new System.Drawing.Size(50, 20);
+			this.noteCategoryLabel.TabIndex = 15;
+			this.noteCategoryLabel.Text = "label1";
+			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.White;
 			this.ClientSize = new System.Drawing.Size(1010, 748);
+			this.Controls.Add(this.noteCategoryLabel);
 			this.Controls.Add(this.updatetimeLabel);
 			this.Controls.Add(this.updateTimeTextBox);
 			this.Controls.Add(this.createdTimeLabel);
 			this.Controls.Add(this.createTimeTextBox);
-			this.Controls.Add(this.noteCategoryLabel);
+			this.Controls.Add(this.preCategoryLabel);
 			this.Controls.Add(this.noteNameLabel);
 			this.Controls.Add(this.listNoteListBox);
 			this.Controls.Add(this.noteTextRichBox);
@@ -447,6 +460,8 @@ namespace NoteApp.UI
 		private System.Windows.Forms.ToolStripMenuItem selectAllToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem EditNoteItem;
 		private System.Windows.Forms.ToolStripMenuItem RemoveNoteItem;
+		private System.Windows.Forms.Label label1;
+		private System.Windows.Forms.Label preCategoryLabel;
 	}
 }
 

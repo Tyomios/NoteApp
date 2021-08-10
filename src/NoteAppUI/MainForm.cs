@@ -19,9 +19,9 @@ namespace NoteApp.UI
 		/// Название элемента categoryComboBox.
 		/// </summary>
 		private const string _comboBoxCategoryAll = "All";
-        //TODO: SpellChecker показывает грамматическую ошибку в комментарии
+        //TODO: SpellChecker показывает грамматическую ошибку в комментарии+
 		/// <summary>
-		/// Обьект, хранящий список заметок.
+		/// Объект, хранящий список заметок.
 		/// </summary>
 		public Project _project = new Project();
 
@@ -45,7 +45,7 @@ namespace NoteApp.UI
 
 			_project = ProjectManager.LoadFromFile(ProjectManager.defaultPath);
 			categoryComboBox.SelectedItem = _comboBoxCategoryAll;
-			FilterNotesSelector();
+			FilterNotes();
 		}
 
 		/// <summary>
@@ -58,9 +58,9 @@ namespace NoteApp.UI
 			noteTextRichBox.Text = note.Text;
 			createTimeTextBox.Text = note.CreationTime.ToShortDateString();
 			updateTimeTextBox.Text = note.LastEditTime.ToShortDateString();
-            // TODO: чтобы каждый раз не добавлять этот текст перед категорией,
+            // TODO: чтобы каждый раз не добавлять этот текст перед категорией,+
             // его можно вынести в отдельный лейбл
-			noteCategoryLabel.Text = $"Category: {note.Category}";
+			noteCategoryLabel.Text = note.Category.ToString();
 		}
 
 		/// <summary>
@@ -72,7 +72,7 @@ namespace NoteApp.UI
 			noteTextRichBox.Text = "";
 			createTimeTextBox.Text = "";
 			updateTimeTextBox.Text = "";
-			noteCategoryLabel.Text = "Category:";
+			noteCategoryLabel.Text = "";
 		}
 
 		/// <summary>
@@ -111,8 +111,7 @@ namespace NoteApp.UI
 		/// <param name="notes"> Список заметок </param>
 		/// <returns>
 		/// Индекс заметки
-		/// Возврат значения -1 в случае, если заметка не найдена
-		/// </returns>
+        /// </returns>
 		private int SearchNoteIndex(List<Note> notes)
 		{
 			if (_project.CurrentNote == null)
@@ -150,34 +149,25 @@ namespace NoteApp.UI
 			}
 		}
 
-		// TODO: именование. Что за Action?+ UPD: просто AddNote(). Зачем сложности?
+		// TODO: именование. Что за Action?+ UPD: просто AddNote(). Зачем сложности?+
 		/// <summary>
 		/// Создание заметки.
 		/// </summary>
-		private void StartOperationAddNote()
+		private void AddNote()
 		{
 			NoteForm addForm = new NoteForm();
 			var result = addForm.ShowDialog();
 
-			//TODO: if (result != DialogResult.OK) {return }
+			//TODO: if (result != DialogResult.OK) {return }+
 			// и тогда второе условие ниже уже не надо
-			if (result == DialogResult.Cancel)
-			{
-				return;
-			}
+			if (result != DialogResult.OK) { return; }
 
-			if (result == DialogResult.OK)
-			{
-				_project.Notes.Add(addForm.Note);
-                //TODO: Откуда вообще берется null или пустая заметка в списке? Это какой-то косяк
-				RemoveLastNullNoteInList(_project.Notes);
-				ProjectManager.SaveToFile(_project, ProjectManager.defaultPath);
+			_project.Notes.Add(addForm.Note);
+             //TODO: Откуда вообще берется null или пустая заметка в списке? Это какой-то косяк
+			RemoveLastNullNoteInList(_project.Notes);
+			ProjectManager.SaveToFile(_project, ProjectManager.defaultPath);
 
-				//TODO: почему ты уверен, что новая заметка относится к текущей категории?
-				_showedNotesByCategory.Add(addForm.Note);
-			}
-
-			FilterNotesSelector();
+			FilterNotes();
 			if (_showedNotesByCategory.Count != 0)
 			{
 				_project.CurrentNote = _showedNotesByCategory[0];
@@ -189,7 +179,7 @@ namespace NoteApp.UI
 
 		private void addButton_Click(object sender, EventArgs e)
 		{
-			StartOperationAddNote();
+			AddNote();
 		}
 
 		/// <summary>
@@ -211,11 +201,11 @@ namespace NoteApp.UI
 			return false;
 		}
 
-		// TODO: именование. Что за Action?+ UPD: именование DeleteNote()
+		// TODO: именование. Что за Action?+ UPD: именование DeleteNote()+
 		/// <summary>
 		/// Удаление заметки.
 		/// </summary>
-		private void StartOperationDeleteNote()
+		private void DeleteNote()
 		{
 			if (IsNoteSelected())
 			{
@@ -223,8 +213,8 @@ namespace NoteApp.UI
 			}
 
 			var deleteNote = _showedNotesByCategory[listNoteListBox.SelectedIndex];
-            //TODO: используй var вместо указания конкретного типа
-			DialogResult result = MessageBox.Show
+            //TODO: используй var вместо указания конкретного типа+
+			var result = MessageBox.Show
 				($"Delete note {deleteNote.Name} ?", "Warning", MessageBoxButtons.OKCancel);
 			if (result == DialogResult.Cancel)
 			{
@@ -235,7 +225,7 @@ namespace NoteApp.UI
 			ProjectManager.SaveToFile(_project, ProjectManager.defaultPath);
 			_showedNotesByCategory.Remove(deleteNote);
 
-			FilterNotesSelector();
+			FilterNotes();
 			try
 			{
 				listNoteListBox.SelectedIndex = 0;
@@ -248,56 +238,57 @@ namespace NoteApp.UI
 
 		private void deleteButton_Click(object sender, EventArgs e)
 		{
-			StartOperationDeleteNote();
+			DeleteNote();
 		}
 
 		// TODO: именование. Что за Action?+ UPD: именование EditNote()
 		/// <summary>
 		/// Редактирование заметки.
 		/// </summary>
-		private void StartOperationEditNote()
+		private void EditNote()
 		{
 			if (IsNoteSelected())
 			{
 				return;
 			}
 
-            //TODO: почему addForm?
-			var addForm = new NoteForm();
+            //TODO: почему addForm?+
+			var editForm = new NoteForm();
+			var oldEditNote = _showedNotesByCategory[listNoteListBox.SelectedIndex];
+			var selectedIndex = listNoteListBox.SelectedIndex;
 
 			//TODO: далее по коду у тебя часто используется конструкция _showedNotesByCategory[listNoteListBox.SelectedIndex]..
-			// .. вынеси и selectedIndex и заметку в локальные переменные, и используй их, так код будет лаконичнее.
-			Note newEditNote = (Note)_showedNotesByCategory[listNoteListBox.SelectedIndex].Clone();
-			addForm.Note = newEditNote;
+			// .. вынеси и selectedIndex и заметку в локальные переменные, и используй их, так код будет лаконичнее.+
+			Note newEditNote = (Note)oldEditNote.Clone();
+			editForm.Note = newEditNote;
 
-			addForm.Text = "Edit Note";
-			var result = addForm.ShowDialog();
+			editForm.Text = "Edit Note";
+			var result = editForm.ShowDialog();
 			if (result == DialogResult.OK)
 			{
                 //TODO: почему CreationTime не копируется сам при методе Clone()? Почему приходится копировать время вручную? Исправить
-				int index = _project.Notes.IndexOf(_showedNotesByCategory[listNoteListBox.SelectedIndex]);
-				var oldCreationTime = _showedNotesByCategory[listNoteListBox.SelectedIndex].CreationTime;
-				addForm.Note.CreationTime = oldCreationTime;
+				int index = _project.Notes.IndexOf(oldEditNote);
+				var oldCreationTime = oldEditNote.CreationTime;
+				editForm.Note.CreationTime = oldCreationTime;
 
-				_project.Notes.Add(addForm.Note);
-				_showedNotesByCategory.Remove(_showedNotesByCategory[listNoteListBox.SelectedIndex]);
-				_showedNotesByCategory.Add(addForm.Note); //TODO: две пустых строки делать не надо, может быть только одна
-
+				_project.Notes.Add(editForm.Note);
+				_showedNotesByCategory.Remove(oldEditNote);
+				_showedNotesByCategory.Add(editForm.Note);
 
 				_project.Notes.Remove(_project.Notes[index]);
 				ProjectManager.SaveToFile(_project, ProjectManager.defaultPath);
 
-				FilterNotesSelector();
+				FilterNotes();
 				_project.CurrentNote = _showedNotesByCategory[0];
 				listNoteListBox.SelectedIndex = 0;
 			}
 		}
 
-		//TODO: что за слово Selector в именовании? Зачем оно?
+		//TODO: что за слово Selector в именовании? Зачем оно?+
 		/// <summary>
 		/// Выбирает какой функцией фильтровать заметки, в зависимости от categoryComboBox.SelectedItem.
 		/// </summary>
-		private void FilterNotesSelector()
+		private void FilterNotes()
 		{
 			if(categoryComboBox.SelectedItem.ToString() == _comboBoxCategoryAll)
 			{
@@ -309,13 +300,13 @@ namespace NoteApp.UI
 
 		private void editButton_Click(object sender, EventArgs e)
 		{
-			StartOperationEditNote();
+			EditNote();
 		}
 
 		private void listNoteBox_SelectedIndexChanged(object sender, EventArgs e)
 		{
             //TODO: != 1
-			if (listNoteListBox.SelectedIndex > -1)
+			if (listNoteListBox.SelectedIndex != -1)
 			{
 				var currentNote = _showedNotesByCategory[listNoteListBox.SelectedIndex];
 				FillNoteInfoPanel(currentNote);
@@ -352,12 +343,12 @@ namespace NoteApp.UI
 
 		private void AddNoteItem_Click(object sender, EventArgs e)
 		{
-			StartOperationAddNote();
+			AddNote();
 		}
 
 		private void EditNoteItem_Click(object sender, EventArgs e)
 		{
-			StartOperationEditNote();
+			EditNote();
 		}
 
 		private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
@@ -368,7 +359,7 @@ namespace NoteApp.UI
 
 		private void RemoveNoteItem_Click(object sender, EventArgs e)
 		{
-			StartOperationDeleteNote();
+			DeleteNote();
 		}
 	}
 }
