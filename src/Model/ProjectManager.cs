@@ -14,8 +14,7 @@ namespace NoteApp
 	/// </summary>
 	public static class ProjectManager
 	{
-		// TODO: именование не соответствует RSDN.
-		public static string defaultPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) +
+		public static string DefaultPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) +
 		                             "\\NoteApp\\" + "NoteAppData.txt";
 
 		/// <summary>
@@ -41,7 +40,7 @@ namespace NoteApp
 		public static void SaveToFile(Project projectNotes, string filePath)
 		{
 			JsonSerializer serializer = new JsonSerializer();
-			var usedPath = defaultPath;
+			var usedPath = DefaultPath;
 			serializer.Formatting = Formatting.Indented;
 
 			CreateAppFolder();

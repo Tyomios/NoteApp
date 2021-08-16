@@ -5,8 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using NUnit.Framework;
 
-// TODO: проект с юнит-тестами положить в решении и физически в подпапку Testing+
-// UPD: не тесты положить в папку Testing, а ПРОЕКТ с юнит-тестами
 namespace NoteApp.UnitTests
 {
 	[TestFixture]

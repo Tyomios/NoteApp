@@ -19,7 +19,7 @@ namespace NoteApp.UI
 		/// Название элемента categoryComboBox.
 		/// </summary>
 		private const string _comboBoxCategoryAll = "All";
-        //TODO: SpellChecker показывает грамматическую ошибку в комментарии+
+
 		/// <summary>
 		/// Объект, хранящий список заметок.
 		/// </summary>
@@ -43,7 +43,7 @@ namespace NoteApp.UI
 				categoryComboBox.Items.Add(category);
 			}
 
-			_project = ProjectManager.LoadFromFile(ProjectManager.defaultPath);
+			_project = ProjectManager.LoadFromFile(ProjectManager.DefaultPath);
 			categoryComboBox.SelectedItem = _comboBoxCategoryAll;
 			FilterNotes();
 		}
@@ -58,9 +58,7 @@ namespace NoteApp.UI
 			noteTextRichBox.Text = note.Text;
 			createTimeTextBox.Text = note.CreationTime.ToShortDateString();
 			updateTimeTextBox.Text = note.LastEditTime.ToShortDateString();
-            // TODO: чтобы каждый раз не добавлять этот текст перед категорией,+
-            // его можно вынести в отдельный лейбл
-			noteCategoryLabel.Text = note.Category.ToString();
+            noteCategoryLabel.Text = note.Category.ToString();
 		}
 
 		/// <summary>
@@ -135,7 +133,6 @@ namespace NoteApp.UI
 			FillMainFormPanels();
 		}
 
-        // TODO: именование. Что за Action?+ UPD: просто AddNote(). Зачем сложности?+
 		/// <summary>
 		/// Создание заметки.
 		/// </summary>
@@ -144,12 +141,13 @@ namespace NoteApp.UI
 			NoteForm addForm = new NoteForm();
 			var result = addForm.ShowDialog();
 
-			//TODO: if (result != DialogResult.OK) {return }+
-			// и тогда второе условие ниже уже не надо
-			if (result != DialogResult.OK) { return; }
+			if (result != DialogResult.OK)
+            {
+                return;
+            }
 
 			_project.Notes.Add(addForm.Note);
-			ProjectManager.SaveToFile(_project, ProjectManager.defaultPath);
+			ProjectManager.SaveToFile(_project, ProjectManager.DefaultPath);
 
 			FilterNotes();
 			if (_showedNotesByCategory.Count != 0)
@@ -185,7 +183,6 @@ namespace NoteApp.UI
 			return false;
 		}
 
-		// TODO: именование. Что за Action?+ UPD: именование DeleteNote()+
 		/// <summary>
 		/// Удаление заметки.
 		/// </summary>
@@ -197,7 +194,6 @@ namespace NoteApp.UI
 			}
 
 			var deleteNote = _showedNotesByCategory[listNoteListBox.SelectedIndex];
-            //TODO: используй var вместо указания конкретного типа+
 			var result = MessageBox.Show
 				($"Delete note {deleteNote.Name} ?", "Warning", MessageBoxButtons.OKCancel);
 			if (result == DialogResult.Cancel)
@@ -206,7 +202,7 @@ namespace NoteApp.UI
 			}
 
 			_project.Notes.Remove(_project.Notes[_project.Notes.IndexOf(deleteNote)]);
-			ProjectManager.SaveToFile(_project, ProjectManager.defaultPath);
+			ProjectManager.SaveToFile(_project, ProjectManager.DefaultPath);
 			_showedNotesByCategory.Remove(deleteNote);
 
 			FilterNotes();
@@ -225,7 +221,6 @@ namespace NoteApp.UI
 			DeleteNote();
 		}
 
-		// TODO: именование. Что за Action?+ UPD: именование EditNote()
 		/// <summary>
 		/// Редактирование заметки.
 		/// </summary>
@@ -236,13 +231,10 @@ namespace NoteApp.UI
 				return;
 			}
 
-            //TODO: почему addForm?+
 			var editForm = new NoteForm();
 			var oldEditNote = _showedNotesByCategory[listNoteListBox.SelectedIndex];
 			var selectedIndex = listNoteListBox.SelectedIndex;
 
-			//TODO: далее по коду у тебя часто используется конструкция _showedNotesByCategory[listNoteListBox.SelectedIndex]..
-			// .. вынеси и selectedIndex и заметку в локальные переменные, и используй их, так код будет лаконичнее.+
 			Note newEditNote = (Note)oldEditNote.Clone();
 			editForm.Note = newEditNote;
 
@@ -250,7 +242,6 @@ namespace NoteApp.UI
 			var result = editForm.ShowDialog();
 			if (result == DialogResult.OK)
 			{
-                //TODO: почему CreationTime не копируется сам при методе Clone()? Почему приходится копировать время вручную? Исправить+
 				int index = _project.Notes.IndexOf(oldEditNote);
 
 				_project.Notes.Add(editForm.Note);
@@ -258,7 +249,7 @@ namespace NoteApp.UI
 				_showedNotesByCategory.Add(editForm.Note);
 
 				_project.Notes.Remove(_project.Notes[index]);
-				ProjectManager.SaveToFile(_project, ProjectManager.defaultPath);
+				ProjectManager.SaveToFile(_project, ProjectManager.DefaultPath);
 
 				FilterNotes();
 				_project.CurrentNote = _showedNotesByCategory[0];
@@ -266,7 +257,6 @@ namespace NoteApp.UI
 			}
 		}
 
-		//TODO: что за слово Selector в именовании? Зачем оно?+
 		/// <summary>
 		/// Выбирает какой функцией фильтровать заметки, в зависимости от categoryComboBox.SelectedItem.
 		/// </summary>
@@ -287,7 +277,6 @@ namespace NoteApp.UI
 
 		private void listNoteBox_SelectedIndexChanged(object sender, EventArgs e)
 		{
-            //TODO: != -1+
 			if (listNoteListBox.SelectedIndex != -1)
 			{
 				var currentNote = _showedNotesByCategory[listNoteListBox.SelectedIndex];

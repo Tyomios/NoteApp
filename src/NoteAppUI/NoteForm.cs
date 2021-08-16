@@ -14,35 +14,31 @@ namespace NoteApp.UI
 {
 	public partial class NoteForm : Form
 	{
-		//TODO: название поля не совпадает с именем свойства. +
-		//TODO: по комментарию это новая ИЛИ редактируемая заметка, а по названию поля - это ТОЛЬКО новая заметка. То есть именование не отражает полного назначения поля.
-        /// <summary>
+		/// <summary>
 		/// Новая или редактируемая заметка, в зависимости от действия пользователя.
 		/// </summary>
-		private Note _newOrEditNote;
+		private Note _note;
 
 		/// <summary>
 		/// Возвращает заметку или задает данные для заметки. В последнем случае полученные данные используются для заполнения формы.
 		/// </summary>
 		public Note Note
 		{
-			get => _newOrEditNote;
+			get => _note;
 			set
 			{
-				if(_newOrEditNote == null)
+				if(_note == null)
 				{
-					_newOrEditNote = new Note();
+					_note = new Note();
 					return;
 				}
 
-				_newOrEditNote = value;
+				_note = value;
 				SetDataFields();
 			}
 		}
 
-        // TODO: что за название? "Заметка безопасности"? Название должно отражать назначение+
-		// UPD: NoteForValidation?
-		/// <summary>
+        /// <summary>
 		/// Возвращает или задает заметку, которая нужна для проверки поля названия.
 		/// </summary>
 		private Note NoteForValidation { get; set; }
@@ -86,11 +82,11 @@ namespace NoteApp.UI
 			{
 				NoteForValidation.Name = "Без названия";
 			}
-			_newOrEditNote.Name = NoteForValidation.Name;
-			_newOrEditNote.Category = category;
-			_newOrEditNote.Text = NoteTextRichTextBox.Text;
-			_newOrEditNote.LastEditTime = DateTime.Now;
-			_newOrEditNote.CreationTime = Note.CreationTime;
+			_note.Name = NoteForValidation.Name;
+			_note.Category = category;
+			_note.Text = NoteTextRichTextBox.Text;
+			_note.LastEditTime = DateTime.Now;
+			_note.CreationTime = Note.CreationTime;
 
 			DialogResult = DialogResult.OK;
 			Close();
@@ -98,10 +94,8 @@ namespace NoteApp.UI
 
 		private void NameTextBox_TextChanged(object sender, EventArgs e)
 		{
-			NoteForValidation = (Note)_newOrEditNote.Clone();
+			NoteForValidation = (Note)_note.Clone();
 
-			// TODO: и всё равно двойная проверка... НЕПРАВИЛЬНО в интерфейсе дублировать проверки из бизнес-логики,+
-			// если можно использовать проверку из бизнес-логики!
 			if (NameTextBox.Text.Length < 50)
 			{
 				OKButton.Enabled = true;
