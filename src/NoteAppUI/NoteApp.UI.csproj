@@ -1,0 +1,37 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net5.0-windows</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ApplicationIcon></ApplicationIcon>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="9.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Model\NoteApp.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="md &quot;$(SolutionDir)InstallScripts&quot;&#xD;&#xA;md &quot;$(SolutionDir)InstallScripts\Release&quot;&#xD;&#xA;md &quot;$(SolutionDir)InstallScripts\Installers&quot;&#xD;&#xA;xcopy /y &quot;$(SolutionDir)NoteAppUI\$(OutDir)*.dll&quot; &quot;$(SolutionDir)InstallScripts\Release&quot;&#xD;&#xA;xcopy /y  &quot;$(SolutionDir)NoteAppUI\$(OutDir)*.exe&quot; &quot;$(SolutionDir)InstallScripts\Release&quot;&#xD;&#xA;xcopy /y  &quot;$(SolutionDir)NoteAppUI\$(OutDir)NoteApp.UI.runtimeconfig.dev.json&quot; &quot;$(SolutionDir)InstallScripts\Release&quot;&#xD;&#xA;xcopy /y  &quot;$(SolutionDir)NoteAppUI\$(OutDir)NoteApp.UI.runtimeconfig.json&quot; &quot;$(SolutionDir)InstallScripts\Release&quot;" />
+  </Target>
+
+</Project>

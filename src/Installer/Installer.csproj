@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Tools.InnoSetup" Version="6.2.0" />
+  </ItemGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="&quot;$(SolutionDir)packages\Tools.InnoSetup.6.2.0\tools\ISCC.exe&quot; &quot;$(SolutionDir)InstallScripts\Installers\Installer.iss&quot;&#xD;&#xA;rmdir /s /q &quot;$(SolutionDir)InstallScripts\Release&quot;" />
+  </Target>
+
+</Project>
